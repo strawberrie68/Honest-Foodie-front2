@@ -12,6 +12,9 @@ describe("NavBar", () => {
       </Router>,
     );
     expect(screen.getByText("Home")).toBeInTheDocument();
+    expect(screen.getByText("Explore")).toBeInTheDocument();
+    expect(screen.getByText("My Recipes")).toBeInTheDocument();
+    expect(screen.getByText("Saved")).toBeInTheDocument();
   });
 
   test("renders the correct link", async () => {
