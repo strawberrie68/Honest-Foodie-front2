@@ -58,19 +58,19 @@ describe("Render <NavBar /> component", () => {
     );
     cy.contains("Home")
       .click()
-      .should("have.css", "color")
+      .should("have.css", "border-color")
       .and("eq", "rgb(0, 0, 0)");
     cy.contains("Explore")
       .click()
-      .should("have.css", "color")
+      .should("have.css", "border-color")
       .and("eq", "rgb(0, 0, 0)");
     cy.contains("My Recipes")
       .click()
-      .should("have.css", "color")
+      .should("have.css", "border-color")
       .and("eq", "rgb(0, 0, 0)");
     cy.contains("Saved")
       .click()
-      .should("have.css", "color")
+      .should("have.css", "border-color")
       .and("eq", "rgb(0, 0, 0)");
   });
 });
