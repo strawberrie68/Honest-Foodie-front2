@@ -1,7 +1,7 @@
 import ProfileHeader from "../../src/components/ProfileHeader";
 import user1 from "../../src/assets/user/user1.svg";
 
-describe("ProfileHeader.cy.jsx", () => {
+describe("Render <ProfileHeader /> ", () => {
   const user = {
     username: "annaReal",
     firstName: "Anna",
@@ -16,7 +16,7 @@ describe("ProfileHeader.cy.jsx", () => {
     caption: "vegan and vegetable lover | Food Blogger",
   };
 
-  it("playground", () => {
+  it("all the user info should be rendered", () => {
     cy.mount(<ProfileHeader user={user} />);
     cy.contains(user.username);
     cy.get("#followings-num").contains("2");
