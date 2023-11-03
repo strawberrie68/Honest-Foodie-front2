@@ -1,7 +1,7 @@
 import UserCategoryNav from "../../src/components/UserCategoryNav";
 
-describe("UserCategoryNav.cy.jsx", () => {
-  it("playground", () => {
+describe("Render <UserCategoryNav /> component", () => {
+  it("all nav categories should be displayed", () => {
     cy.mount(<UserCategoryNav />);
     cy.contains("ALL");
     cy.contains("RECIPES");
