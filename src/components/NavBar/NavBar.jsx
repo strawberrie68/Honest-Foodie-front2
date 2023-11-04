@@ -12,23 +12,15 @@ const NavBar = () => {
           <NavLink key={icon.name} to={icon.href}>
             {({ isActive }) => (
               <div
-                id={`${
-                  icon.name.split(" ").length > 1
-                    ? icon.name.replace(" ", "-")
-                    : icon.name
-                }-icon`}
-                className="mb-6 flex flex-col	items-center"
+                className={`icon mb-6	flex flex-col items-center icon-${
+                  isActive ? "active" : "inactive"
+                }`}
               >
                 {isActive ? icon.activeIcon : icon.inactiveIcon}
                 <p
-                  id={`${
-                    icon.name.split(" ").length > 1
-                      ? icon.name.replace(" ", "-")
-                      : icon.name
-                  }-text`}
-                  className={`pt-1 text-center text-xxs ${
-                    isActive ? "text-black" : "text-neutral-400"
-                  }`}
+                  className={`icon-label pt-1 text-center text-xxs text-${
+                    isActive ? "active" : "inactive"
+                  } ${isActive ? "text-black" : "text-neutral-400"}`}
                 >
                   {icon.name}
                 </p>
