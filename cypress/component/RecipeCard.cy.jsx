@@ -4,7 +4,7 @@ import User1 from "../../src/assets/user/user1.svg";
 
 describe("Render RecipeCard componenet ", () => {
   const recipe = {
-    title: "Itallian Pizza",
+    title: "Italian Pizza",
     description: "Authentic Italian Pizza that is to die for",
     picturePath: Pizza,
     rating: 4.8,
@@ -21,7 +21,7 @@ describe("Render RecipeCard componenet ", () => {
 
   it("all the user info should be rendered", () => {
     cy.mount(<RecipeCard recipe={recipe} />);
-    cy.contains(recipe.userId.firstName + " " + recipe.userId.lastName);
+    cy.contains(`${recipe.userId.firstName} ${recipe.userId.lastName}`);
     cy.contains(recipe.rating + " ⭐️");
     cy.contains(recipe.review.length + " Reviews");
     cy.contains(recipe.title);

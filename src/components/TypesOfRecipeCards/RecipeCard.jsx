@@ -26,10 +26,10 @@ const RecipeCard = ({ pinned, recipe }) => {
               className="h-full w-full rounded-3xl object-cover"
             />
             <div className="absolute bottom-2 ml-4 flex flex-col text-white">
-              <div className="flex items-baseline	">
+              <div className="flex items-baseline">
                 <img
                   src={recipe.userId.picturePath}
-                  className="h-8 w-8 rounded-full"
+                  className="h-8 w-8 rounded-full border border-white"
                 />
                 <p className=" ml-2 text-xxxs">
                   by {`${recipe.userId.firstName} ${recipe.userId.lastName}`}
@@ -38,17 +38,17 @@ const RecipeCard = ({ pinned, recipe }) => {
               <div className="ml-2 mt-1 flex items-baseline">
                 <div className="text-xxxs ">{recipe.rating} ⭐️</div>
                 <div className="ml-2 text-xxxs font-thin">
-                  {recipe.review.length} Reviews{" "}
+                  {recipe.review.length} Reviews
                 </div>
               </div>
             </div>
           </div>
-          <div className=" mt-2 flex justify-between">
-            <div className=" flex basis-4/5 flex-wrap">
+          <div className="mt-2 flex justify-between">
+            <div className="flex basis-4/5 flex-wrap">
               {recipe.tags?.map((tag, i) => (
                 <div
                   key={i}
-                  className="text-2.5xs mr-1 mt-1 flex flex-wrap rounded-md	border border-solid  border-black px-2"
+                  className="text-2.5xs mr-1 mt-1 flex flex-wrap rounded-md	border border-solid border-black px-2"
                 >
                   {tag}
                 </div>
