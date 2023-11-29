@@ -20,7 +20,7 @@ describe("Render CommentCard Component when user review is EMPTY", () => {
   });
 
   it("the component should is empty", () => {
-    cy.get(".empty").should("be.empty");
+    cy.get(".comment-card").should("be.empty");
   });
 });
 
