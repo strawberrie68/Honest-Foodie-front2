@@ -6,9 +6,9 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 
 const ProfileHeader = ({ user }) => {
-  const totalPosts = user.recipes?.length + user.reviews?.length;
-  const followers = user.followers?.length;
-  const following = user.following?.length;
+  const totalPosts = (user.recipes?.length ?? 0) + (user.reviews?.length ?? 0);
+  const followers = user.followers?.length ?? 0;
+  const following = user.following?.length ?? 0;
   return (
     <div className="profile-header m-auto w-full border-b pb-2">
       {/* TOP NAV BAR when on mobile, hidden on desktop */}
@@ -20,13 +20,13 @@ const ProfileHeader = ({ user }) => {
           {user.username}
         </div>
       </div>
+
       {/* PROFILE INFO */}
       <div className="left-0 ml-4 mt-10 flex w-[360px] md:m-auto md:mb-6 md:mt-10 md:w-3/4">
         {/* User profile img when on desktop, hidden on mobile */}
         <div className="hidden md:block">
           <img src={user.picturePath} className="h-36 w-36 min-w-[100px]" />
         </div>
-
         <div className="md:ml-20">
           <div className="flex gap-1">
             <img src={user.picturePath} className="h-20 w-20 md:hidden" />
@@ -46,6 +46,7 @@ const ProfileHeader = ({ user }) => {
               </div>
             </div>
           </div>
+
           {/* user stats for desktop */}
           <div className="mt-6 hidden gap-10 md:flex">
             <div className="text-xs flex">
@@ -67,6 +68,7 @@ const ProfileHeader = ({ user }) => {
               <div className="ml-1">following</div>
             </div>
           </div>
+
           {/* user description */}
           <div className="mt-8 text-xxs">
             <div className="font-semibold">{user.firstName}</div>
