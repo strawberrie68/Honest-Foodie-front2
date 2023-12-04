@@ -34,7 +34,7 @@ const ProfileHeader = ({ user }) => {
               <div className="flex h-7 basis-3 items-center justify-center rounded-lg bg-black px-4 py-1  text-xxs font-medium tracking-wide text-white md:h-8">
                 {user.username}
               </div>
-              <div className="following-number order-3 flex h-8 basis-3/4 items-center justify-center rounded-lg bg-primary-gray-50 px-4 py-1 text-xxs font-bold  md:h-7 md:basis-1">
+              <div className="following-number order-3 flex h-8 basis-3/4 items-center justify-center rounded-lg bg-primary-gray-50 px-4 py-1 text-xxs font-bold md:h-7 md:basis-1">
                 Following
                 <CaretDown size={16} className="ml-2" />
               </div>

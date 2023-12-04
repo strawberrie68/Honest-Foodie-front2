@@ -1,7 +1,35 @@
 import ProfileHeader from "../../src/components/ProfileHeader";
 import user1 from "../../src/assets/user/user1.svg";
 
+import user2 from "../../src/assets/user/user2.svg";
+import Pizza from "../../src/assets/pizza.jpg";
+
 describe("Render ProfileHeader Component ", () => {
+  const recipe = {
+    title: "Itallian Pizza",
+    picturePath: Pizza,
+    rating: 4.8,
+    tags: ["pizza", "keto"],
+    userId: {
+      username: "annieReal",
+      id: "1234",
+      firstName: "Annie",
+      lastName: "Real",
+      picturePath: user2,
+    },
+    review: [review, review, review, review],
+  };
+
+  const review = {
+    recipeId: recipe,
+    userReview:
+      "There's something truly magical about this pizza recipe that captivates my taste buds every time. It's not just a dish; it's a symphony of flavors that dance on my palate, creating a culinary masterpiece. ",
+    rating: 5,
+    timesMade: 1,
+    picturePath: Pizza,
+    isRecommend: true,
+  };
+
   const user = {
     username: "annaReal",
     firstName: "Anna",
@@ -10,11 +38,12 @@ describe("Render ProfileHeader Component ", () => {
     picturePath: user1,
     following: ["testuser02", "testuser03"],
     followers: ["testuser02", "testuser03", "testuser03"],
-    recipes: ["testrecipe01", "testrecipe02"],
-    reviews: ["testreview01", "testreview02"],
+    recipes: [recipe, recipe],
+    reviews: [review, review],
     flavorProfile: ["vegetarian", "herb-lover", "cheese"],
     caption: "vegan and vegetable lover | Food Blogger",
   };
+
   context("mobile test", () => {
     beforeEach(() => {
       // run these tests as if in a phone
@@ -45,7 +74,6 @@ describe("Render ProfileHeader Component ", () => {
       cy.get("#flavor-profile-tags").contains("cheese");
     });
   });
-
   context("desktop test", () => {
     beforeEach(() => {
       // run these tests as if in a desktop
@@ -111,6 +139,7 @@ describe("Render ProfileHeader Component when user data is EMPTY", () => {
 
       cy.get("#followers-num").contains("0");
     });
+
     it("Number of recipes and reviews is zero", () => {
       cy.mount(<ProfileHeader user={emptyUser} />);
 
