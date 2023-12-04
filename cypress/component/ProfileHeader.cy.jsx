@@ -17,7 +17,17 @@ describe("Render ProfileHeader Component ", () => {
       lastName: "Real",
       picturePath: user2,
     },
-    review: [1, 2, 3, 45, 2],
+    review: [review, review, review, review],
+  };
+
+  const review = {
+    recipeId: recipe,
+    userReview:
+      "There's something truly magical about this pizza recipe that captivates my taste buds every time. It's not just a dish; it's a symphony of flavors that dance on my palate, creating a culinary masterpiece. ",
+    rating: 5,
+    timesMade: 1,
+    picturePath: Pizza,
+    isRecommend: true,
   };
 
   const user = {
@@ -29,26 +39,7 @@ describe("Render ProfileHeader Component ", () => {
     following: ["testuser02", "testuser03"],
     followers: ["testuser02", "testuser03", "testuser03"],
     recipes: [recipe, recipe],
-    reviews: [
-      {
-        recipeId: recipe,
-        userReview:
-          "There's something truly magical about this pizza recipe that captivates my taste buds every time. It's not just a dish; it's a symphony of flavors that dance on my palate, creating a culinary masterpiece. ",
-        rating: 5,
-        timesMade: 1,
-        picturePath: Pizza,
-        isRecommend: true,
-      },
-      {
-        recipeId: recipe,
-        userReview:
-          "This is a great recipe.  The crust, perfectly crisp on the outside yet delightfully chewy inside, serves as the canvas for a vibrant medley of toppings.",
-        rating: 5,
-        timesMade: 1,
-        picturePath: Pizza,
-        isRecommend: false,
-      },
-    ],
+    reviews: [review, review],
     flavorProfile: ["vegetarian", "herb-lover", "cheese"],
     caption: "vegan and vegetable lover | Food Blogger",
   };
