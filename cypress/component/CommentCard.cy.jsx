@@ -3,7 +3,7 @@ import user1 from "../../src/assets/user/user1.svg";
 import user2 from "../../src/assets/user/user2.svg";
 import Pizza from "../../src/assets/pizza.jpg";
 
-describe("Render CommentCard Component when user review is EMPTY", () => {
+describe("User Review is EMPTY", () => {
   const user = {
     firstName: "Anna",
     lastName: "Real",
@@ -19,13 +19,13 @@ describe("Render CommentCard Component when user review is EMPTY", () => {
     cy.mount(<CommentCard user={user} review={review} />);
   });
 
-  it("the component should is empty", () => {
+  it("Recipe card info is EMPTY and NOT RENDERED", () => {
     cy.get(".comment-card").should("be.empty");
   });
 });
 
-describe("Render CommentCard Component is NOT empty and receipe is recommended", () => {
-  const user = {
+describe("User Review is NOT EMPTY", () => {
+  const userRecommends = {
     firstName: "Anna",
     lastName: "Real",
     picturePath: user1,
@@ -46,7 +46,7 @@ describe("Render CommentCard Component is NOT empty and receipe is recommended",
           review: [1, 2, 3, 45, 2],
         },
         userReview:
-          "This is a great recipe. Would make it again rtrerr rrrrrrrrtr etrrekjrth qjkertjherw ktjkewhtv ertwrewr ewrw ",
+          "This is a great recipe. There's something truly magical about this pizza recipe that captivates my taste buds every time. It's not just a dish; it's a symphony of flavors that dance on my palate, creating a culinary masterpiece. ",
         rating: 5,
         timesMade: 1,
         picturePath: Pizza,
@@ -56,82 +56,64 @@ describe("Render CommentCard Component is NOT empty and receipe is recommended",
     flavorProfile: ["vegetarian", "herb-lover", "cheese"],
     caption: "vegan and vegetable lover | Food Blogger",
   };
-  const review = user.reviews[0];
 
-  beforeEach(() => {
-    cy.mount(<CommentCard user={user} review={review} />);
-  });
-
-  it("orginal recipe info should be rendered ", () => {
-    cy.contains(review.recipeId.title);
-    cy.contains(review.recipeId.userId.firstName);
-    cy.contains(review.recipeId.userId.lastName);
-    cy.contains(review.recipeId.rating + " ⭐️");
-    cy.contains(review.recipeId.review.length + " Reviews");
-  });
-
-  it("recipe review should be rendered", () => {
-    cy.contains(review.rating.toFixed(1));
-    cy.contains(review.userReview.slice(0, 105) + "...");
-  });
-
-  it("if profile recommend the recipe show", () => {
-    cy.contains(user.firstName + " Recommends this recipe");
-  });
-});
-
-describe("Render CommentCard Component is NOT empty and receipe is NOT recommended", () => {
-  const user = {
-    firstName: "Anna",
-    lastName: "Real",
-    picturePath: user1,
-    reviews: [
-      {
-        recipeId: {
-          title: "Itallian Pizza",
-          picturePath: Pizza,
-          rating: 4.8,
-          tags: ["pizza", "keto"],
-          userId: {
-            username: "annieReal",
-            id: "1234",
-            firstName: "Annie",
-            lastName: "Real",
-            picturePath: user2,
-          },
-          review: [1, 2, 3, 45, 2],
-        },
-        userReview:
-          "This is a great recipe. Would make it again rtrerr rrrrrrrrtr etrrekjrth qjkertjherw ktjkewhtv ertwrewr ewrw ",
-        rating: 5,
-        timesMade: 1,
-        picturePath: Pizza,
-        isRecommend: false,
-      },
-    ],
-    flavorProfile: ["vegetarian", "herb-lover", "cheese"],
-    caption: "vegan and vegetable lover | Food Blogger",
+  const userNotRecommends = {
+    ...userRecommends,
+    reviews: userRecommends.reviews.map((review) => ({
+      ...review,
+      isRecommend: false,
+    })),
   };
-  const review = user.reviews[0];
 
-  beforeEach(() => {
-    cy.mount(<CommentCard user={user} review={review} />);
+  const reviewIsRecommended = userRecommends.reviews[0];
+
+  context("Recipe card info should be RENDER", () => {
+    it("Recipe card info should be rendered", () => {
+      cy.mount(
+        <CommentCard user={userRecommends} review={reviewIsRecommended} />,
+      );
+
+      cy.contains(reviewIsRecommended.recipeId.title);
+      cy.contains(reviewIsRecommended.recipeId.userId.firstName);
+      cy.contains(reviewIsRecommended.recipeId.userId.lastName);
+      cy.contains(reviewIsRecommended.recipeId.rating + " ⭐️");
+      cy.contains(reviewIsRecommended.recipeId.review.length + " Reviews");
+    });
+
+    it("Recipe user review is rendered", () => {
+      cy.mount(
+        <CommentCard user={userRecommends} review={reviewIsRecommended} />,
+      );
+
+      cy.contains(reviewIsRecommended.rating.toFixed(1));
+      cy.get(".user-review").contains(reviewIsRecommended.userReview);
+
+      cy.contains(reviewIsRecommended.rating.toFixed(1));
+      cy.contains(reviewIsRecommended.userReview);
+      cy.get(".user-review").should("have.css", "text-overflow", "clip");
+    });
   });
 
-  it("orginal recipe info should be rendered", () => {
-    cy.contains(review.recipeId.title);
-    cy.contains(review.recipeId.userId.firstName);
-    cy.contains(review.recipeId.userId.lastName);
-    cy.contains(review.recipeId.rating + " ⭐️");
-    cy.contains(review.recipeId.review.length + " Reviews");
-  });
+  context("Recipe card displays recommendation", () => {
+    it("NOT RENDERED when recipe is not recommended", () => {
+      cy.mount(
+        <CommentCard
+          user={userNotRecommends}
+          review={userNotRecommends.reviews[0]}
+        />,
+      );
 
-  it("recipe review should be rendered", () => {
-    cy.contains(review.rating.toFixed(1));
-    cy.contains(review.userReview.slice(0, 105) + "...");
-  });
+      cy.contains(
+        userNotRecommends.firstName + " Recommends this recipe",
+      ).should("not.exist");
+    });
 
-  it("if profile does not recommend the recipe, should be empty", () => {
-    cy.contains(user.firstName + " Recommends this recipe").should("not.exist");
+    it("RENDERED when recipe is recommended", () => {
+      cy.mount(
+        <CommentCard user={userRecommends} review={reviewIsRecommended} />,
+      );
+
+      cy.contains(userRecommends.firstName + " Recommends this recipe");
+    });
   });
 });
