@@ -15,7 +15,7 @@ find what recipes not only look good but taste good as well.
 - [<kbd> <img src="https://cdn-icons-png.flaticon.com/128/527/527589.png" height="12px" /> BACKEND R E P O </kbd>](https://github.com/strawberrie68/Honest-Foodie-backend)
 - [<kbd> <img src="https://cdn-icons-png.flaticon.com/128/527/527589.png" height="12px" /> LINK TO PROJECT COMING SOON </kbd>](https://github.com/strawberrie68/Honest-Foodie-backend)
 
-## 👩‍💻 How It's Made:
+## 👩‍💻 How It's Made: 
 
 **Tech used:** Tailwind, React, Redux, MongoDB
 
