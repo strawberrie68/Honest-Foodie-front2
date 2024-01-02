@@ -6,18 +6,17 @@ import User1 from "../../assets/user/User2.svg";
  * Still need to connect to backend
  */
 
-const CommentCard = ({ user, review }) => {
+const CommentCard = ({ reviewer, review }) => {
   const reviewContent = review ? review : null;
 
   const recipe = reviewContent?.recipeId;
-
   const reviewRating = reviewContent?.rating?.toFixed(1);
 
   return (
-    <div className="comment-card ">
+    <div className="comment-card">
       {reviewContent && (
         //if review not empty render review
-        <div className="h-[380px] w-[180px] object-contain">
+        <div className="comment-card-details h-[380px] w-[180px] object-contain">
           <div className="relative">
             <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">
               {/* TODO what is does it mean to be trending */}
@@ -40,7 +39,7 @@ const CommentCard = ({ user, review }) => {
               <div className="ml-2 mt-1 flex items-baseline">
                 <div className="text-xxxs">{recipe?.rating} ⭐️</div>
                 <div className="ml-2 text-xxxs font-thin">
-                  {recipe.review?.length} Reviews
+                  {recipe?.reviews?.length ?? 0} Reviews
                 </div>
               </div>
             </div>
@@ -60,7 +59,7 @@ const CommentCard = ({ user, review }) => {
             <p className="ml-2 text-sm font-semibold">{recipe.title}</p>
             <p className="ml-2 mt-1 h-4 text-xxxs tracking-wide text-primary-gray-200">
               {review.isRecommend
-                ? `${user.firstName} Recommends this recipe`
+                ? `${reviewer.firstName} Recommends this recipe`
                 : " "}
             </p>
             {/* TODO toggle comment, when clicked see the entire comment */}
