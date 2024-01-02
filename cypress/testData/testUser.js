@@ -48,12 +48,14 @@ recipe = {
   reviews: [review, review, review],
 };
 
+
 export const testUser = {
   username: "annaReal",
   firstName: "Anna",
   lastName: "Real",
   email: "email.com",
   picturePath: user1,
+  
   following: [user, user],
   followers: [user, user],
   recipes: [recipe, recipe],
@@ -61,4 +63,5 @@ export const testUser = {
   caption: "vegan and vegetable lover | Food Blogger",
   savedRecipes: [recipe, recipe],
   reviews: [review, review],
+
 };
