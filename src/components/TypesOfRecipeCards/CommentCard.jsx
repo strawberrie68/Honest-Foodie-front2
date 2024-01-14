@@ -15,7 +15,6 @@ const CommentCard = ({ reviewer, review }) => {
   return (
     <div className="comment-card">
       {reviewContent && (
-        //if review not empty render review
         <div className="comment-card-details h-[380px] w-[180px] object-contain">
           <div className="relative">
             <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">

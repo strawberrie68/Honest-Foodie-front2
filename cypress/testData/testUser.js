@@ -18,7 +18,6 @@ const reviewer = {
   picturePath: user2,
 };
 
-// Define a basic version of recipe without the reviews property
 let recipe = {
   title: "Pepperoni Pizza",
   description:
@@ -42,7 +41,6 @@ const review = {
   isRecommend: true,
 };
 
-// Update recipe with the reviews property
 recipe = {
   ...recipe,
   reviews: [review, review, review],
