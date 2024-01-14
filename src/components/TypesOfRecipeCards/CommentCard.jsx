@@ -7,7 +7,7 @@ import User1 from "../../assets/user/User2.svg";
  */
 
 const CommentCard = ({ reviewer, review }) => {
-  const reviewContent = review ? review : null;
+  const reviewContent = review || null;
 
   const recipe = reviewContent?.recipeId;
   const reviewRating = reviewContent?.rating?.toFixed(1);
