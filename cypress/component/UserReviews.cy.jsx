@@ -41,27 +41,3 @@ describe("UserReviews", () => {
     });
   });
 });
-
-// describe("UserReviews", () => {
-//   testUser.reviews = [];
-//   beforeEach(() => {
-//     cy.mount(
-//       <BrowserRouter>
-//         <UserReviews user={testUser} reviews={testUser.reviews} />
-//       </BrowserRouter>
-//     );
-//   });
-
-//   context("when user has no reviews", () => {
-//     it("should not render RecipeCard", () => {
-//       testUser.reviews = [];
-
-//       cy.get(".user-reviews").children().should("have.length", 0);
-//     });
-
-//     it("should render correct text", () => {
-//       testUser.reviews = [];
-//       cy.get(".user-reviews").contains("No reviews yet");
-//     });
-//   });
-// });
