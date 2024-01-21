@@ -7,15 +7,12 @@ import User1 from "../../assets/user/User2.svg";
  */
 
 const CommentCard = ({ reviewer, review }) => {
-  const reviewContent = review ? review : null;
-
-  const recipe = reviewContent?.recipeId;
-  const reviewRating = reviewContent?.rating?.toFixed(1);
+  const recipe = review?.recipeId;
+  const reviewRating = review?.rating?.toFixed(1);
 
   return (
     <div className="comment-card">
-      {reviewContent && (
-        //if review not empty render review
+      {review && (
         <div className="comment-card-details h-[380px] w-[180px] object-contain">
           <div className="relative">
             <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">
@@ -65,7 +62,7 @@ const CommentCard = ({ reviewer, review }) => {
             {/* TODO toggle comment, when clicked see the entire comment */}
             <div className="mb-1 mt-1	max-h-[60px] min-h-[60px] rounded-xl bg-primary-gray-50 p-2 text-xxxs">
               <div className="user-review line-clamp-3">
-                {reviewContent.userReview}
+                {review.userReview}
               </div>
             </div>
           </div>
