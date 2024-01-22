@@ -19,7 +19,9 @@ describe("UserReviews", () => {
     });
 
     it("should not render text", () => {
-      cy.get(".user-reviews").contains("No reviews yet").should("not.exist");
+
+      cy.get(".empty-reviews").should("not.exist");
+
     });
   });
 
@@ -33,11 +35,13 @@ describe("UserReviews", () => {
       );
     });
     it("should not render RecipeCard", () => {
-      cy.get(".user-reviews").children().should("have.length", 1);
+
+      cy.get(".user-reviews").children().should("have.length", 0);
     });
 
     it("should render correct text", () => {
-      cy.get(".user-reviews").contains("No reviews yet");
+      cy.get(".empty-reviews").contains("No reviews yet");
+
     });
   });
 });
