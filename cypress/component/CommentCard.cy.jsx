@@ -1,137 +1,60 @@
 import CommentCard from "../../src/components/TypesOfRecipeCards/CommentCard";
-import user1 from "../../src/assets/user/user1.svg";
-import user2 from "../../src/assets/user/user2.svg";
-import Pizza from "../../src/assets/pizza.jpg";
+import { testUser } from "../testData/testUser";
 
-describe("Render CommentCard Component when user review is EMPTY", () => {
-  const user = {
-    firstName: "Anna",
-    lastName: "Real",
-    picturePath: user1,
-    reviews: [],
-    flavorProfile: ["vegetarian", "herb-lover", "cheese"],
-    caption: "vegan and vegetable lover | Food Blogger",
-  };
+const user = testUser;
+const review = user.reviews[0];
 
-  const review = user.reviews[0] || null;
+describe("CommentCard", () => {
+  context("when user review is empty", () => {
+    const user = { ...testUser, reviews: [] };
 
-  beforeEach(() => {
-    cy.mount(<CommentCard user={user} review={review} />);
+    beforeEach(() => {
+      cy.mount(<CommentCard reviewer={user} review={null} />);
+    });
+
+    it("CommentCard does not render", () => {
+      cy.get("comment-card-details").should("not.exist");
+    });
   });
 
-  it("the component should is empty", () => {
-    cy.get(".empty").should("be.empty");
-  });
-});
+  context("when user review is not empty", () => {
+    context("recipe card info", () => {
+      beforeEach(() => {
+        cy.mount(<CommentCard reviewer={user} review={review} />);
+      });
 
-describe("Render CommentCard Component is NOT empty and receipe is recommended", () => {
-  const user = {
-    firstName: "Anna",
-    lastName: "Real",
-    picturePath: user1,
-    reviews: [
-      {
-        recipeId: {
-          title: "Itallian Pizza",
-          picturePath: Pizza,
-          rating: 4.8,
-          tags: ["pizza", "keto"],
-          userId: {
-            username: "annieReal",
-            id: "1234",
-            firstName: "Annie",
-            lastName: "Real",
-            picturePath: user2,
-          },
-          review: [1, 2, 3, 45, 2],
-        },
-        userReview:
-          "This is a great recipe. Would make it again rtrerr rrrrrrrrtr etrrekjrth qjkertjherw ktjkewhtv ertwrewr ewrw ",
-        rating: 5,
-        timesMade: 1,
-        picturePath: Pizza,
-        isRecommend: true,
-      },
-    ],
-    flavorProfile: ["vegetarian", "herb-lover", "cheese"],
-    caption: "vegan and vegetable lover | Food Blogger",
-  };
-  const review = user.reviews[0];
+      it("renders recipe card info", () => {
+        cy.contains(review.recipeId.title);
+        cy.contains(review.recipeId.userId.firstName);
+        cy.contains(review.recipeId.userId.lastName);
+        cy.contains(review.recipeId.rating.toFixed(1) + " ⭐️");
+        cy.contains(review.recipeId.reviews.length + " Reviews");
+      });
 
-  beforeEach(() => {
-    cy.mount(<CommentCard user={user} review={review} />);
-  });
+      it("renders user review", () => {
+        cy.contains(review.rating.toFixed(1));
+        cy.get(".user-review").contains(review.userReview);
+        cy.contains(review.userReview);
+        cy.get(".user-review").should("have.css", "text-overflow", "clip");
+      });
+    });
 
-  it("orginal recipe info should be rendered ", () => {
-    cy.contains(review.recipeId.title);
-    cy.contains(review.recipeId.userId.firstName);
-    cy.contains(review.recipeId.userId.lastName);
-    cy.contains(review.recipeId.rating + " ⭐️");
-    cy.contains(review.recipeId.review.length + " Reviews");
-  });
+    context("recipe card displays recommendation", () => {
+      it("does not render when recipe is not recommended", () => {
+        review.isRecommend = false;
+        cy.mount(<CommentCard reviewer={user} review={review} />);
 
-  it("recipe review should be rendered", () => {
-    cy.contains(review.rating.toFixed(1));
-    cy.contains(review.userReview.slice(0, 105) + "...");
-  });
+        cy.contains(user.firstName + " Recommends this recipe").should(
+          "not.exist"
+        );
+      });
 
-  it("if profile recommend the recipe show", () => {
-    cy.contains(user.firstName + " Recommends this recipe");
-  });
-});
+      it("renders when recipe is recommended", () => {
+        review.isRecommend = true;
+        cy.mount(<CommentCard reviewer={user} review={review} />);
 
-describe("Render CommentCard Component is NOT empty and receipe is NOT recommended", () => {
-  const user = {
-    firstName: "Anna",
-    lastName: "Real",
-    picturePath: user1,
-    reviews: [
-      {
-        recipeId: {
-          title: "Itallian Pizza",
-          picturePath: Pizza,
-          rating: 4.8,
-          tags: ["pizza", "keto"],
-          userId: {
-            username: "annieReal",
-            id: "1234",
-            firstName: "Annie",
-            lastName: "Real",
-            picturePath: user2,
-          },
-          review: [1, 2, 3, 45, 2],
-        },
-        userReview:
-          "This is a great recipe. Would make it again rtrerr rrrrrrrrtr etrrekjrth qjkertjherw ktjkewhtv ertwrewr ewrw ",
-        rating: 5,
-        timesMade: 1,
-        picturePath: Pizza,
-        isRecommend: false,
-      },
-    ],
-    flavorProfile: ["vegetarian", "herb-lover", "cheese"],
-    caption: "vegan and vegetable lover | Food Blogger",
-  };
-  const review = user.reviews[0];
-
-  beforeEach(() => {
-    cy.mount(<CommentCard user={user} review={review} />);
-  });
-
-  it("orginal recipe info should be rendered", () => {
-    cy.contains(review.recipeId.title);
-    cy.contains(review.recipeId.userId.firstName);
-    cy.contains(review.recipeId.userId.lastName);
-    cy.contains(review.recipeId.rating + " ⭐️");
-    cy.contains(review.recipeId.review.length + " Reviews");
-  });
-
-  it("recipe review should be rendered", () => {
-    cy.contains(review.rating.toFixed(1));
-    cy.contains(review.userReview.slice(0, 105) + "...");
-  });
-
-  it("if profile does not recommend the recipe, should be empty", () => {
-    cy.contains(user.firstName + " Recommends this recipe").should("not.exist");
+        cy.contains(user.firstName + " Recommends this recipe");
+      });
+    });
   });
 });
