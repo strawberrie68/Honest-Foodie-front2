@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { pinWhite, pinSize } from "../../shared/style";
 
 const RecipeCard = ({ pinned, recipe }) => {
-  recipe = recipe.recipeId ? recipe.recipeId : recipe;
+  const review = recipe.recipeId;
+  const isRecipe = recipe.recipeId ? review : recipe;
 
   const cardType = recipe.recipeId ? "Review" : "Recipe";
 
   return (
     <div className="recipe-card mb-6 w-full">
-      {recipe && (
+      {isRecipe && (
         <div className="h-auto w-full m-auto xs:w-[155px] sm:w-[165px] object-contain">
           <div className="relative">
             <div className="flex">
@@ -25,27 +26,28 @@ const RecipeCard = ({ pinned, recipe }) => {
               )}
             </div>
 
-            <Link to={`/recipe/${recipe._id}`}>
+            <Link to={`/recipe/${isRecipe._id}`}>
               <img
-                src={recipe?.picturePath}
+                src={isRecipe?.picturePath}
                 className="h-[220px] w-full rounded-3xl object-cover"
               />
             </Link>
-            <Link to={`/profile/${recipe.userId.id}`}>
+            <Link to={`/profile/${isRecipe.userId.id}`}>
               <div className="absolute bottom-2 ml-4 flex flex-col text-white">
                 <div className="flex items-baseline ">
                   <img
-                    src={recipe.userId?.picturePath}
+                    src={isRecipe.userId?.picturePath}
                     className="h-8 w-8 rounded-full border border-white"
                   />
                   <p className=" ml-2 text-xxxs">
-                    by {`${recipe.userId.firstName} ${recipe.userId.lastName}`}
+                    by{" "}
+                    {`${isRecipe.userId.firstName} ${isRecipe.userId.lastName}`}
                   </p>
                 </div>
                 <div className="ml-2 mt-1 flex items-baseline">
-                  <div className="text-xxxs ">{recipe.rating} ⭐️</div>
+                  <div className="text-xxxs ">{isRecipe.rating} ⭐️</div>
                   <div className="ml-2 text-xxxs font-thin">
-                    {recipe.reviews?.length} Reviews
+                    {isRecipe.reviews?.length} Reviews
                   </div>
                 </div>
               </div>
@@ -53,7 +55,7 @@ const RecipeCard = ({ pinned, recipe }) => {
           </div>
           <div className="mt-2 flex justify-between">
             <div className="flex basis-4/5 flex-wrap">
-              {recipe.tags?.map((tag, i) => (
+              {isRecipe.tags?.map((tag, i) => (
                 <div
                   key={i}
                   className="mr-1 mt-1 flex flex-wrap rounded-md border	border-solid border-black px-2 text-2.5xs"
@@ -63,16 +65,16 @@ const RecipeCard = ({ pinned, recipe }) => {
               ))}
             </div>
             <div className="basis-1/6 text-xxs font-medium">
-              {recipe.rating}
+              {isRecipe.rating}
             </div>
           </div>
           <div className="mx-1 mt-5">
             <p className="text-sm font-semibold leading-4 tracking-wide truncate">
-              {recipe.title}
+              {isRecipe.title}
             </p>
             {!pinned && (
               <p className="mt-1 text-[10px] text-gray-600 line-clamp-3">
-                {recipe.recipeId ? recipe.userReview : recipe.description}
+                {review ? isRecipe.userReview : isRecipe.description}
               </p>
             )}
           </div>
