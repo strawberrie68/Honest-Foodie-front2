@@ -2,18 +2,19 @@ import { PushPin } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { pinWhite, pinSize } from "../../shared/style";
 
-const ReviewCard = ({ recipe, review, pinned }) => {
+const ReviewCard = ({ recipe, review, pinned, reviewer }) => {
+  //   const reviewer = review.userId;
   //TO DO - need to add function to pin recipe
 
   return (
-    <div className="recipe-card mb-6 w-full">
+    <div className="review-card mb-6 w-full">
       {review && (
         <div className="h-auto w-full m-auto xs:w-[155px] sm:w-[165px] object-contain">
           <div className="relative">
             <div className="flex">
               <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">
                 {/* TODO - figure out what makes a recipe trending */}
-                <p className="text-xxs ">Review</p>
+                <p className="text-xxs">Review</p>
               </div>
               {/* PIN for when user pins a recipe */}
               {pinned && (
@@ -62,15 +63,20 @@ const ReviewCard = ({ recipe, review, pinned }) => {
               ))}
             </div>
             <div className="basis-1/6 text-xxs font-medium">
-              {recipe.rating}
+              {review.rating.toFixed(1)}
             </div>
           </div>
           <div className="mx-1 mt-5">
             <p className="text-sm font-semibold leading-4 tracking-wide truncate">
               {recipe.title}
             </p>
+            <p className="ml-2 mt-1 h-4 text-xxxs tracking-wide text-primary-gray-200">
+              {review.isRecommend
+                ? `${reviewer.firstName} Recommends this recipe`
+                : " "}
+            </p>
             {!pinned && (
-              <p className="mt-1 text-[10px] text-gray-600 line-clamp-3">
+              <p className="user-review mt-1 text-[10px] text-gray-600 line-clamp-3">
                 {review.userReview}
               </p>
             )}
