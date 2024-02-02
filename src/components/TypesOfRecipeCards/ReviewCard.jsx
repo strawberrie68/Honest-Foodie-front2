@@ -2,17 +2,18 @@ import { PushPin } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { pinWhite, pinSize } from "../../shared/style";
 
-const RecipeCard = ({ pinned, recipe }) => {
+const ReviewCard = ({ recipe, review, pinned }) => {
   //TO DO - need to add function to pin recipe
+
   return (
     <div className="recipe-card mb-6 w-full">
-      {recipe && (
+      {review && (
         <div className="h-auto w-full m-auto xs:w-[155px] sm:w-[165px] object-contain">
           <div className="relative">
             <div className="flex">
               <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">
                 {/* TODO - figure out what makes a recipe trending */}
-                <p className="text-xxs ">Recipe</p>
+                <p className="text-xxs ">Review</p>
               </div>
               {/* PIN for when user pins a recipe */}
               {pinned && (
@@ -36,7 +37,8 @@ const RecipeCard = ({ pinned, recipe }) => {
                     className="h-8 w-8 rounded-full border border-white"
                   />
                   <p className=" ml-2 text-xxxs">
-                    by {`${recipe.userId.firstName} ${recipe.userId.lastName}`}
+                    by
+                    {`${recipe.userId.firstName} ${recipe.userId.lastName}`}
                   </p>
                 </div>
                 <div className="ml-2 mt-1 flex items-baseline">
@@ -69,7 +71,7 @@ const RecipeCard = ({ pinned, recipe }) => {
             </p>
             {!pinned && (
               <p className="mt-1 text-[10px] text-gray-600 line-clamp-3">
-                {recipe.description}
+                {review.userReview}
               </p>
             )}
           </div>
@@ -79,4 +81,4 @@ const RecipeCard = ({ pinned, recipe }) => {
   );
 };
 
-export default RecipeCard;
+export default ReviewCard;
