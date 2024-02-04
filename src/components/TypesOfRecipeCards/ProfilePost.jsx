@@ -2,17 +2,21 @@ import { PushPin } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { pinWhite, pinSize } from "../../shared/style";
 
-const RecipeCard = ({ pinned, recipe }) => {
+const ProfilePost = ({ pinned, post, reviewer }) => {
   //TO DO - need to add function to pin recipe
+
+  const isRecipe = post && post.recipeId ? false : true;
+  const recipe = isRecipe ? post : post.recipeId;
+
   return (
-    <div className="recipe-card mb-6 w-full">
-      {recipe && (
-        <div className="h-auto w-full m-auto xs:w-[155px] sm:w-[165px] object-contain">
+    <div className=" mb-6 w-full">
+      {post && (
+        <div className="profile-post h-auto w-full m-auto xs:w-[155px] sm:w-[165px] object-contain">
           <div className="relative">
             <div className="flex">
               <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">
                 {/* TODO - figure out what makes a recipe trending */}
-                <p className="text-xxs ">Recipe</p>
+                <p className="text-xxs ">{isRecipe ? "Recipe" : "Review"}</p>
               </div>
               {/* PIN for when user pins a recipe */}
               {pinned && (
@@ -28,7 +32,7 @@ const RecipeCard = ({ pinned, recipe }) => {
                 className="h-[220px] w-full rounded-3xl object-cover"
               />
             </Link>
-            <Link to={`/profile/${recipe.userId.id}`}>
+            <Link to={`/profile/${recipe.userId?._id}`}>
               <div className="absolute bottom-2 ml-4 flex flex-col text-white">
                 <div className="flex items-baseline ">
                   <img
@@ -36,7 +40,8 @@ const RecipeCard = ({ pinned, recipe }) => {
                     className="h-8 w-8 rounded-full border border-white"
                   />
                   <p className=" ml-2 text-xxxs">
-                    by {`${recipe.userId.firstName} ${recipe.userId.lastName}`}
+                    by{" "}
+                    {`${recipe.userId?.firstName} ${recipe.userId?.lastName}`}
                   </p>
                 </div>
                 <div className="ml-2 mt-1 flex items-baseline">
@@ -60,16 +65,21 @@ const RecipeCard = ({ pinned, recipe }) => {
               ))}
             </div>
             <div className="basis-1/6 text-xxs font-medium">
-              {recipe.rating}
+              {post.rating?.toFixed(1) + " ⭐️"}
             </div>
           </div>
           <div className="mx-1 mt-5">
             <p className="text-sm font-semibold leading-4 tracking-wide truncate">
               {recipe.title}
             </p>
+            <p className=" ml-2 mt-1 h-4 text-xxxs tracking-wide text-primary-gray-200">
+              {!isRecipe && post.isRecommend
+                ? `${reviewer.firstName} Recommends this recipe`
+                : " "}
+            </p>
             {!pinned && (
-              <p className="mt-1 text-[10px] text-gray-600 line-clamp-3">
-                {recipe.description}
+              <p className="user-review mt-1 text-[10px] text-gray-600 line-clamp-3">
+                {isRecipe ? post.description : post.userReview}
               </p>
             )}
           </div>
@@ -79,4 +89,4 @@ const RecipeCard = ({ pinned, recipe }) => {
   );
 };
 
-export default RecipeCard;
+export default ProfilePost;

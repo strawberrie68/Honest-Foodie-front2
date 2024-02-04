@@ -1,18 +1,14 @@
-import RecipeCard from "../../../components/TypesOfRecipeCards/RecipeCard";
-import ReviewCard from "../../../components/TypesOfRecipeCards/ReviewCard";
-const ProfileAllPosts = ({ recipes, reviews }) => {
+import ProfilePost from "../../../components/TypesOfRecipeCards/ProfilePost";
+const ProfileAllPosts = ({ user, recipes, reviews }) => {
   //TODO
   //Sort by date
+  const allPosts = [...recipes, ...reviews];
 
   return (
     <div className="profile-all-posts mt-4 grid grid-cols-3">
-      {[...recipes, ...reviews].map((item, i) =>
-        "recipeId" in item ? (
-          <ReviewCard key={i} recipe={item.recipeId} review={item} />
-        ) : (
-          <RecipeCard key={i} recipe={item} />
-        )
-      )}
+      {allPosts.map((post, i) => (
+        <ProfilePost key={i} reviewer={user} post={post} />
+      ))}
     </div>
   );
 };

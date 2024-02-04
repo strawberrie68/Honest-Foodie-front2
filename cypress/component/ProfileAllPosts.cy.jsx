@@ -3,35 +3,62 @@ import { testUser } from "../testData/testUser";
 import { BrowserRouter } from "react-router-dom";
 
 const user = testUser;
-const totalPosts = user.reviews.length + user.recipes.length;
 
 describe("ProfileAllPosts component", () => {
-  beforeEach(() => {
-    cy.mount(
-      <BrowserRouter>
-        <ProfileAllPosts
-          user={user}
-          recipes={user.recipes}
-          reviews={user.reviews}
-        />
-      </BrowserRouter>
-    );
+  context("when recipes and reviews are empty", () => {
+    it("should be empty", () => {
+      cy.mount(
+        <BrowserRouter>
+          <ProfileAllPosts user={user} recipes={[]} reviews={[]} />
+        </BrowserRouter>
+      );
+
+      cy.get(".profile-all-posts").children().should("have.length", 0);
+    });
   });
 
-  it("renders the correct number of RecipeCard  + Review components", () => {
-    cy.get(".profile-all-posts").children().should("have.length", totalPosts);
+  context("contains reviews only", () => {
+    beforeEach(() => {
+      cy.mount(
+        <BrowserRouter>
+          <ProfileAllPosts user={user} recipes={[]} reviews={user.reviews} />
+        </BrowserRouter>
+      );
+    });
+
+    it("renders the correct number of reviews", () => {
+      cy.get(".profile-all-posts")
+        .children()
+        .should("have.length", user.reviews.length);
+    });
+
+    it("renders review info", () => {
+      cy.contains(user.reviews[0].userReview);
+      cy.contains(user.reviews[0].rating.toFixed(1));
+      cy.contains(user.firstName + " Recommends this recipe");
+    });
   });
 
-  it("RecipeCard info rendered", () => {
-    cy.contains(user.recipes[0].title);
-    cy.contains(user.recipes[0].description);
-    cy.contains(user.recipes[0].rating);
-    cy.contains(user.recipes[0].tags[0]);
-  });
+  context("contains recipes only", () => {
+    beforeEach(() => {
+      cy.mount(
+        <BrowserRouter>
+          <ProfileAllPosts user={user} recipes={user.recipes} reviews={[]} />
+        </BrowserRouter>
+      );
+    });
 
-  it("ReviewCard info rendered", () => {
-    cy.contains(user.reviews[0].userReview);
-    cy.contains(user.reviews[0].rating.toFixed(1));
-    cy.contains(user.firstName + " Recommends this recipe");
+    it("renders the correct number of recipes ", () => {
+      cy.get(".profile-all-posts")
+        .children()
+        .should("have.length", user.recipes.length);
+    });
+
+    it("renders the recipe info ", () => {
+      cy.contains(user.recipes[0].title);
+      cy.contains(user.recipes[0].description);
+      cy.contains(user.recipes[0].rating);
+      cy.contains(user.recipes[0].tags[0]);
+    });
   });
 });
