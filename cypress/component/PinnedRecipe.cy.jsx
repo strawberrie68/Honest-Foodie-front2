@@ -1,13 +1,13 @@
 import { testUser } from "../testData/testUser";
-import RecipeCard from "../../src/components/TypesOfRecipeCards/RecipeCard";
+import ProfilePost from "../../src/components/TypesOfRecipeCards/ProfilePost";
 import { BrowserRouter } from "react-router-dom";
 const recipe = testUser.recipes[0];
 
-describe("Pinned RecipeCard", () => {
+describe("Pinned ProfilePost", () => {
   it("renders recipe card info", () => {
     cy.mount(
       <BrowserRouter>
-        <RecipeCard recipe={recipe} pinned={true} />
+        <ProfilePost post={recipe} pinned={true} />
       </BrowserRouter>
     );
 
@@ -20,7 +20,7 @@ describe("Pinned RecipeCard", () => {
   it("renders the Pinned icon when pinned is true", () => {
     cy.mount(
       <BrowserRouter>
-        <RecipeCard recipe={recipe} pinned={true} />
+        <ProfilePost post={recipe} pinned={true} />
       </BrowserRouter>
     );
     cy.get(".pinned").should("exist");
@@ -29,7 +29,7 @@ describe("Pinned RecipeCard", () => {
   it("does not render the Pinned icon when pinned is false", () => {
     cy.mount(
       <BrowserRouter>
-        <RecipeCard recipe={recipe} pinned={false} />
+        <ProfilePost post={recipe} pinned={false} />
       </BrowserRouter>
     );
 
