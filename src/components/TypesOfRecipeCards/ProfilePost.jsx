@@ -5,8 +5,8 @@ import { pinWhite, pinSize } from "../../shared/style";
 const ProfilePost = ({ pinned, post, reviewer }) => {
   //TO DO - need to add function to pin recipe
 
-  const isRecipe = post && post.recipeId ? false : true;
-  const recipe = isRecipe ? post : post.recipeId;
+  const isReview = post && post.reviewerId;
+  const recipe = isReview ? post.recipeId : post;
 
   return (
     <div className=" mb-6 w-full">
@@ -16,7 +16,7 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
             <div className="flex">
               <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">
                 {/* TODO - figure out what makes a recipe trending */}
-                <p className="text-xxs ">{isRecipe ? "Recipe" : "Review"}</p>
+                <p className="text-xxs ">{isReview ? "Review" : "Recipe"}</p>
               </div>
               {/* PIN for when user pins a recipe */}
               {pinned && (
@@ -34,18 +34,18 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
             </Link>
             <Link to={`/profile/${recipe.userId?._id}`}>
               <div className="absolute bottom-2 ml-4 flex flex-col text-white">
-                <div className="flex items-baseline ">
+                <div className="flex items-baseline">
                   <img
                     src={recipe.userId?.picturePath}
                     className="h-8 w-8 rounded-full border border-white"
                   />
-                  <p className=" ml-2 text-xxxs">
+                  <p className="ml-2 text-xxxs">
                     by{" "}
                     {`${recipe.userId?.firstName} ${recipe.userId?.lastName}`}
                   </p>
                 </div>
                 <div className="ml-2 mt-1 flex items-baseline">
-                  <div className="text-xxxs ">{recipe.rating} ⭐️</div>
+                  <div className="text-xxxs">{recipe.rating} ⭐️</div>
                   <div className="ml-2 text-xxxs font-thin">
                     {recipe.reviews?.length} Reviews
                   </div>
@@ -72,14 +72,14 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
             <p className="text-sm font-semibold leading-4 tracking-wide truncate">
               {recipe.title}
             </p>
-            <p className=" ml-2 mt-1 h-4 text-xxxs tracking-wide text-primary-gray-200">
-              {!isRecipe && post.isRecommend
+            <p className="ml-2 mt-1 h-4 text-xxxs tracking-wide text-primary-gray-200">
+              {isReview && post.isRecommend
                 ? `${reviewer.firstName} Recommends this recipe`
                 : " "}
             </p>
             {!pinned && (
               <p className="user-review mt-1 text-[10px] text-gray-600 line-clamp-3">
-                {isRecipe ? post.description : post.userReview}
+                {isReview ? post.userReview : post.description}
               </p>
             )}
           </div>
