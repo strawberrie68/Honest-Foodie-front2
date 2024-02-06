@@ -1,10 +1,11 @@
-import ProfilePost from "../../../components/TypesOfRecipeCards/ProfilePost";
+import RecipeCard from "../../../components/TypesOfRecipeCards/RecipeCard";
 
 const UserAllRecipes = ({ recipes }) => {
+  //Gather only users recipes
   return (
     <div className="recipe-card-container sm:grid">
       {recipes.map((recipe, i) => (
-        <ProfilePost className="recipe-Card" key={i} post={recipe} />
+        <RecipeCard className="recipe-Card" key={i} recipe={recipe} />
       ))}
     </div>
   );
