@@ -17,6 +17,7 @@ describe("Pinned ProfilePost", () => {
     cy.contains(recipe.rating.toFixed(1) + " ⭐️");
     cy.contains(recipe.reviews.length + " Reviews");
   });
+
   it("renders the Pinned icon when pinned is true", () => {
     cy.mount(
       <BrowserRouter>
