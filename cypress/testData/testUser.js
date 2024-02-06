@@ -52,6 +52,7 @@ export const testUser = {
   lastName: "Real",
   email: "email.com",
   picturePath: user1,
+
   following: [user, user],
   followers: [user, user],
   recipes: [recipe, recipe],
