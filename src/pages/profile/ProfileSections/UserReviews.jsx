@@ -1,7 +1,6 @@
 import ProfilePost from "../../../components/TypesOfRecipeCards/ProfilePost";
 
 const UserReviews = ({ user, reviews }) => {
-  //Show only user's reviews
   const hasReviews = reviews.length > 0;
   return (
     <div>
