@@ -1,40 +1,33 @@
-import {
-  House,
-  MagnifyingGlass,
-  Binoculars,
-  Book,
-  Archive,
-} from "@phosphor-icons/react";
+import { House, Binoculars, Book, Archive } from "@phosphor-icons/react";
+const activeColor = "#000000";
+const inactiveColor = "#9E9E9E";
+const iconSize = 24;
 
 export const navigationIcons = [
   {
     name: "Home",
-    activeIcon: <House size={24} color="#000000" weight="fill" />,
-    inactiveIcon: <House size={24} color="#9E9E9E" />,
+    activeIcon: <House size={iconSize} color={activeColor} weight="fill" />,
+    inactiveIcon: <House size={iconSize} color={inactiveColor} />,
     href: "/",
   },
   {
-    name: "Search",
-    activeIcon: <MagnifyingGlass size={24} color="#000000" weight="fill" />,
-    inactiveIcon: <MagnifyingGlass size={24} color="#9E9E9E" />,
-    href: "/search",
-  },
-  {
     name: "Explore",
-    activeIcon: <Binoculars size={24} color="#000000" weight="fill" />,
-    inactiveIcon: <Binoculars size={24} color="#9E9E9E" />,
+    activeIcon: (
+      <Binoculars size={iconSize} color={activeColor} weight="fill" />
+    ),
+    inactiveIcon: <Binoculars size={iconSize} color={inactiveColor} />,
     href: "/explore",
   },
   {
     name: "My Recipes",
-    activeIcon: <Book size={24} color="#000000" weight="fill" />,
-    inactiveIcon: <Book size={24} color="#9E9E9E" />,
+    activeIcon: <Book size={iconSize} color={activeColor} weight="fill" />,
+    inactiveIcon: <Book size={iconSize} color={inactiveColor} />,
     href: "/myrecipe",
   },
   {
     name: "Saved",
-    activeIcon: <Archive size={24} color="#000000" weight="fill" />,
-    inactiveIcon: <Archive size={24} color="#9E9E9E" />,
+    activeIcon: <Archive size={iconSize} color={activeColor} weight="fill" />,
+    inactiveIcon: <Archive size={iconSize} color={inactiveColor} />,
     href: "/saved",
   },
 ];
