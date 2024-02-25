@@ -1,15 +1,22 @@
-import CategoryCard from "../../src/components/CategoryCard";
-import user1 from "../../src/assets/user/user1.svg";
 
-describe("Render CategoryCard componenet ", () => {
-  const category = {
-    name: "Popular",
-    icon: "💫",
-  };
+import { BrowserRouter as Router } from "react-router-dom";
+import CategoryCard from "../../src/components/CategoryCard.jsx";
+import { categoriesIcon } from "../../src/shared/categoriesIcon.js";
 
-  it("all the user info should be rendered", () => {
-    cy.mount(<CategoryCard icon={category.icon} name={category.name} />);
-    cy.contains("Popular");
-    cy.contains("💫");
+const { icon, name } = categoriesIcon[0];
+
+describe("CategoryCard", () => {
+  beforeEach(() => {
+    cy.mount(
+      <Router>
+        <CategoryCard icon={icon} name={name} />
+      </Router>
+    );
+  });
+
+  it("displays the category name", () => {
+    cy.contains(name);
+    cy.contains(icon);
+
   });
 });
