@@ -10,6 +10,14 @@ export const navigationIcons = [
     inactiveIcon: <House size={iconSize} color={inactiveColor} />,
     href: "/",
   },
+
+  // {
+  //   name: "Search",
+  //   activeIcon: <MagnifyingGlass size={24} color="#000000" weight="fill" />,
+  //   inactiveIcon: <MagnifyingGlass size={24} color="#9E9E9E" />,
+  //   href: "/search",
+  // },
+
   {
     name: "Explore",
     activeIcon: (
