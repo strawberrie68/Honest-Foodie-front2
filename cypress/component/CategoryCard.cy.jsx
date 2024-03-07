@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router } from "react-router-dom";
 import CategoryCard from "../../src/components/CategoryCard.jsx";
 import { categoriesIcon } from "../../src/shared/categoriesIcon.js";
@@ -16,5 +17,6 @@ describe("CategoryCard", () => {
   it("displays the category name", () => {
     cy.contains(name);
     cy.contains(icon);
+
   });
 });
