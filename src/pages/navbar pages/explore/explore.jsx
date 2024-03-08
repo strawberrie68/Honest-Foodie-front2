@@ -63,7 +63,7 @@ const Explore = () => {
           <div className="mt-4 flex gap-4">
             {/* TODO: Figure out how to filter by trending or find the trending recipes */}
             {recipes?.map((recipe, i) => (
-              <ProfilePost key={i} recipe={recipe} />
+              <ProfilePost key={i} post={recipe} />
             ))}
           </div>
         </div>
@@ -72,7 +72,7 @@ const Explore = () => {
           <div className="mt-4 flex gap-4">
             {/* TODO: Figure out what recipe to show here and how to filter it*/}
             {recipes?.map((recipe, i) => (
-              <ProfilePost key={i} recipe={recipe} />
+              <ProfilePost key={i} post={recipe} />
             ))}
           </div>
         </div>
