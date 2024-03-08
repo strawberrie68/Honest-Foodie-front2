@@ -23,8 +23,6 @@ const MyRecipe = () => {
 
   const user = useSelector((state) => state.auth.user);
   const recipes = useSelector((state) => state.auth.user?.recipes);
-  console.log(recipes);
-  console.log(user);
 
   return (
     <div className="flex">
