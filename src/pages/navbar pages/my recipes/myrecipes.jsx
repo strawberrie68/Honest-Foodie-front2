@@ -1,20 +1,14 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  MagnifyingGlass,
-  SlidersHorizontal,
-  Plus,
-} from "@phosphor-icons/react";
+import { Plus } from "@phosphor-icons/react";
 
 import { categoriesIcon } from "../../../shared/categoriesIcon";
 import NavBar from "../../../components/NavBar/NavBar";
 import CategoryCard from "../../../components/CategoryCard";
 import ProfilePost from "../../../components/TypesOfRecipeCards/ProfilePost";
+import SearchBar from "../../../components/SearchBar";
 
-// Constants
-const ICON_SIZE = 18;
-const ICON_BG_COLOR = "#A7A7A7";
 const INACTIVE_COLOR = "#F0F0F0";
 const ACTIVE_COLOR = "#9aaac2";
 
@@ -25,21 +19,18 @@ const MyRecipe = () => {
   const recipes = useSelector((state) => state.auth.user?.recipes);
 
   return (
-    <div className="flex">
-      <NavBar />
-      <div className="m-auto  mt-10 flex h-full w-3/4 flex-col p-4">
-        <div className="flex w-full flex-col justify-start">
-          <div className="flex flex-col items-center justify-between xs:flex-row">
-            <h1 className="mt-6 text-start text-xl font-bold">My recipes</h1>
-            <div className="mt-4 flex h-10 w-[250px] items-center justify-between rounded-3xl bg-primary-gray-100 px-4">
-              <div className="flex gap-4">
-                <MagnifyingGlass size={ICON_SIZE} />
-                <div className="text-xxs text-primary-gray-200">Search</div>
-              </div>
-              <div className="flex gap-2">
-                <div className="border-px h-4 w-0 border-l border-primary-gray-200"></div>
-                <SlidersHorizontal size={ICON_SIZE} color={ICON_BG_COLOR} />
-              </div>
+    <div className="flex flex-col xs:flex-row h-screen w-full">
+      <div className="w-full xs:w-10 order-last xs:order-first fixed bottom-0 z-10">
+        <NavBar />
+      </div>
+      <div className="mt-8 m-auto xs:mt-10 flex h-full w-4/5 xs:w-3/4  xs:mr-12 md:ml-36 flex-col xs:p-4">
+        <div className="flex justify-start flex-col w-full">
+          <div className="flex flex-col xs:flex-row justify-between items-center">
+            <h1 className="mt-6 font-bold text-xl text-start my-4 mr-2">
+              My recipes
+            </h1>
+            <div>
+              <SearchBar />
             </div>
           </div>
           <div className="mt-8 flex justify-start gap-1 overflow-x-scroll fade-right">
@@ -56,9 +47,9 @@ const MyRecipe = () => {
         <div className="mt-4 my-recipes-container">
           {user && recipes?.length > 0 ? (
             <div>
-              {recipes?.map((recipe) => {
+              {recipes?.map((recipe, i) => {
                 return (
-                  <div>
+                  <div key={i + "recipe.title"}>
                     <ProfilePost post={recipe} />
                   </div>
                 );
@@ -67,7 +58,7 @@ const MyRecipe = () => {
           ) : (
             <Link to="/add/recipe">
               <div
-                className="w-full flex flex-col mt-4 border px-4 pt-4 rounded-lg border-dashed h-[500px] items-center justify-center duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg before:ease relative overflow-hidden border-grey-500 bg-grey-500  shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-grey-500 hover:before:-translate-x-40"
+                className="w-full flex flex-col mt-4 border px-4 pt-4 rounded-lg border-dashed h-[350px] items-center justify-center duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg before:ease relative overflow-hidden border-grey-500 bg-grey-500  shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-grey-500 hover:before:-translate-x-40"
                 onMouseEnter={() => setPlusIconColor(ACTIVE_COLOR)}
                 onMouseLeave={() => setPlusIconColor(INACTIVE_COLOR)}
               >
