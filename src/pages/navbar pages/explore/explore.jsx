@@ -15,7 +15,7 @@ const Explore = () => {
   useEffect(() => {
     const getRecipe = async () => {
       await axios
-        .get(`${process.env.REACT_APP_SERVER_URL}/api/recipe/`)
+        .get(`${import.meta.env.VITE_SERVER_URL}/api/recipe/`)
         .then((response) => {
           setRecipes(response.data);
           return response.data;
@@ -28,7 +28,7 @@ const Explore = () => {
       <div className="w-full xs:w-10 order-last xs:order-first fixed bottom-0 z-10">
         <NavBar />
       </div>
-      <div className="mt-8 m-auto xs:mt-10 flex h-full w-4/5 xs:w-3/4  xs:mr-12 md:ml-36 flex-col xs:p-4">
+      <div className="mt-8 m-auto xs:mt-10 flex h-full w-4/5 xs:w-3/4 xs:mr-12 md:ml-36 flex-col xs:p-4">
         <div className="flex justify-start flex-col w-full">
           <div className="flex flex-col xs:flex-row justify-between items-center">
             <h1 className="mt-6 font-bold text-xl text-start my-4 mr-2">
@@ -57,7 +57,7 @@ const Explore = () => {
           <div className="mt-4 flex gap-4">
             {/* TODO: Figure out how to filter by trending or find the trending recipes */}
             {recipes?.map((recipe, i) => (
-              <ProfilePost key={i} post={recipe} />
+              <ProfilePost key={i + "-trending"} post={recipe} />
             ))}
           </div>
         </div>
@@ -66,7 +66,7 @@ const Explore = () => {
           <div className="mt-4 flex gap-4">
             {/* TODO: Figure out what recipe to show here and how to filter it*/}
             {recipes?.map((recipe, i) => (
-              <ProfilePost key={i} post={recipe} />
+              <ProfilePost key={i + "-browse"} post={recipe} />
             ))}
           </div>
         </div>
