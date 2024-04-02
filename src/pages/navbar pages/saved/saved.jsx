@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import CategoryCard from "../../../components/CategoryCard";
 import ProfilePost from "../../../components/TypesOfRecipeCards/ProfilePost";
 import SearchBar from "../../../components/SearchBar";
+
 const Saved = () => {
   const user = useSelector((state) => state.auth.user);
   const savedRecipes = useSelector((state) => state.auth.user?.savedRecipes);
@@ -14,7 +15,7 @@ const Saved = () => {
       <div className="w-full xs:w-10 order-last xs:order-first fixed bottom-0 z-10">
         <NavBar />
       </div>
-      <div className="mt-8 m-auto xs:mt-10 flex h-full w-4/5 xs:w-3/4  xs:mr-12 md:ml-36 flex-col xs:p-4">
+      <div className="mt-8 m-auto xs:mt-10 flex h-full w-4/5 xs:w-3/4 xs:mr-12 md:ml-36 flex-col xs:p-4">
         <div className="flex justify-start flex-col w-full">
           <div className="flex flex-col xs:flex-row justify-between items-center">
             <h1 className="mt-6 font-bold text-xl text-start my-4 mr-2">
@@ -24,7 +25,7 @@ const Saved = () => {
               <SearchBar />
             </div>
           </div>
-          <div className=" flex justify-start mt-8 gap-1 overflow-x-scroll  ">
+          <div className="flex justify-start mt-8 gap-1 overflow-x-scroll">
             {categoriesIcon.map((category, i) => (
               <CategoryCard key={i} icon={category.icon} name={category.name} />
             ))}
@@ -45,8 +46,8 @@ const Saved = () => {
             <p className="font-semibold text-lg">To make</p>
             {/* TODO: Save a recipe to make later */}
             {user && savedRecipes.length > 0 ? (
-              savedRecipes?.map((recipe) => (
-                <div className="flex mt-2">
+              savedRecipes?.map((recipe, i) => (
+                <div className="flex mt-2" key={i + recipe.title}>
                   <ProfilePost post={recipe} />
                 </div>
               ))
