@@ -49,7 +49,7 @@ const MyRecipe = () => {
             <div>
               {recipes?.map((recipe, i) => {
                 return (
-                  <div key={i + "recipe.title"}>
+                  <div key={i + recipe.title}>
                     <ProfilePost post={recipe} />
                   </div>
                 );
@@ -65,7 +65,9 @@ const MyRecipe = () => {
                 <p className="font-medium text-lg tracking-wide">
                   No recipes yet
                 </p>
-                <p className="text-xxs mt-1 text-gray-500 ">Let's add some!</p>
+                <p className="text-xxs mt-1 text-gray-500">
+                  &apos;Let&apos;s add some!
+                </p>
                 <Plus className="mt-8" size={80} color={plusIconColor} />
               </div>
             </Link>
