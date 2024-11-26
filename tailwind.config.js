@@ -29,6 +29,7 @@ export default {
         "primary-gray-500": "#9E9E9E",
         "primary-blue-200": "#9aaac2",
         "primary-blue-500": "#365585",
+
       },
       backgroundImage: {
         "hero-ramen": "url('/image 1.png')",
@@ -68,5 +69,6 @@ export default {
         addUtilities(newUtilities, ["responsive", "hover"]);
       },
     ],
-  },
+  }
+ 
 };

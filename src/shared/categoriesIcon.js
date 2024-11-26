@@ -3,11 +3,13 @@ export const categoriesIcon = [
     name: "Popular",
     icon: "💫",
     id: "categoryIcon-popular",
+
   },
   {
     name: "Trending",
     icon: "🔥",
     id: "categoryIcon-trending",
+
   },
   {
     name: "Meat",
@@ -18,6 +20,7 @@ export const categoriesIcon = [
     name: "Desserts",
     icon: "🎂",
     id: "categoryIcon-desserts",
+
   },
   {
     name: "Veggies",
@@ -28,15 +31,18 @@ export const categoriesIcon = [
     name: "Bread",
     icon: "🥐",
     id: "categoryIcon-bread",
+
   },
   {
     name: "Keto",
     icon: "🥦",
     id: "categoryIcon-keto",
+
   },
   {
     name: "More",
     icon: "+",
     id: "categoryIcon-more",
+
   },
 ];
