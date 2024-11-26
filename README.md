@@ -1,3 +1,4 @@
+
 ![Screenshot 2023-09-19 at 10 27 46 AM](https://github.com/strawberrie68/Honest-Foodie-front2/assets/42231000/bb8ddcf5-c493-46b2-8f48-479f28581a1f)
 
 ## 🍦 What is Honest Foodie?
@@ -35,3 +36,4 @@ The Honest Foodie website is still under development, and we're working on a lot
 
 
 ![Honest Foodie](https://github.com/strawberrie68/Honest-Foodie-front2/assets/42231000/52deeb0d-7f5f-454e-a31a-8e279c899705)
+
