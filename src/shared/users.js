@@ -1,0 +1,166 @@
+import user1 from "../assets/user/user1.svg";
+
+import user2 from "../assets/user/user2.svg";
+import Pizza from "../assets/pizza.jpg";
+
+export const users = [
+  {
+    username: "annaReal",
+    firstName: "Anna",
+    lastName: "Real",
+    email: "email.com",
+    picturePath: user1,
+    following: ["testuser02", "testuser03"],
+    followers: ["testuser02", "testuser03"],
+    recipes: [
+      {
+        title: "Itallian Pizza",
+        description: "Authentic Italian Pizza that is to die for",
+        picturePath: Pizza,
+        rating: 4.8,
+        isRecommended: {},
+        comments: [],
+        review: [
+          {
+            reviewer: {
+              username: "annie",
+              id: "1234",
+              firstName: "Annie",
+              lastName: "Joe",
+              picturePath: user2,
+            },
+            review: "This is a great recipe",
+            rating: 5,
+            timesMade: 1,
+            picturePath: Pizza,
+          },
+          {
+            reviewer: {
+              username: "sandy",
+              id: "1234",
+              firstName: "Sandy",
+              lastName: "James",
+              picturePath: user2,
+            },
+            review: "Top notch",
+            rating: 5,
+            timesMade: 1,
+            picturePath: Pizza,
+          },
+        ],
+        tags: ["pizza", "keto"],
+        userId: {
+          username: "annaReal",
+          id: "1234",
+          firstName: "Anna",
+          lastName: "Real",
+          picturePath: user1,
+        },
+      },
+      {
+        title: "Itallian Pizza",
+        description: "Authentic Italian Pizza that is to die for",
+        picturePath: Pizza,
+        rating: 4.8,
+        isRecommended: {},
+        comments: [],
+        review: [
+          {
+            reviewer: {
+              username: "annie",
+              id: "1234",
+              firstName: "Annie",
+              lastName: "Joe",
+              picturePath: user2,
+            },
+            review: "This is a great recipe",
+            rating: 5,
+            timesMade: 1,
+            picturePath: Pizza,
+          },
+          {
+            reviewer: {
+              username: "sandy",
+              id: "1234",
+              firstName: "Sandy",
+              lastName: "James",
+              picturePath: user2,
+            },
+            review: "Top notch",
+            rating: 5,
+            timesMade: 1,
+            picturePath: Pizza,
+          },
+        ],
+        tags: ["pizza", "keto"],
+        userId: {
+          username: "annaReal",
+          id: "1234",
+          firstName: "Anna",
+          lastName: "Real",
+          picturePath: user1,
+        },
+      },
+    ],
+    reviews: [
+      {
+        recipeId: {
+          title: "Itallian Pizza",
+          picturePath: Pizza,
+          rating: 4.8,
+          tags: ["pizza", "keto"],
+          userId: {
+            username: "annieReal",
+            id: "1234",
+            firstName: "Annie",
+            lastName: "Real",
+            picturePath: user2,
+          },
+          review: [1, 2, 3, 45, 2],
+        },
+        userReview:
+          "This is a great recipe. Would make it again. . It's not just a dish; it's a symphony of flavors that dance on my palate, creating a culinary masterpiece. ",
+        rating: 5,
+        timesMade: 1,
+        picturePath: Pizza,
+        isRecommend: true,
+      },
+      {
+        recipeId: {
+          title: "Sushi Pizza",
+          picturePath: Pizza,
+          rating: 4.9,
+          tags: ["pizza", "sushi"],
+          userId: {
+            username: "annieReal",
+            id: "1234",
+            firstName: "Annie",
+            lastName: "Real",
+            picturePath: user2,
+          },
+          review: [1, 2, 3, 45, 2],
+        },
+        userReview: "This is a great recipe",
+        rating: 5,
+        timesMade: 1,
+        picturePath: Pizza,
+        isRecommend: false,
+      },
+    ],
+    flavorProfile: ["vegetarian", "herb-lover", "cheese"],
+    caption: "vegan and vegetable lover | Food Blogger",
+  },
+  // {
+  //   username: "testuser03",
+  //   firstName: "mickey",
+  //   lastName: "Michelle",
+  //   email: "email.com",
+  //   picturePath: user2,
+  //   following: ["testuser02", "testuser03"],
+  //   followers: ["testuser02", "testuser03"],
+  //   recipes: ["testrecipe01", "testrecipe02"],
+  //   reviews: ["testreview01", "testreview02"],
+  //   flavorProfile: ["vegetarian", "herb-lover", "cheese"],
+  //   caption: "vegan and vegetable lover | Food Blogger",
+  // },
+];
