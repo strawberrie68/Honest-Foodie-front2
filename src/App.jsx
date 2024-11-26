@@ -1,7 +1,6 @@
 import "./App.css";
-import {Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-import Search from "./pages/navbar pages/search/search";
 import Explore from "./pages/navbar pages/explore/explore";
 import MyRecipe from "./pages/navbar pages/my recipes/myrecipes";
 import Saved from "./pages/navbar pages/saved/saved";
@@ -19,7 +18,7 @@ function App() {
         <Route path="/feed" element={<Feed />} />
 
         {/* Nav Links */}
-        <Route path="/search" element={<Search />} />
+
         <Route path="/explore" element={<Explore />} />
         <Route path="/myrecipe" element={<MyRecipe />} />
         <Route path="/saved" element={<Saved />} />
