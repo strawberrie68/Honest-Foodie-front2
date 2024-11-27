@@ -1,21 +1,12 @@
 import { PushPin } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { pinWhite, pinSize } from "../../shared/style";
-
+import { calculateAverageRating } from "../../utils/formatHelper";
 const ProfilePost = ({ pinned, post, reviewer }) => {
   //TO DO - need to add function to pin recipe
 
   const isReview = post && post.reviewerId;
   const recipe = isReview ? post.recipeId : post;
-
-  const calculateAverageRating = (reviews) => {
-    if (!reviews || reviews.length === 0) {
-      return 0;
-    }
-
-    const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
-    return totalRating / reviews.length;
-  };
 
   return (
     <div className=" mb-6 w-full lg:w-[165px]">
