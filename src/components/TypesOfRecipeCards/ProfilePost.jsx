@@ -7,13 +7,12 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
 
   const isReview = post && post.reviewerId;
   const recipe = isReview ? post.recipeId : post;
-  console.log("post",post)
-
+  console.log("post", post);
 
   return (
-    <div className=" mb-6 w-full">
+    <div className=" mb-6 w-full lg:w-[165px]">
       {post && (
-        <div className="profile-post h-auto w-full m-auto xs:w-[155px] sm:w-[165px] object-contain">
+        <div className="profile-post m-auto h-auto w-full object-contain md:w-[165px]">
           <div className="relative">
             <div className="flex">
               <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">
@@ -49,7 +48,7 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
                 <div className="ml-2 mt-1 flex items-baseline">
                   <div className="text-xxxs">{recipe.rating} ⭐️</div>
                   <div className="ml-2 text-xxxs font-thin">
-                    {recipe.reviews?.length} Reviews
+                    {recipe.reviews.length || 0} Reviews
                   </div>
                 </div>
               </div>
@@ -71,7 +70,7 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
             </div>
           </div>
           <div className="mx-1 mt-5">
-            <p className="text-sm font-semibold leading-4 tracking-wide truncate">
+            <p className="truncate text-sm font-semibold leading-4 tracking-wide">
               {recipe.title}
             </p>
             <p className="ml-2 mt-1 h-4 text-xxxs tracking-wide text-primary-gray-200">
@@ -80,7 +79,7 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
                 : " "}
             </p>
             {!pinned && (
-              <p className="user-review mt-1 text-[10px] text-gray-600 line-clamp-3">
+              <p className="user-review mt-1 line-clamp-3 text-[10px] text-gray-600">
                 {isReview ? post.userReview : post.description}
               </p>
             )}
