@@ -7,6 +7,8 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
 
   const isReview = post && post.reviewerId;
   const recipe = isReview ? post.recipeId : post;
+  console.log("post",post)
+
 
   return (
     <div className=" mb-6 w-full">

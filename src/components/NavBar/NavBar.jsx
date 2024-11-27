@@ -4,7 +4,7 @@ import { navigationIcons } from "./NavIconData";
 
 const NavBar = () => {
   return (
-    <div className=" icons-center bl-black-200 flex h-full w-20 flex-col border pt-10">
+    <div className="h-screen bg-white fixed w-24 border-r bl-black-200 pt-10 icons-center flex flex-col">
       <img src={logo} alt="logo" className="h-20 w-auto p-5" />
 
       <div className="nav-link mt-16 p-2">

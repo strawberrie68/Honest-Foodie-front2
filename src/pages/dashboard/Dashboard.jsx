@@ -10,25 +10,26 @@ import { categoriesIcon } from "../../shared/categoriesIcon";
 import ProfilePost from "../../components/TypesOfRecipeCards/ProfilePost";
 
 const Dashboard = () => {
-  const [recipes, setRecipes] = useState(null);
+  const [recipes, setRecipes] = useState([]);
 
-  const getRecipe = async () => {
-    const result = await axios
-      .get("http://localhost:3003/api/recipe/")
-      .then((response) => {
-        setRecipes(response.data);
-        return response.data;
-      });
+    const getRecipes = async () => {
+    try {
+      const result = await axios.get("http://localhost:3003/api/recipe/");
+      setRecipes(result.data || []);
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    }
   };
-  useEffect(() => {
-    getRecipe();
-  }, []);
 
-  console.log("this is dashbaord");
+  useEffect(() => {
+    getRecipes();
+  }, [])
+
+  console.log(recipes);
   return (
     <div className="flex">
       <NavBar />
-      <div className="w-full">
+      <div className="w-full ml-24">
         <div className="pt-4 m-auto mt-16 flex w-auto max-w-2xl flex-col items-center px-4 mb-0 pb-0">
           <div>
             <SearchBar />
@@ -63,7 +64,7 @@ const Dashboard = () => {
                 recipes
                   .slice(0, 3)
                   .map((recipe, id) => (
-                    <ProfilePost key={id} recipe={recipe} />
+                    <ProfilePost key={id} post={recipe} />
                   ))}
             </div>
           </div>
@@ -72,10 +73,9 @@ const Dashboard = () => {
             {/* TODO filter so that - show random recipes from different categories */}
             {/* TODO limit only 3 recipes */}
             <div className="mt-2 grid grid-cols-3 gap-5">
-              {recipes &&
-                [...recipes]
-                  .sort(() => Math.random() - 0.5)
-                  .map((recipe) => <ProfilePost recipe={recipe} />)}
+              {recipes.slice(0, 3).map((recipe) => (
+                <ProfilePost key={recipe._id} post={recipe} />
+              ))}
             </div>
           </div>
         </div>

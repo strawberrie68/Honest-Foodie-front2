@@ -8,6 +8,7 @@ import ProfilePost from "../../../components/TypesOfRecipeCards/ProfilePost";
 const Saved = () => {
   const user = useSelector((state) => state.auth.user);
   const savedRecipes = useSelector((state) => state.auth.user?.savedRecipes);
+
   console.log(savedRecipes);
   console.log(user);
   return (
