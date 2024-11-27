@@ -7,7 +7,15 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
 
   const isReview = post && post.reviewerId;
   const recipe = isReview ? post.recipeId : post;
-  console.log("post", post);
+
+  const calculateAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) {
+      return 0;
+    }
+
+    const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return totalRating / reviews.length;
+  };
 
   return (
     <div className=" mb-6 w-full lg:w-[165px]">
@@ -46,7 +54,9 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
                   </p>
                 </div>
                 <div className="ml-2 mt-1 flex items-baseline">
-                  <div className="text-xxxs">{recipe.rating} ⭐️</div>
+                  <div className="text-xxxs">
+                    {calculateAverageRating(post.reviews) || 0} ⭐️
+                  </div>
                   <div className="ml-2 text-xxxs font-thin">
                     {recipe.reviews.length || 0} Reviews
                   </div>
@@ -65,9 +75,11 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
                 </div>
               ))}
             </div>
-            <div className="basis-1/6 text-xxs font-medium">
-              {post.rating?.toFixed(1) + " ⭐️"}
-            </div>
+            {calculateAverageRating(recipe.reviews) !== 0 && (
+              <div className="basis-1/6 text-xxs font-medium">
+                {calculateAverageRating(recipe.reviews) + "⭐️"}
+              </div>
+            )}
           </div>
           <div className="mx-1 mt-5">
             <p className="truncate text-sm font-semibold leading-4 tracking-wide">

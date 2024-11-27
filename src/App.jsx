@@ -6,7 +6,7 @@ import Explore from "./pages/navbar pages/explore/explore";
 import MyRecipe from "./pages/navbar pages/my recipes/myrecipes";
 import Saved from "./pages/navbar pages/saved/saved";
 
-import Dashboard from "./pages/dashboard/dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import Profile from "./pages/profile/Profile";
 import Feed from "./pages/feed/feed";
 import RecipePage from "./pages/RecipePage/RecipePage";
