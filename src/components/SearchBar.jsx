@@ -4,7 +4,7 @@ const size = 18;
 
 const SearchBar = () => {
   return (
-    <div className="focus-within:outline-primary mx-auto flex h-[40px] w-full items-center justify-between rounded-3xl bg-neutral-100 py-4 pl-6 pr-3 focus-within:outline focus-within:outline-offset-2  sm:min-w-[400px]">
+    <div className="focus-within:outline-primary mx-auto flex h-[40px] w-full max-w-3xl items-center justify-between rounded-3xl bg-neutral-100 py-4 pl-6 pr-3 focus-within:outline focus-within:outline-offset-2 sm:min-w-[400px]">
       <MagnifyingGlass size={size} />
       <input
         type="text"
