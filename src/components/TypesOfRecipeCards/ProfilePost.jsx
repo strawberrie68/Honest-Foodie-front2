@@ -1,7 +1,7 @@
 import { PushPin } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { pinWhite, pinSize } from "../../shared/style";
-import { calculateAverageRating } from "../../utils/formatHelper";
+import { calculateAverageRating, sentenceCase } from "../../utils/formatHelper";
 const ProfilePost = ({ pinned, post, reviewer }) => {
   //TO DO - need to add function to pin recipe
 
@@ -74,7 +74,7 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
           </div>
           <div className="mx-1 mt-5">
             <p className="truncate text-sm font-semibold leading-4 tracking-wide">
-              {recipe.title}
+              {sentenceCase(recipe.title)}
             </p>
             <p className="ml-2 mt-1 h-4 text-xxxs tracking-wide text-primary-gray-200">
               {isReview && post.isRecommend
@@ -82,7 +82,7 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
                 : " "}
             </p>
             {!pinned && (
-              <p className="user-review mt-1 line-clamp-3 text-[10px] text-gray-600">
+              <p className="user-review line-clamp-3 text-[10px] text-gray-600">
                 {isReview ? post.userReview : post.description}
               </p>
             )}
