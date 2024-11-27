@@ -31,7 +31,7 @@ const Dashboard = () => {
       <NavBar />
       <div className="w-full">
         <div className="m-auto mb-0 mt-16 flex w-auto max-w-2xl flex-col items-center px-4 pb-0 pt-4">
-          <div>
+          <div className="w-3/4">
             <SearchBar />
           </div>
           <div className="h-50 m-auto mb-8 mt-10 flex w-full max-w-xl rounded-3xl bg-black bg-hero-ramen p-4 text-white">
