@@ -13,26 +13,64 @@ const RecipePage = () => {
   const starSize = 18;
 
   const { recipeId } = useParams();
+  console.log(recipeId);
   const [recipe, setRecipe] = useState(null);
-
-  const getRecipe = async () => {
-    const result = await axios
-
-      .get(`http://localhost:3003/api/recipe/${recipeId}`)
-      .then((response) => {
-        setRecipe(response.data);
-        return response.data;
-      });
-  };
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const getRecipe = async () => {
+      if (!recipeId) return;
+
+      try {
+        const response = await axios.get(
+          `http://localhost:3003/api/recipe/${recipeId}`,
+        );
+        setRecipe(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching recipe:", error.message);
+        setError("Failed to load recipe");
+        setIsLoading(false);
+      }
+    };
+
     getRecipe();
   }, [recipeId]);
+
+  if (isLoading) {
+    return (
+      <div className="flex">
+        <NavBar />
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
+  console.log(recipe);
+  // Render error state
+  if (error) {
+    return (
+      <div className="flex">
+        <NavBar />
+        <div>Error: {error}</div>
+      </div>
+    );
+  }
+
+  if (!recipe) {
+    return (
+      <div className="flex">
+        <NavBar />
+        <div>No recipe found</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex">
       <NavBar />
-      <div className="sm:mx-3">
+      <div className="pl-20 sm:mx-3">
         <div className="flex h-14 w-full border-b px-2 py-4 sm:hidden">
           <Link onClick={() => navigate(-1)}>
             <div className="basis-1/5">
@@ -41,22 +79,24 @@ const RecipePage = () => {
           </Link>
         </div>
         {/* Recipe description */}
-        <div className="sm:px-10 m-auto max-w-2xl">
-          <div className="sm:mt-16 flex flex-col sm:ml-6 max-w-lg w-full m-4">
-            <h1 className="text-2xl font-semibold">{recipe?.title}</h1>
-            <div className="flex mt-4 flex-col sm:flex-row">
-              <div className="basis-3/5">
+        <div className="m-auto max-w-2xl pl-8 pr-9 sm:p-10">
+          <div className="m-4 flex w-full max-w-lg flex-col sm:ml-6 sm:mt-16">
+            <h1 className="text-2xl font-semibold">
+              {recipe.title || "Untitled Recipe"}
+            </h1>
+            <div className="mt-4 flex flex-col sm:flex-row">
+              <div className="w-full md:basis-3/5">
                 <img
-                  className="rounded-xl object-cover w-full"
-                  src={recipe?.picturePath}
+                  className="rounded-xl object-cover"
+                  src={recipe.picturePath}
                 />
               </div>
-              <div className="basis-3/5 sm:px-6 flex flex-col justify-between">
+              <div className="flex basis-3/5 flex-col justify-between sm:px-6">
                 <div className="mt-10 sm:mt-0">
                   <div className="font-bold">Description</div>
                   <div className="flex flex-col">
                     {/* TODO get the stars to show the number of stars */}
-                    <div className="flex pt-3 pb-2">
+                    <div className="flex pb-2 pt-3">
                       <StarRatings
                         rating={recipe?.rating}
                         starRatedColor="#365585"
@@ -66,22 +106,22 @@ const RecipePage = () => {
                       />
                     </div>
                     {/* TODO get the number of reviews */}
-                    <div className="flex gap-1 text-sm mb-2 text-gray-500">
+                    <div className="mb-2 flex gap-1 text-sm text-gray-500">
                       <div className="font-bold sm:pl-2">
-                        {recipe?.review.length}
+                        {recipe?.review?.length || 0}
                       </div>
                       <div className="">reviews</div>
                     </div>
                   </div>
-                  <div className="mt-2 text-sm line-clamp-5 h-16">
+                  <div className="mt-2 line-clamp-5 h-16 text-sm">
                     {recipe?.description}
                   </div>
                 </div>
 
-                <div className="flex mt-6 items-center gap-2">
-                  <div className="flex border rounded-full">
+                <div className="mt-6 flex items-center gap-2">
+                  <div className="flex rounded-full border">
                     <img
-                      className="object-contain h-5 rounded-full"
+                      className="h-5 rounded-full object-contain"
                       src={recipe?.userId.picturePath}
                     />
                   </div>
@@ -90,12 +130,12 @@ const RecipePage = () => {
                   </div>
                 </div>
                 <div>
-                  <div className="mt-5 mb-4 font-medium text-gray-300">
+                  <div className="mb-4 mt-5 font-medium text-gray-300">
                     Recipe Info
                   </div>
-                  <div className="flex flex-col border rounded-xl p-4">
+                  <div className="flex flex-col rounded-xl border p-4">
                     <div className="border-xl">
-                      <div className="flex text-sm flex-col">
+                      <div className="flex flex-col text-sm">
                         <div className="flex gap-10">
                           <div className="flex flex-col">
                             <div className="font-bold"> Prep Time</div>
@@ -110,7 +150,7 @@ const RecipePage = () => {
                         </div>
                         <div className="mt-4">
                           <div className="font-bold">Tags</div>
-                          <div className="text-neutral-400 flex gap-2 ">
+                          <div className="flex gap-2 text-neutral-400 ">
                             {recipe?.tags.map((tag) => (
                               <p key={tag}>#{tag}</p>
                             ))}
@@ -127,64 +167,81 @@ const RecipePage = () => {
             </div>
           </div>
           {/* Ingredients */}
-          <div className="bg-primary-gray-100 mt-14 rounded-lg p-4 mx-3">
+          <div className="mx-3 mt-14 rounded-lg bg-primary-gray-100 p-4">
             <p className="text-lg font-semibold">Ingredients</p>
             <div className="mt-4">
-              {recipe?.ingredients.map((ingredientSection) => (
-                <div>
-                  <p className="mt-3 font-semibold text-neutral-500">
-                    {ingredientSection.ingredientsFor}
-                  </p>
-                  <ul>
-                    {ingredientSection.allIngredients.map((ingredient) => (
-                      <li className="leading-8">
-                        {new Fraction(ingredient.amount).toFraction(true)}{" "}
-                        {ingredient.unit} {ingredient.ingredient}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+              {recipe &&
+                recipe?.ingredients.map((ingredientSection) => (
+                  <div>
+                    <p className="mt-3 font-semibold text-neutral-500">
+                      {ingredientSection.section}
+                    </p>
+                    <ul>
+                      {ingredientSection &&
+                        ingredientSection?.items?.map((ingredient) => (
+                          <li className="leading-8">
+                            {new Fraction(ingredient.amount).toFraction(true)}{" "}
+                            {ingredient.unit} {ingredient.name}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                ))}
             </div>
           </div>
           {/* Recipe Instructions */}
           <div className="my-8 px-3">
-            <p className="text-xl font-semibold mb-4">Instructions</p>
+            <p className="mb-4 text-xl font-semibold">Instructions</p>
             <div>
-              {recipe?.steps.map((step, i) => (
-                <div>
-                  <p className="text-xl mt-8 font-medium text-neutral-600">
-                    {step.stepName}
-                  </p>
-                  <ol>
-                    {step.step.map((instruction, i) => (
-                      <li className="my-2 leading-8">
-                        <span className="font-medium">{i + 1}.</span>{" "}
-                        {instruction}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              ))}
+              {recipe &&
+                recipe?.steps.map((step, i) => (
+                  <div>
+                    <p className="mt-8 text-xl font-medium text-neutral-600">
+                      {step.stepName}
+                    </p>
+                    <ol>
+                      {step.step.map((instruction, i) => (
+                        <li className="my-2 leading-8">
+                          <span className="font-medium">{i + 1}.</span>{" "}
+                          {instruction}
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ))}
             </div>
           </div>
           <div className="mx-4">
-            <div className="flex gap-4 items-center">
+            <div className="flex items-center gap-4">
               <LightbulbFilament size={28} color="#d4d4d4" />
               <p className="text-lg my-2 font-medium text-neutral-400">Tips</p>
             </div>
 
-            <div className="border rounded-xl h-[200px] my-2"></div>
+            <div className="my-2 h-[200px] rounded-xl border p-4">
+              <p className="text-neutral-400">No tips yet</p>
+            </div>
           </div>
           {/* Recipe Reviews */}
           <div>
-            <p className="text-2xl mt-10 font-semibold mb-4">Reviews</p>
-            {/* TODO show recipe reviews here */}
-            {/* {recipe?.review.map((review) => (
-            <div>
-              <CommentCard />
+            <p className="mb-4 mt-10 text-2xl font-semibold">Reviews</p>
+            <div className="flex">
+              {recipe &&
+                recipe.reviews.map((review) => (
+                  <article className="w-1/2 rounded-lg border p-4">
+                    <div className="mb-4 h-48 w-full">
+                      <img
+                        src={review.picturePath}
+                        className="h-full w-full rounded object-cover"
+                        alt="Review image"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <span>{review.rating} ⭐️</span>
+                      <span>{review.userReview}</span>
+                    </div>
+                  </article>
+                ))}
             </div>
-          ))} */}
           </div>
         </div>
       </div>
