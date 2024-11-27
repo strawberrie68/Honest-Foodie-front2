@@ -7,28 +7,29 @@ import CategoryCard from "../../../components/CategoryCard";
 import ProfilePost from "../../../components/TypesOfRecipeCards/ProfilePost";
 const Saved = () => {
   const user = useSelector((state) => state.auth.user);
-  const savedRecipes = useSelector((state) => state.auth.user?.savedRecipes);
+  const savedRecipes =
+    useSelector((state) => state.auth.user?.savedRecipes) || [];
   console.log(savedRecipes);
   console.log(user);
   return (
     <div className="flex">
       <NavBar />
-      <div className="w-3/4  mt-10 flex p-4 h-full m-auto  flex-col">
-        <div className="flex justify-start flex-col w-full">
-          <div className="flex flex-col xs:flex-row justify-between items-center">
-            <h1 className="mt-6 font-bold text-xl text-start">Saved recipes</h1>
-            <div className="bg-primary-gray-100 w-[250px] h-10 rounded-3xl px-4 items-center flex justify-between mt-4">
+      <div className="m-auto mt-10 flex h-full w-3/4 flex-col p-4">
+        <div className="flex w-full flex-col justify-start">
+          <div className="flex flex-col items-center justify-between xs:flex-row">
+            <h1 className="mt-6 text-start text-xl font-bold">Saved recipes</h1>
+            <div className="mt-4 flex h-10 w-[250px] items-center justify-between rounded-3xl bg-primary-gray-100 px-4">
               <div className="flex gap-4">
                 <MagnifyingGlass size={18} />
                 <div className="text-xxs text-primary-gray-200">Search</div>
               </div>
               <div className="flex gap-2">
-                <div className="border-px border-l border-primary-gray-200 h-4 w-0"></div>
+                <div className="border-px h-4 w-0 border-l border-primary-gray-200"></div>
                 <SlidersHorizontal size={18} color="#A7A7A7" />
               </div>
             </div>
           </div>
-          <div className=" flex justify-start mt-8 gap-1 overflow-x-scroll  ">
+          <div className="mt-8 flex justify-start gap-1 overflow-x-scroll">
             {categoriesIcon.map((category, i) => (
               <CategoryCard key={i} icon={category.icon} name={category.name} />
             ))}
@@ -36,21 +37,21 @@ const Saved = () => {
         </div>
 
         <div>
-          <div className="mt-8 mb-10">
-            <p className="font-semibold text-lg">Pinned</p>
-            <div className="flex mt-2 h-72">
+          <div className="mb-10 mt-8">
+            <p className="text-lg font-semibold">Pinned</p>
+            <div className="mt-2 flex h-72">
               {/* TODO: Figure out how to filter by pinned */}
               {/* <ProfilePost pinned={true} /> */}
             </div>
           </div>
           <div className="border"></div>
 
-          <div className="mt-6 mb-20">
-            <p className="font-semibold text-lg">To make</p>
-            {/* TODO: How to save a recipe to make later */}
-            {user && savedRecipes.length > 0 ? (
-              savedRecipes?.map((recipe) => (
-                <div className="flex mt-2">
+          <div className="mb-20 mt-6">
+            <p className="text-lg font-semibold">To make</p>
+            {/* Check if there are saved recipes */}
+            {savedRecipes.length > 0 ? (
+              savedRecipes.map((recipe) => (
+                <div key={recipe._id} className="mt-2 flex">
                   <ProfilePost post={recipe} />
                 </div>
               ))

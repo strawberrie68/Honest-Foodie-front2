@@ -31,7 +31,7 @@ const Login = () => {
       );
 
       setError(null);
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setError(err.message || "Login failed");
     } finally {
@@ -58,7 +58,7 @@ const Login = () => {
       );
 
       setError(null);
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setError(err.message || "Test user login failed");
     } finally {

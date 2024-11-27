@@ -1,7 +1,7 @@
 import { PushPin } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { pinWhite, pinSize } from "../../shared/style";
-
+import { calculateAverageRating, sentenceCase } from "../../utils/formatHelper";
 const ProfilePost = ({ pinned, post, reviewer }) => {
   //TO DO - need to add function to pin recipe
 
@@ -9,9 +9,9 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
   const recipe = isReview ? post.recipeId : post;
 
   return (
-    <div className=" mb-6 w-full">
+    <div className=" mb-6 w-full lg:w-[165px]">
       {post && (
-        <div className="profile-post h-auto w-full m-auto xs:w-[155px] sm:w-[165px] object-contain">
+        <div className="profile-post m-auto h-auto w-full object-contain md:w-[165px]">
           <div className="relative">
             <div className="flex">
               <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">
@@ -45,9 +45,11 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
                   </p>
                 </div>
                 <div className="ml-2 mt-1 flex items-baseline">
-                  <div className="text-xxxs">{recipe.rating} ⭐️</div>
+                  <div className="text-xxxs">
+                    {calculateAverageRating(post.reviews) || 0} ⭐️
+                  </div>
                   <div className="ml-2 text-xxxs font-thin">
-                    {recipe.reviews?.length} Reviews
+                    {recipe.reviews.length || 0} Reviews
                   </div>
                 </div>
               </div>
@@ -64,13 +66,15 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
                 </div>
               ))}
             </div>
-            <div className="basis-1/6 text-xxs font-medium">
-              {post.rating?.toFixed(1) + " ⭐️"}
-            </div>
+            {calculateAverageRating(recipe.reviews) !== 0 && (
+              <div className="basis-1/6 text-xxs font-medium">
+                {calculateAverageRating(recipe.reviews) + "⭐️"}
+              </div>
+            )}
           </div>
           <div className="mx-1 mt-5">
-            <p className="text-sm font-semibold leading-4 tracking-wide truncate">
-              {recipe.title}
+            <p className="truncate text-sm font-semibold leading-4 tracking-wide">
+              {sentenceCase(recipe.title)}
             </p>
             <p className="ml-2 mt-1 h-4 text-xxxs tracking-wide text-primary-gray-200">
               {isReview && post.isRecommend
@@ -78,7 +82,7 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
                 : " "}
             </p>
             {!pinned && (
-              <p className="user-review mt-1 text-[10px] text-gray-600 line-clamp-3">
+              <p className="user-review line-clamp-3 text-[10px] text-gray-600">
                 {isReview ? post.userReview : post.description}
               </p>
             )}
