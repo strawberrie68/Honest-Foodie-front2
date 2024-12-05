@@ -27,7 +27,7 @@ const Login = () => {
         setLogin({
           user: loggedInResponse.user,
           token: loggedInResponse.token,
-        })
+        }),
       );
 
       setError(null);
@@ -44,8 +44,8 @@ const Login = () => {
 
     try {
       const testUserCredentials = {
-        username: "testuser",
-        password: "testpassword",
+        email: "test@example.com",
+        password: "test123",
       };
 
       const loggedInResponse = await loginUser(testUserCredentials);
@@ -54,7 +54,7 @@ const Login = () => {
         setLogin({
           user: loggedInResponse.user,
           token: loggedInResponse.token,
-        })
+        }),
       );
 
       setError(null);
@@ -67,7 +67,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col justify-center bg-white py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="text-center text-4xl font-bold text-black">
           Welcome Back
@@ -79,10 +79,10 @@ const Login = () => {
         {error && (
           <div
             role="alert"
-            className="mb-4 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg flex items-center space-x-3"
+            className="mb-4 flex items-center space-x-3 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800"
           >
             <svg
-              className="w-6 h-6 text-red-600"
+              className="h-6 w-6 text-red-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -100,35 +100,35 @@ const Login = () => {
         )}
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-10 px-6 shadow-xl rounded-xl border border-gray-200">
+          <div className="rounded-xl border border-gray-200 bg-white px-6 py-10 shadow-xl">
             <form
               className="space-y-6"
               onSubmit={handleSubmit(onSubmitHandler)}
             >
               <div>
                 <label
-                  htmlFor="username"
+                  htmlFor="email"
                   className="block text-sm font-medium text-gray-800"
                 >
-                  Username
+                  Email
                 </label>
                 <input
-                  id="username"
+                  id="email"
                   type="text"
-                  autoComplete="username"
-                  {...register("username", {
-                    required: "Username is required",
+                  autoComplete="email"
+                  {...register("email", {
+                    required: "email is required",
                     minLength: {
                       value: 3,
-                      message: "Username must be at least 3 characters",
+                      message: "email must be at least 3 characters",
                     },
                   })}
-                  className="mt-1 block w-full py-3 px-4 bg-white border border-gray-300 rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300 focus:border-amber-300"
-                  placeholder="Enter your username"
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
+                  placeholder="Enter your email"
                 />
-                {errors.username && (
+                {errors.email && (
                   <p className="mt-2 text-sm text-red-600">
-                    {errors.username.message}
+                    {errors.email.message}
                   </p>
                 )}
               </div>
@@ -151,7 +151,7 @@ const Login = () => {
                       message: "Password must be at least 6 characters",
                     },
                   })}
-                  className="mt-1 block w-full py-3 px-4 bg-white border border-gray-300 rounded-md text-black placeholder-gray-500 focus:outline-none  focus:ring-1 focus:ring-amber-300 focus:border-amber-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300  focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Enter your password"
                 />
                 {errors.password && (
@@ -165,11 +165,11 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
+                  className="group relative flex w-full justify-center rounded-md border border-transparent bg-black px-4 py-3 text-sm font-medium text-white transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
                 >
                   {isLoading ? (
                     <svg
-                      className="animate-spin h-5 w-5 text-white"
+                      className="h-5 w-5 animate-spin text-white"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -196,7 +196,7 @@ const Login = () => {
                   type="button"
                   onClick={handleTestUser}
                   disabled={isLoading}
-                  className="w-full py-3 px-4 border border-black text-black rounded-md hover:bg-gray-100 transition duration-300 ease-in-out"
+                  className="w-full rounded-md border border-black px-4 py-3 text-black transition duration-300 ease-in-out hover:bg-gray-100"
                 >
                   Test User Login
                 </button>

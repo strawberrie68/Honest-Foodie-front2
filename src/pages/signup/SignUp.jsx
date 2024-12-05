@@ -45,13 +45,16 @@ const SignUp = () => {
     try {
       const formattedData = {
         ...data,
-        firstName: data.fullName.split(" ")[0],
-        lastName: data.fullName.split(" ").slice(-1).join(" "),
-        picturePath:
+        // firstName: data.fullName.split(" ")[0],
+        // lastName: data.fullName.split(" ").slice(-1).join(" "),
+        profilePicture:
           "https://t4.ftcdn.net/jpg/05/89/93/27/360_F_589932782_vQAEAZhHnq1QCGu5ikwrYaQD0Mmurm0N.jpg",
       };
 
-      await axios.post("http://localhost:3003/api/users/", formattedData);
+      await axios.post(
+        "http://localhost:3003/api/users/register",
+        formattedData,
+      );
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Sign up failed");
@@ -61,7 +64,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col justify-center bg-white py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="text-center text-4xl font-bold text-black">
           Create Your Account
@@ -73,10 +76,10 @@ const SignUp = () => {
         {error && (
           <div
             role="alert"
-            className="mb-4 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg flex items-center space-x-3"
+            className="mb-4 flex items-center space-x-3 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800"
           >
             <svg
-              className="w-6 h-6 text-red-600"
+              className="h-6 w-6 text-red-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -94,7 +97,7 @@ const SignUp = () => {
         )}
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-10 px-6 shadow-xl rounded-xl border border-gray-200">
+          <div className="rounded-xl border border-gray-200 bg-white px-6 py-10 shadow-xl">
             <form
               className="space-y-6"
               onSubmit={handleSubmit(onSubmitHandler)}
@@ -110,7 +113,7 @@ const SignUp = () => {
                   id="username"
                   type="text"
                   {...register("username")}
-                  className="mt-1 block w-full py-3 px-4 bg-white border border-gray-300 rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300 focus:border-amber-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Enter your username"
                 />
                 {errors.username && (
@@ -120,7 +123,7 @@ const SignUp = () => {
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label
                   htmlFor="fullName"
                   className="block text-sm font-medium text-gray-800"
@@ -131,7 +134,7 @@ const SignUp = () => {
                   id="fullName"
                   type="text"
                   {...register("fullName")}
-                  className="mt-1 block w-full py-3 px-4 bg-white border border-gray-300 rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300 focus:border-amber-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Enter your full name"
                 />
                 {errors.fullName && (
@@ -139,7 +142,7 @@ const SignUp = () => {
                     {errors.fullName.message}
                   </p>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label
@@ -152,7 +155,7 @@ const SignUp = () => {
                   id="email"
                   type="email"
                   {...register("email")}
-                  className="mt-1 block w-full py-3 px-4 bg-white border border-gray-300 rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300 focus:border-amber-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Enter your email"
                 />
                 {errors.email && (
@@ -173,7 +176,7 @@ const SignUp = () => {
                   id="password"
                   type="password"
                   {...register("password")}
-                  className="mt-1 block w-full py-3 px-4 bg-white border border-gray-300 rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300 focus:border-amber-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Enter your password"
                 />
                 {errors.password && (
@@ -194,7 +197,7 @@ const SignUp = () => {
                   id="confirmPassword"
                   type="password"
                   {...register("confirmPassword")}
-                  className="mt-1 block w-full py-3 px-4 bg-white border border-gray-300 rounded-md text-black placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300 focus:border-amber-300"
+                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Confirm your password"
                 />
                 {errors.confirmPassword && (
@@ -208,7 +211,7 @@ const SignUp = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
+                  className="group relative flex w-full justify-center rounded-md border border-transparent bg-black px-4 py-3 text-sm font-medium text-white transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
                 >
                   {isSubmitting ? "Creating Account..." : "Sign Up"}
                 </button>

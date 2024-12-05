@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   const getRecipes = async () => {
     try {
-      const result = await axios.get(`${apiUrl}/api/recipe/`);
+      const result = await axios.get(`${apiUrl}/api/recipes/`);
       setRecipes(result.data || []);
     } catch (error) {
       console.error("Error fetching recipes:", error);
