@@ -4,18 +4,32 @@ import {
   CaretDown,
   Envelope,
 } from "@phosphor-icons/react/dist/ssr";
+import { useNavigate } from "react-router";
 
 const ProfileHeader = ({ user }) => {
-  const totalPosts = (user.recipes?.length ?? 0) + (user.reviews?.length ?? 0);
-  const followers = user.followers?.length ?? 0;
-  const following = user.following?.length ?? 0;
+  if (!user) {
+    return null;
+  }
+
+  const totalPosts =
+    (Array.isArray(user.recipes) ? user.recipes.length : 0) +
+    (Array.isArray(user.reviews) ? user.reviews.length : 0);
+  const followers = Array.isArray(user.followers) ? user.followers.length : 0;
+  const following = Array.isArray(user.following) ? user.following.length : 0;
+  let navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="profile-header m-auto w-full border-b pb-2">
       {/* TOP NAV BAR when on mobile, hidden on desktop */}
       <div className="flex h-14 w-full border-b px-2 py-4 md:hidden">
-        <div className="basis-1/5">
+        <div className="min-w-11 min-h-11 basis-1/5" onClick={handleBack}>
           <CaretLeft size={28} />
         </div>
+
         <div className="flex basis-3/5 justify-center font-bold">
           {user.username}
         </div>
@@ -25,13 +39,21 @@ const ProfileHeader = ({ user }) => {
       <div className="left-0 ml-4 mt-10 flex w-[360px] md:m-auto md:mb-6 md:mt-10 md:w-3/4">
         {/* User profile img when on desktop, hidden on mobile */}
         <div className="hidden md:block">
-          <img src={user.picturePath} className="h-36 w-36 min-w-[100px]" />
+          <img
+            src={user.picturePath}
+            className="h-36 w-36 min-w-[100px]"
+            alt={`${user.username}'s profile`}
+          />
         </div>
         <div className="md:ml-20">
           <div className="flex gap-1">
-            <img src={user.picturePath} className="h-20 w-20 md:hidden" />
+            <img
+              src={user.picturePath}
+              className="h-20 w-20 md:hidden"
+              alt={`${user.username}'s profile`}
+            />
             <div className="ml-4 flex flex-wrap gap-4 md:ml-0 md:w-[500px] md:gap-6">
-              <div className="flex h-7 basis-3 items-center justify-center rounded-lg bg-black px-4 py-1  text-xxs font-medium tracking-wide text-white md:h-8">
+              <div className="flex h-7 basis-3 items-center justify-center rounded-lg bg-black px-4 py-1 text-xxs font-medium tracking-wide text-white md:h-8">
                 {user.username}
               </div>
               <div className="following-number order-3 flex h-8 basis-3/4 items-center justify-center rounded-lg bg-primary-gray-50 px-4 py-1 text-xxs font-bold md:h-7 md:basis-1">
@@ -77,23 +99,24 @@ const ProfileHeader = ({ user }) => {
 
           {/* user taste id */}
           <div className="mt-4 text-xxs">
-            {user.flavorProfile?.length > 0 && (
-              <div>
-                <div className="font-medium text-primary-gray-500">
-                  taste id
+            {Array.isArray(user.flavorProfile) &&
+              user.flavorProfile.length > 0 && (
+                <div>
+                  <div className="font-medium text-primary-gray-500">
+                    taste id
+                  </div>
+                  <div id="flavor-profile-tags" className="mt-1 flex gap-2">
+                    {user.flavorProfile.map((flavor, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center justify-center rounded-xl border border-primary-gray-500 px-2 text-xxxs"
+                      >
+                        {flavor}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div id="flavor-profile-tags" className="mt-1 flex gap-2">
-                  {user.flavorProfile?.map((flavor, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center justify-center rounded-xl border border-primary-gray-500 px-2 text-xxxs"
-                    >
-                      {flavor}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>
