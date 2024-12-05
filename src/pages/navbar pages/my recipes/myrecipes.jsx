@@ -44,7 +44,7 @@ const MyRecipe = () => {
               </div>
             </div>
           </div>
-          <div className="mt-8 flex justify-start gap-1 overflow-x-scroll fade-right">
+          <div className="fade-right mt-8 flex justify-start gap-1 overflow-x-scroll">
             {categoriesIcon.map((category) => (
               <CategoryCard
                 key={category.id}
@@ -55,7 +55,7 @@ const MyRecipe = () => {
           </div>
         </div>
 
-        <div className="mt-4 my-recipes-container">
+        <div className="my-recipes-container mt-4">
           {user && recipes?.length > 0 ? (
             <div>
               {recipes?.map((recipe) => {
@@ -69,14 +69,14 @@ const MyRecipe = () => {
           ) : (
             <Link to="/add/recipe">
               <div
-                className="w-full flex flex-col mt-4 border px-4 pt-4 rounded-lg border-dashed h-[500px] items-center justify-center duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg before:ease relative overflow-hidden border-grey-500 bg-grey-500  shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-grey-500 hover:before:-translate-x-40"
+                className="before:ease border-grey-500 bg-grey-500 hover:shadow-grey-500 relative mt-4 flex h-[500px] w-full transform flex-col items-center justify-center overflow-hidden rounded-lg border border-dashed px-4 pt-4 shadow-2xl transition-all duration-500  ease-in-out before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:scale-105 hover:shadow-lg hover:before:-translate-x-40"
                 onMouseEnter={() => setPlusIconColor(ACTIVE_COLOR)}
                 onMouseLeave={() => setPlusIconColor(INACTIVE_COLOR)}
               >
-                <p className="font-medium text-lg tracking-wide">
+                <p className="text-lg font-medium tracking-wide">
                   No recipes yet
                 </p>
-                <p className="text-xxs mt-1 text-gray-500 ">Let's add some!</p>
+                <p className="mt-1 text-xxs text-gray-500 ">Let's add some!</p>
                 <Plus className="mt-8" size={80} color={plusIconColor} />
               </div>
             </Link>

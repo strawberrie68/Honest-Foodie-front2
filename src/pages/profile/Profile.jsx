@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import NavBar from "../../components/NavBar/NavBar";
 import ProfileHeader from "../../components/ProfileHeader";
@@ -12,15 +12,35 @@ import UserAllRecipes from "./ProfileSections/UserAllRecipes";
 import CategoryCard from "../../components/CategoryCard";
 import { categoriesIcon } from "../../shared/categoriesIcon";
 import { MagnifyingGlass, SlidersHorizontal } from "@phosphor-icons/react";
-import { users } from "../../shared/users";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import { ProfileSection } from "../../shared/profileSection";
 
 const Profile = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const params = useParams();
+  const { userId } = params;
+  const [user, setUser] = useState(null);
+
   const [selectedProfileSection, setselectedProfileSection] = useState(
-    ProfileSection.RECENT
+    ProfileSection.RECENT,
   );
-  //TODO: instead of hardcoding user, we will get the user from the backend
-  const user = users[0];
+
+  const getUser = async (userId) => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/users/${userId}`);
+      console.log(response.data);
+      setUser(response.data);
+    } catch (error) {
+      console.error("Could not get user", error);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      getUser(userId);
+    }
+  }, [userId]);
 
   function handleProfilePage(section) {
     setselectedProfileSection(section);
@@ -30,22 +50,23 @@ const Profile = () => {
     [ProfileSection.RECENT]: (
       <ProfileAllPosts
         user={user}
-        recipes={user.recipes}
-        reviews={user.reviews}
+        recipes={user?.recipes || []}
+        reviews={user?.reviews || []}
       />
     ),
     [ProfileSection.RECIPES]: (
       <UserAllRecipes
         user={user}
-        recipes={user.recipes}
-        reviews={user.reviews}
+        recipes={user?.recipes || []}
+        reviews={user?.reviews || []}
       />
     ),
     [ProfileSection.REVIEWS]: (
-      <UserReviews user={user} reviews={user.reviews} />
+      <UserReviews user={user} reviews={user?.reviews || []} />
     ),
     [ProfileSection.TASTE_ID]: <UserTastebuds user={user} />,
   };
+
   return (
     <div className="flex">
       <NavBar />
@@ -53,7 +74,7 @@ const Profile = () => {
         <div className="ProfileHeader">
           <ProfileHeader user={user} />
         </div>
-        <div className="m-auto mt-2 flex w-3/4 flex-col p-4">
+        <div className="m-auto mt-2 flex w-full flex-col p-4 lg:w-3/4">
           <div className="UserCategoryNav m-auto flex items-center justify-center">
             <UserCategoryNav
               handleClick={(section) => handleProfilePage(section)}
@@ -73,7 +94,7 @@ const Profile = () => {
           )}
 
           <div className="flex w-full flex-col justify-start">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-4">
               <h1 className="profile-title mt-6 text-start text-xl font-bold">
                 {selectedProfileSection}
               </h1>

@@ -49,7 +49,7 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
                     {calculateAverageRating(post.reviews) || 0} ⭐️
                   </div>
                   <div className="ml-2 text-xxxs font-thin">
-                    {recipe.reviews.length || 0} Reviews
+                    {recipe.reviews?.length || 0} Reviews
                   </div>
                 </div>
               </div>
@@ -74,7 +74,7 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
           </div>
           <div className="mx-1 mt-5">
             <p className="truncate text-sm font-semibold leading-4 tracking-wide">
-              {sentenceCase(recipe.title)}
+              {recipe.title && sentenceCase(recipe.title)}
             </p>
             <p className="ml-2 mt-1 h-4 text-xxxs tracking-wide text-primary-gray-200">
               {isReview && post.isRecommend
