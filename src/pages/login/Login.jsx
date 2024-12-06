@@ -25,7 +25,7 @@ const Login = () => {
 
       dispatch(
         setLogin({
-          user: loggedInResponse.user,
+          user: loggedInResponse.data,
           token: loggedInResponse.token,
         }),
       );
@@ -52,7 +52,7 @@ const Login = () => {
 
       dispatch(
         setLogin({
-          user: loggedInResponse.user,
+          user: loggedInResponse.data,
           token: loggedInResponse.token,
         }),
       );
