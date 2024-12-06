@@ -57,12 +57,13 @@ const SignUp = () => {
           "https://t4.ftcdn.net/jpg/05/89/93/27/360_F_589932782_vQAEAZhHnq1QCGu5ikwrYaQD0Mmurm0N.jpg",
       };
 
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:3003/api/users/register",
         formattedData,
       );
-      navigate("/login");
+
       setMessage(response.data.message || "Account created successfully!");
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       console.error("error", err.response.data);
       setMessage("Sign up failed");
