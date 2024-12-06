@@ -7,12 +7,6 @@ import { useState } from "react";
 
 const schema = yup.object().shape({
   username: yup.string().required("Username is required"),
-  fullName: yup
-    .string()
-    .required("Full name is required")
-    .test("two-words", "Full name must be at least two words", (value) => {
-      return value && value.split(" ").length >= 2;
-    }),
   email: yup
     .string()
     .email("Invalid email address")
@@ -45,8 +39,6 @@ const SignUp = () => {
     try {
       const formattedData = {
         ...data,
-        // firstName: data.fullName.split(" ")[0],
-        // lastName: data.fullName.split(" ").slice(-1).join(" "),
         profilePicture:
           "https://t4.ftcdn.net/jpg/05/89/93/27/360_F_589932782_vQAEAZhHnq1QCGu5ikwrYaQD0Mmurm0N.jpg",
       };
@@ -122,27 +114,6 @@ const SignUp = () => {
                   </p>
                 )}
               </div>
-
-              {/* <div>
-                <label
-                  htmlFor="fullName"
-                  className="block text-sm font-medium text-gray-800"
-                >
-                  Full Name
-                </label>
-                <input
-                  id="fullName"
-                  type="text"
-                  {...register("fullName")}
-                  className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
-                  placeholder="Enter your full name"
-                />
-                {errors.fullName && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.fullName.message}
-                  </p>
-                )}
-              </div> */}
 
               <div>
                 <label
