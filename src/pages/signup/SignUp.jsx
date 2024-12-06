@@ -25,20 +25,34 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState(null);
+
+  const password = watch("password");
+
   const navigate = useNavigate();
 
   const onSubmitHandler = async (data) => {
     setIsSubmitting(true);
+    setError(null);
+    setMessage(null);
+    const { confirmPassword, ...dataToSend } = data;
+
+    if (confirmPassword !== password) {
+      setMessage("Passwords do not match");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const formattedData = {
-        ...data,
+        ...dataToSend,
         profilePicture:
           "https://t4.ftcdn.net/jpg/05/89/93/27/360_F_589932782_vQAEAZhHnq1QCGu5ikwrYaQD0Mmurm0N.jpg",
       };
@@ -48,8 +62,11 @@ const SignUp = () => {
         formattedData,
       );
       navigate("/login");
+      setMessage(response.data.message || "Account created successfully!");
     } catch (err) {
-      setError(err.response?.data?.message || "Sign up failed");
+      console.error("error", err.response.data);
+      setMessage("Sign up failed");
+      setError(err.response.data.errors || "Sign up failed");
     } finally {
       setIsSubmitting(false);
     }
@@ -58,33 +75,53 @@ const SignUp = () => {
   return (
     <div className="flex min-h-screen flex-col justify-center bg-white py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-center text-4xl font-bold text-black">
+        <h1 className="text-center text-4xl font-bold text-black">
           Create Your Account
-        </h2>
+        </h1>
         <p className="mt-2 text-center text-sm text-gray-600">
           Sign up to get started
         </p>
-
-        {error && (
+        {message && (
           <div
             role="alert"
-            className="mb-4 flex items-center space-x-3 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800"
+            className={`mb-4 flex items-center space-x-3 rounded-lg border ${
+              message.includes("successfully")
+                ? "border-green-200 bg-green-50 text-green-800"
+                : "border-red-200 bg-red-50 text-red-800"
+            } p-4`}
           >
-            <svg
-              className="h-6 w-6 text-red-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{error}</span>
+            {message.includes("successfully") ? (
+              <svg
+                className="h-6 w-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="h-6 w-6 text-red-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            )}
+            <span>{message}</span>
           </div>
         )}
 
@@ -108,10 +145,8 @@ const SignUp = () => {
                   className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Enter your username"
                 />
-                {errors.username && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.username.message}
-                  </p>
+                {error && error.username && (
+                  <p className="mt-2 text-sm text-red-600">{error.username}</p>
                 )}
               </div>
 
@@ -129,10 +164,8 @@ const SignUp = () => {
                   className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Enter your email"
                 />
-                {errors.email && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.email.message}
-                  </p>
+                {error && error.email && (
+                  <p className="mt-2 text-sm text-red-600">{error.email}</p>
                 )}
               </div>
 
@@ -150,10 +183,8 @@ const SignUp = () => {
                   className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Enter your password"
                 />
-                {errors.password && (
-                  <p className="mt-2 text-sm text-red-600">
-                    {errors.password.message}
-                  </p>
+                {error && error.password && (
+                  <p className="mt-2 text-sm text-red-600">{error.password}</p>
                 )}
               </div>
 
@@ -171,9 +202,11 @@ const SignUp = () => {
                   className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-500 focus:border-amber-300 focus:outline-none focus:ring-1 focus:ring-amber-300"
                   placeholder="Confirm your password"
                 />
-                {errors.confirmPassword && (
+                {(errors.confirmPassword ||
+                  (watch("confirmPassword") &&
+                    watch("confirmPassword") !== password)) && (
                   <p className="mt-2 text-sm text-red-600">
-                    {errors.confirmPassword.message}
+                    {errors.confirmPassword?.message || "Passwords must match"}
                   </p>
                 )}
               </div>
