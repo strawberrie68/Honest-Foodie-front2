@@ -7,7 +7,7 @@ const NavBar = () => {
   return (
     <>
       {/* Desktop Navigation (Left Side) */}
-      <div className="bl-black-200 icons-center fixed left-0 top-0 hidden h-screen w-24 flex-col border-r bg-white pt-10 lg:flex">
+      <div className="bl-black-200 icons-center fixed left-0 top-0 hidden h-screen w-24 flex-col border-r bg-white pt-10 md:flex">
         <Link to="/">
           <img src={logo} alt="logo" className="h-20 w-auto p-5" />
         </Link>

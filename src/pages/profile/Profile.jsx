@@ -28,8 +28,8 @@ const Profile = () => {
 
   const getUser = async (userId) => {
     try {
-      const response = await axios.get(`${apiUrl}/api/users/${userId}`);
-      console.log(response.data);
+      const response = await axios.get(`${apiUrl}/api/users/${userId}/public`);
+      console.log(response.data.data);
       setUser(response.data);
     } catch (error) {
       console.error("Could not get user", error);
