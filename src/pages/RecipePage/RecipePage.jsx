@@ -80,15 +80,15 @@ const RecipePage = () => {
         </Link>
       </nav>
 
-      <main className="m-auto max-w-3xl pl-8  sm:mx-3 sm:p-10 lg:pl-24">
+      <main className="m-auto max-w-3xl px-2  sm:mx-3 sm:p-10 lg:pl-24">
         {/* Recipe description */}
-        <section className="m-4 flex w-full max-w-lg flex-col sm:ml-6 sm:mt-16">
+        <section className="m-4 flex w-full max-w-lg flex-col sm:ml-6 sm:mt-6">
           <h1 className="text-2xl font-semibold">
             {recipe.title || "Untitled Recipe"}
           </h1>
           <div className="mt-4 flex flex-col sm:flex-row">
             <img
-              className="w-full rounded-xl object-cover md:basis-3/5"
+              className="max-h-[440px] w-full rounded-xl object-cover md:basis-3/5"
               src={recipe.imageUrl}
             />
 
@@ -96,7 +96,6 @@ const RecipePage = () => {
               <div className="mt-10 sm:mt-0">
                 <h2 className="font-bold">Description</h2>
                 <div className="flex flex-col">
-                  {/* TODO get the stars to show the number of stars */}
                   <div className="flex pb-2 pt-3">
                     <StarRatings
                       rating={averageRating}
@@ -119,15 +118,17 @@ const RecipePage = () => {
                 </p>
               </div>
 
-              <div className="mt-6 flex items-center gap-2">
-                <img
-                  className="flex h-5 w-5 rounded-full border object-cover"
-                  src={recipe.user.profilePicture}
-                />
-                <span className="text-sm font-medium">
-                  {recipe.user.username}
-                </span>
-              </div>
+              <Link to={`/profile/${recipe.userId}`}>
+                <div className="group mt-6 flex items-center gap-2 ">
+                  <img
+                    className="flex h-5 w-5 rounded-full border object-cover"
+                    src={recipe.user.profilePicture}
+                  />
+                  <span className="text-sm font-medium group-hover:w-auto group-hover:border-b group-hover:border-black">
+                    {recipe.user.username}
+                  </span>
+                </div>
+              </Link>
 
               <div>
                 <h2 className="mb-4 mt-5 font-medium text-gray-300">
@@ -216,22 +217,24 @@ const RecipePage = () => {
         </section>
 
         {/* Recipe Reviews */}
-        <section>
+        <section className="mb-20 px-3">
           <h3 className="mb-4 mt-10 text-2xl font-semibold">Reviews</h3>
           <div className="flex gap-4">
             {recipe &&
               recipe.reviews.map((review) => (
-                <article className="w-1/2 rounded-lg border p-4">
+                <article className="w-2/4 rounded-lg border">
                   <div className="mb-4 h-48 w-full">
-                    {/* <img
-                        src={review.picturePath}
-                        className="h-full w-full rounded object-cover"
-                        alt="Review image"
-                      /> */}
+                    <img
+                      src={review.imageUrl}
+                      className="h-full w-full rounded object-cover"
+                      alt="Review image"
+                    />
                   </div>
-                  <div className="flex flex-col">
-                    <span>{review.rating} ⭐️</span>
-                    <span>{review.userText}</span>
+                  <div className="flex gap-4 p-2">
+                    <span className="text-gray-500">{review.reviewText}</span>
+                    <span className="basis-12 font-bold">
+                      {review.rating} ⭐️
+                    </span>
                   </div>
                 </article>
               ))}
