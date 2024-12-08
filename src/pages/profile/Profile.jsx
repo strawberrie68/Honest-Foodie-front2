@@ -21,18 +21,22 @@ const Profile = () => {
   const params = useParams();
   const { userId } = params;
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedProfileSection, setselectedProfileSection] = useState(
-    ProfileSection.RECENT,
+  const [selectedProfileSection, setSelectedProfileSection] = useState(
+    ProfileSection.ALL,
   );
 
   const getUser = async (userId) => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`${apiUrl}/api/users/${userId}/public`);
-      console.log(response.data.data);
+      console.log("API Response:", response.data);
       setUser(response.data);
     } catch (error) {
       console.error("Could not get user", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -42,27 +46,22 @@ const Profile = () => {
     }
   }, [userId]);
 
-  function handleProfilePage(section) {
-    setselectedProfileSection(section);
+  if (isLoading) {
+    return <div>Loading</div>;
   }
 
   const profileSectionComponents = {
-    [ProfileSection.RECENT]: (
+    [ProfileSection.ALL]: (
       <ProfileAllPosts
-        user={user}
-        recipes={user?.recipes || []}
-        reviews={user?.reviews || []}
+        recipes={user?.data.recipes || []}
+        reviews={user?.data.Review || []}
       />
     ),
     [ProfileSection.RECIPES]: (
-      <UserAllRecipes
-        user={user}
-        recipes={user?.recipes || []}
-        reviews={user?.reviews || []}
-      />
+      <UserAllRecipes recipes={user?.data.recipes || []} />
     ),
     [ProfileSection.REVIEWS]: (
-      <UserReviews user={user} reviews={user?.reviews || []} />
+      <UserReviews user={user} reviews={user?.data.Review || []} />
     ),
     [ProfileSection.TASTE_ID]: <UserTastebuds user={user} />,
   };
@@ -71,15 +70,15 @@ const Profile = () => {
     <div className="flex">
       <NavBar />
       <div className="w-full">
-        <div className="ProfileHeader">
-          <ProfileHeader user={user} />
-        </div>
-        <div className="m-auto mt-2 flex w-full flex-col p-4 lg:w-3/4">
-          <div className="UserCategoryNav m-auto flex items-center justify-center">
+        <ProfileHeader user={user} />
+        <div className="m-auto mt-2 flex w-full flex-col p-4 lg:w-4/5">
+          <div className="">
             <UserCategoryNav
-              handleClick={(section) => handleProfilePage(section)}
+              activeLabel={selectedProfileSection}
+              onNavItemClick={(section) => setSelectedProfileSection(section)}
             />
           </div>
+
           {/* Food category filter */}
           {selectedProfileSection !== ProfileSection.TASTE_ID && (
             <div className="mb-8 mt-8 flex justify-start gap-1 overflow-x-scroll ">
@@ -110,7 +109,7 @@ const Profile = () => {
               </div>
             </div>
             {/* Switch between user profile sections */}
-            <div className="mb-6 mt-2">
+            <div className="mb-6 mt-2 flex gap-2">
               {profileSectionComponents[selectedProfileSection]}
             </div>
           </div>
