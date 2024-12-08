@@ -2,8 +2,9 @@ import { PushPin } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { pinWhite, pinSize } from "../../shared/style";
 import { calculateAverageRating, sentenceCase } from "../../utils/formatHelper";
+import PostBadge from "../PostBadge/PostBadge";
 const ProfilePost = ({ pinned, post, reviewer }) => {
-  const isReview = post && post.reviewerId;
+  const isReview = post && post.reviewText;
   const recipe = isReview ? post.recipeId : post;
 
   if (!recipe) return null;
@@ -16,14 +17,8 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
       {post && (
         <div className="profile-post m-auto h-auto w-full object-contain md:w-[165px]">
           <figure className="relative">
-            {/* TODO: figure out the review */}
             {/* Badge */}
-            <div
-              className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md"
-              aria-label={isReview ? "This is a review" : "This is a recipe"}
-            >
-              <p className="text-xxs">{isReview ? "Review" : "Recipe"}</p>
-            </div>
+            <PostBadge isReview>Recipe</PostBadge>
             {/* TODO: figure out pinned */}
             {/* Pinned Icon */}
             {pinned && (
