@@ -33,7 +33,7 @@ const NavBar = () => {
       </div>
 
       {/* Mobile Navigation (Bottom) */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-around border-t bg-white py-3 lg:hidden">
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-around border-t bg-white py-3 md:hidden">
         {navigationIcons.map((icon) => (
           <NavLink
             key={icon.name}
