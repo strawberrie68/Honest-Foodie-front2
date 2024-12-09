@@ -2,7 +2,6 @@ import PostBadge from "../PostBadge/PostBadge";
 import { Link } from "react-router-dom";
 
 const ReviewPostCard = ({ review }) => {
-  console.log("this is review", review);
   return (
     <article className="mb-6 w-full lg:w-[165px]">
       {/* image part */}

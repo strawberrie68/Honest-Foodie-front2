@@ -6,8 +6,6 @@ const ProfileAllPosts = ({ recipes, reviews }) => {
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
   );
 
-  console.log("all post", allPosts);
-
   return (
     <div className="profile-all-posts mt-4 grid grid-cols-3 gap-2">
       {allPosts.map((post) =>
