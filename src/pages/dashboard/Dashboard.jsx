@@ -13,8 +13,8 @@ const PopularRecipes = ({ recipes }) => (
   <div className="flex w-full flex-col justify-start">
     <h2 className="mt-6 text-start text-xl font-bold">Popular</h2>
     <div className="mt-2 flex w-full flex-wrap gap-4 xs:grid xs:grid-cols-3 sm:gap-10">
-      {recipes.slice(0, 3).map((recipe, id) => (
-        <ProfilePost key={id} post={recipe} />
+      {recipes.slice(0, 3).map((recipe) => (
+        <ProfilePost key={`${recipe.id}-popular`} post={recipe} />
       ))}
     </div>
   </div>
@@ -25,7 +25,7 @@ const TrendingRecipes = ({ recipes }) => (
     <h2 className="text-md mt-4 text-start font-medium">Explore</h2>
     <div className="mt-2 grid grid-cols-3 gap-5">
       {recipes.slice(0, 3).map((recipe) => (
-        <ProfilePost key={recipe._id} post={recipe} />
+        <ProfilePost key={`${recipe.id}-trending`} post={recipe} />
       ))}
     </div>
   </div>
@@ -43,7 +43,6 @@ const Dashboard = () => {
   const getRecipes = async () => {
     try {
       const result = await axios.get(`${apiUrl}/api/recipes/feed`);
-      console.log(result);
       setRecipes(result.data.recipes || []);
     } catch (error) {
       console.error("Error fetching recipes:", error);
@@ -150,7 +149,7 @@ const Dashboard = () => {
               className={`CategoryCard ${
                 selectedCategory === name ? "border-white" : ""
               }`}
-              keyTab="0"
+              tabIndex="0"
             >
               <CategoryCard icon={icon} name={name} />
             </button>
