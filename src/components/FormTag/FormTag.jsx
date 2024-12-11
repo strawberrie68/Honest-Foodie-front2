@@ -1,5 +1,4 @@
-import { Trash, Plus, X } from "@phosphor-icons/react";
-import { inputStyle, labelStyle } from "../../constants/style";
+import { Plus, X } from "@phosphor-icons/react";
 const FormTag = ({ tagFields, appendTag, removeTag, register }) => {
   return (
     <div className="mt-6">
