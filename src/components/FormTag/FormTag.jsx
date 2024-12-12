@@ -1,8 +1,11 @@
 import { Plus, X } from "@phosphor-icons/react";
+import { labelStyle } from "../../constants/style";
 const FormTag = ({ tagFields, appendTag, removeTag, register }) => {
   return (
     <div className="mt-6">
-      <label className="text-lg font-semibold">Tags</label>
+      <label htmlFor="tags" className={`${labelStyle}`}>
+        Tags
+      </label>
       <div className="mb-2 flex flex-wrap gap-2">
         {tagFields.map((tag, index) => (
           <div

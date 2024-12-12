@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import { CaretLeft, PlusCircle } from "@phosphor-icons/react";
 import { labelStyle, inputStyle } from "../../constants/style";
 import NavBar from "../../components/NavBar/NavBar";
@@ -10,6 +12,9 @@ import FormSteps from "../../components/FormSteps/FormSteps";
 import FormTag from "../../components/FormTag/FormTag";
 
 const AddRecipe = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const user = useSelector((state) => state.auth.user);
+
   const {
     register,
     control,
@@ -97,14 +102,14 @@ const AddRecipe = () => {
         <NavBar />
       </div>
       <div className="w-full">
-        <div className="sticky top-0 z-30 flex h-14 w-full border-b bg-white px-2 py-4 md:hidden">
+        <nav className="sticky top-0 z-30 flex h-14 w-full border-b bg-white px-2 py-4 md:hidden">
           <Link onClick={() => navigate(-1)}>
             <div className="basis-1/5">
               <CaretLeft size={28} />
             </div>
           </Link>
-        </div>
-        <div className="mx-auto mt-6 flex w-full max-w-3xl flex-col gap-12 overflow-hidden px-3 md:mt-10">
+        </nav>
+        <main className="mx-auto mt-6 flex w-full max-w-3xl flex-col gap-12 overflow-hidden px-8 md:mt-10">
           <form onSubmit={handleSubmit(onSubmit)}>
             <h1 className="mb-8 mt-4 text-3xl font-semibold md:mt-8">
               Add Recipe
@@ -127,17 +132,19 @@ const AddRecipe = () => {
               {/* Recipe Information */}
               <div className="mb-20 flex flex-col gap-4">
                 <section className="flex flex-col gap-6">
-                  <div className="my-4 flex flex-col gap-2">
+                  <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-semibold text-gray-800">
                       Recipe Information
                     </h2>
                     <p className="text-gray-600">
-                      Please upload or link an image
+                      Please add additional information about your recipe
                     </p>
                   </div>
                   {/* Title */}
                   <div>
-                    <label className={`${labelStyle}`}>Recipe Name</label>
+                    <label htmlFor="Title" className={`${labelStyle}`}>
+                      Recipe Name
+                    </label>
                     <input
                       type="text"
                       {...register("title", {
@@ -155,33 +162,41 @@ const AddRecipe = () => {
                 </section>
 
                 {/* Description */}
-                <div>
-                  <label className={`${labelStyle}`}>Description</label>
+                <section>
+                  <label htmlFor="Description" className={`${labelStyle}`}>
+                    Description
+                  </label>
                   <textarea
                     type="text"
                     {...register("description")}
                     placeholder="A brief description of the recipe"
                     className={`min-h-[100px] w-full resize-none ${inputStyle}`}
                   />
-                </div>
+                </section>
 
                 {/* Servings */}
-                <section className="w-24">
-                  <label className={`${labelStyle}`}>Servings</label>
+                <section className="">
+                  <label htmlFor="Servings" className={`${labelStyle}`}>
+                    Servings
+                  </label>
                   <input
                     type="number"
                     {...register("servings", { min: 1 })}
                     placeholder="Number of servings"
-                    className={`${inputStyle}`}
+                    className={`${inputStyle} w-3/4 max-w-[150px]`}
                   />
                 </section>
+
                 {/* Cooking Time */}
                 <section className="mb-10 flex flex-col">
                   {/* Prep Time */}
                   <span className={`${labelStyle}`}>Cooking Time</span>
                   <div className="flex max-w-lg flex-col gap-8 rounded-lg border bg-gray-50 p-4 shadow-sm">
                     <div className="w-full md:w-3/4">
-                      <label className="mb-2 block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="PrepHours"
+                        className="mb-2 block text-sm font-medium text-gray-700"
+                      >
                         Preparation Time
                       </label>
                       <div className="flex gap-2">
@@ -202,7 +217,10 @@ const AddRecipe = () => {
                     </div>
                     <div className="w-full md:w-3/4">
                       {/* Cook Time */}
-                      <label className="mb-2 block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="cookHours"
+                        className="mb-2 block text-sm font-medium text-gray-700"
+                      >
                         Cooking Time
                       </label>
                       <div className="flex gap-2">
@@ -223,7 +241,7 @@ const AddRecipe = () => {
                   </div>
                 </section>
 
-                <div>
+                <section>
                   {/* Ingredients Sections */}
                   <div className="mt-6">
                     <h2 className="text-lg mb-4 font-semibold text-gray-700 ">
@@ -258,10 +276,9 @@ const AddRecipe = () => {
                       Section
                     </button>
                   </div>
-                </div>
+                </section>
 
                 {/* Steps */}
-
                 <FormSteps
                   stepFields={stepFields}
                   register={register}
@@ -278,7 +295,6 @@ const AddRecipe = () => {
                 />
 
                 {/* Submit Button */}
-
                 <button
                   class="group relative mt-8 h-14 w-full overflow-hidden rounded-full bg-black px-4 py-2 font-bold text-white shadow-md"
                   value="Add Recipe"
@@ -290,7 +306,7 @@ const AddRecipe = () => {
               </div>
             </div>
           </form>
-        </div>
+        </main>
       </div>
     </div>
   );

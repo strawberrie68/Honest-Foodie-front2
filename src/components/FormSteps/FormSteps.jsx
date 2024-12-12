@@ -4,7 +4,9 @@ const FormSteps = ({ stepFields, register, appendStep, removeStep }) => {
   return (
     <div className="mt-6">
       <div className="mb-4 flex items-center justify-between">
-        <label className={`${labelStyle}`}>Steps</label>
+        <label htmlFor="Steps" className={`${labelStyle}`}>
+          Steps
+        </label>
       </div>
 
       {/* Step Fields */}
