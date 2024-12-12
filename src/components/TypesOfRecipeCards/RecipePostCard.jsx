@@ -5,7 +5,7 @@ const RecipePostCard = ({ recipe }) => {
   console.log(recipe);
 
   return (
-    <article className="mb-6 w-full lg:w-[165px]">
+    <article className="mb-6 w-full sm:w-[165px]">
       {/* image part */}
       <div className="profile-post m-auto h-auto w-full object-contain md:w-[165px]">
         <PostBadge>Recipe</PostBadge>

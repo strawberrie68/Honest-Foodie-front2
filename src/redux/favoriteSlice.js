@@ -10,8 +10,6 @@ export const fetchFavorites = createAsyncThunk(
       const response = await axios.get(
         `${apiUrl}/api/users/${userId}/favorites`,
       );
-      console.log("fav fetched", response);
-      console.log("Fetched favorites response:", response.data);
 
       return response.data.data?.map((fav) => Number(fav.id)) || [];
     } catch (error) {
@@ -25,10 +23,7 @@ export const toggleFavoriteThunk = createAsyncThunk(
   async ({ userId, recipeId }, { rejectWithValue }) => {
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
-      const response = await axios.post(
-        `${apiUrl}/api/users/${userId}/favorites`,
-        { recipeId },
-      );
+      await axios.post(`${apiUrl}/api/users/${userId}/favorites`, { recipeId });
       return { recipeId: Number(recipeId) };
     } catch (error) {
       return rejectWithValue(error.response.data);

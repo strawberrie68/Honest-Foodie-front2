@@ -1,30 +1,53 @@
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   MagnifyingGlass,
   SlidersHorizontal,
   Plus,
+  PlusCircle,
 } from "@phosphor-icons/react";
-
+import { setPosts } from "../../../redux/authRedux";
 import { categoriesIcon } from "../../../shared/categoriesIcon";
 import NavBar from "../../../components/NavBar/NavBar";
 import CategoryCard from "../../../components/CategoryCard";
 import ProfilePost from "../../../components/TypesOfRecipeCards/ProfilePost";
+import RecipePostCard from "../../../components/TypesOfRecipeCards/RecipePostCard";
 
 // Constants
 const ICON_SIZE = 18;
 const ICON_BG_COLOR = "#A7A7A7";
 const INACTIVE_COLOR = "#F0F0F0";
-const ACTIVE_COLOR = "#9aaac2";
+const ACTIVE_COLOR = "#000000";
 
 const MyRecipe = () => {
-  const [plusIconColor, setPlusIconColor] = useState(INACTIVE_COLOR);
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);
-  const recipes = useSelector((state) => state.auth.user?.recipes);
-  console.log(recipes);
-  console.log(user);
+  const [plusIconColor, setPlusIconColor] = useState(INACTIVE_COLOR);
+
+  const fetchMyRecipes = async (userId) => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/users/${userId}/public`);
+      console.log("response", response.data.data.recipes);
+      dispatch(setPosts(response.data.data.recipes));
+    } catch (error) {
+      console.error("error fetching my recipes", error);
+    }
+  };
+
+  useEffect(() => {
+    if (user && user.id) {
+      fetchMyRecipes(user.id);
+    }
+  }, [user]);
+
+  const recipes = useSelector((state) => state.auth.posts);
+  console.log("recipes", recipes);
+
+  console.log(user.id);
 
   return (
     <div className="flex">
@@ -55,16 +78,26 @@ const MyRecipe = () => {
           </div>
         </div>
 
-        <div className="my-recipes-container mt-4">
-          {user && recipes?.length > 0 ? (
-            <div>
-              {recipes?.map((recipe) => {
-                return (
-                  <div>
-                    <ProfilePost post={recipe} />
-                  </div>
-                );
-              })}
+        <div className="mb-20 mt-4 w-full">
+          {recipes?.length > 0 ? (
+            <div className="flex w-full flex-col flex-wrap sm:flex-row">
+              {recipes?.map((recipe) => (
+                <div key={recipe.id || recipe._id}>
+                  <RecipePostCard recipe={recipe} />
+                </div>
+              ))}
+              <Link to="/add/recipe">
+                <article
+                  className="group flex h-[220px] w-full flex-col items-center justify-center gap-2 rounded-3xl border hover:border-2 hover:border-dashed hover:border-black sm:mx-4 sm:w-[155px]"
+                  onMouseEnter={() => setPlusIconColor(ACTIVE_COLOR)}
+                  onMouseLeave={() => setPlusIconColor(INACTIVE_COLOR)}
+                >
+                  <PlusCircle size={40} color={plusIconColor} />
+                  <span className="text-gray-500 group-hover:font-bold group-hover:text-black">
+                    Add recipe
+                  </span>
+                </article>
+              </Link>
             </div>
           ) : (
             <Link to="/add/recipe">
