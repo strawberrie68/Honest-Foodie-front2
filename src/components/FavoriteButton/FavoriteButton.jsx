@@ -1,5 +1,6 @@
 import { Heart } from "@phosphor-icons/react";
 import useFavorite from "../../hooks/useFavorite";
+import React from "react";
 
 const FavoriteButton = React.memo(({ recipeId }) => {
   const { user, isFavorite, isLoading, toggleFavorite } = useFavorite(recipeId);
