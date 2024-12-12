@@ -1,35 +1,15 @@
 import React, { useState } from "react";
 import { Images } from "@phosphor-icons/react";
+import { inputStyle, labelStyle } from "../../constants/style";
 
 const ImageUpload = ({ onImageChange }) => {
   const [previewImage, setPreviewImage] = useState("");
 
-  const handleImagePreview = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const imageDataUrl = reader.result;
-        setPreviewImage(imageDataUrl);
-        // Call the prop function to send image data to parent
-        if (onImageChange) {
-          onImageChange({
-            file: file,
-            previewUrl: imageDataUrl,
-          });
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleUrlChange = (e) => {
     const url = e.target.value;
     setPreviewImage(url);
-    // Call the prop function to send URL to parent
     if (onImageChange) {
       onImageChange({
-        file: null,
         previewUrl: url,
       });
     }
@@ -54,36 +34,21 @@ const ImageUpload = ({ onImageChange }) => {
               ) : (
                 <div className="text-center text-gray-400">
                   <Images size={48} className="mx-auto mb-2" />
-                  <p>Upload recipe image</p>
+                  <p>Paste an image URL</p>
                 </div>
               )}
             </div>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImagePreview}
-              className="hidden"
-              id="imageUpload"
-            />
-            <label
-              htmlFor="imageUpload"
-              className="mt-4 block w-full cursor-pointer rounded-lg border border-black 
-              bg-neutral-100 py-2 text-center font-bold text-black shadow-md transition-colors hover:bg-black hover:text-white"
-            >
-              Choose File
-            </label>
           </div>
 
           {/* Image URL Input */}
           <div className="flex-grow">
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Or paste image URL
+            <label htmlFor="image" className={`${labelStyle}`}>
+              Paste image URL
             </label>
             <input
               type="text"
               placeholder="https://example.com/recipe-image.jpg"
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 
-              focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full ${inputStyle}`}
               onChange={handleUrlChange}
             />
           </div>
