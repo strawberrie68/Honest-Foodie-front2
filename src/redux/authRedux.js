@@ -24,7 +24,7 @@ const authSlice = createSlice({
       }
     },
     setPosts: (state, action) => {
-      state.posts = action.payload.posts;
+      state.posts = action.payload;
     },
     setPost: (state, action) => {
       const updatedPosts = state.posts.map((post) => {
