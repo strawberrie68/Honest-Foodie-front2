@@ -1,9 +1,9 @@
-import { PushPin } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
-import { pinWhite, pinSize } from "../../shared/style";
 import { calculateAverageRating, sentenceCase } from "../../utils/formatHelper";
 import PostBadge from "../PostBadge/PostBadge";
-const ProfilePost = ({ pinned, post, reviewer }) => {
+import FavoriteButton from "../FavoriteButton/FavoriteButton";
+
+const ProfilePost = ({ post }) => {
   const isReview = post && post.reviewText;
   const recipe = isReview ? post.recipeId : post;
 
@@ -19,16 +19,6 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
           <figure className="relative">
             {/* Badge */}
             <PostBadge isReview>Recipe</PostBadge>
-            {/* TODO: figure out pinned */}
-            {/* Pinned Icon */}
-            {pinned && (
-              <div
-                className="pinned absolute right-4 top-4"
-                aria-label="Pinned Recipe"
-              >
-                <PushPin size={pinSize} color={pinWhite} weight="fill" />
-              </div>
-            )}
 
             {/* Recipe Image */}
             <figure>
@@ -71,35 +61,24 @@ const ProfilePost = ({ pinned, post, reviewer }) => {
           </figure>
 
           {/* Recipe Details */}
-          {/* Recipe Details */}
           <section className="mx-2 mt-1 flex flex-col">
-            <header className="flex items-center justify-between">
+            <header className="flex items-baseline justify-between">
               <h2
                 className="text-md mt-4 truncate font-semibold leading-4 tracking-wide"
                 aria-label="Recipe Title"
               >
                 {recipe.title && sentenceCase(recipe.title)}
               </h2>
-
-              {averageRating !== 0 && (
-                <p
-                  className="mt-1 min-w-[40px] text-sm font-medium"
-                  aria-label={`Overall rating: ${averageRating} stars`}
-                >
-                  {averageRating} ⭐️
-                </p>
-              )}
+              <FavoriteButton recipeId={recipe.id} />
             </header>
 
-            {/* Description or Review */}
-            {!pinned && (
-              <p
-                className="user-review mt-1 line-clamp-3 text-[10px] text-gray-600"
-                aria-label="Post description or review"
-              >
-                {isReview ? post.userReview : recipe.description}
-              </p>
-            )}
+            {/* Description */}
+            <p
+              className="user-review mt-1 line-clamp-3 text-[10px] text-gray-600"
+              aria-label="Post description or review"
+            >
+              {recipe.description}
+            </p>
 
             {/* Tags */}
             <div
