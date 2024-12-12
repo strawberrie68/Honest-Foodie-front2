@@ -1,5 +1,5 @@
 export const ProfileSection = {
-  RECENT: "Recent",
+  ALL: "All",
   RECIPES: "Recipes",
   REVIEWS: "Reviews",
   TASTE_ID: "Taste ID",

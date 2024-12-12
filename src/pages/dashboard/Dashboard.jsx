@@ -11,10 +11,10 @@ import { ingredientCategories } from "../../shared/ingredientCategories";
 
 const PopularRecipes = ({ recipes }) => (
   <div className="flex w-full flex-col justify-start">
-    <h1 className="mt-6 text-start text-xl font-bold">Popular</h1>
+    <h2 className="mt-6 text-start text-xl font-bold">Popular</h2>
     <div className="mt-2 flex w-full flex-wrap gap-4 xs:grid xs:grid-cols-3 sm:gap-10">
-      {recipes.slice(0, 3).map((recipe, id) => (
-        <ProfilePost key={id} post={recipe} />
+      {recipes.slice(0, 3).map((recipe) => (
+        <ProfilePost key={`${recipe.id}-popular`} post={recipe} />
       ))}
     </div>
   </div>
@@ -22,10 +22,10 @@ const PopularRecipes = ({ recipes }) => (
 
 const TrendingRecipes = ({ recipes }) => (
   <div className="flex w-full flex-col justify-start">
-    <h1 className="text-md mt-4 text-start font-medium">Explore</h1>
+    <h2 className="text-md mt-4 text-start font-medium">Explore</h2>
     <div className="mt-2 grid grid-cols-3 gap-5">
       {recipes.slice(0, 3).map((recipe) => (
-        <ProfilePost key={recipe._id} post={recipe} />
+        <ProfilePost key={`${recipe.id}-trending`} post={recipe} />
       ))}
     </div>
   </div>
@@ -42,8 +42,8 @@ const Dashboard = () => {
 
   const getRecipes = async () => {
     try {
-      const result = await axios.get(`${apiUrl}/api/recipe/`);
-      setRecipes(result.data || []);
+      const result = await axios.get(`${apiUrl}/api/recipes/feed`);
+      setRecipes(result.data.recipes || []);
     } catch (error) {
       console.error("Error fetching recipes:", error);
     }
@@ -72,46 +72,43 @@ const Dashboard = () => {
       filtered = filtered.filter(
         (recipe) =>
           recipe.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-          recipe.ingredients.some((section) =>
-            section.items.some((item) =>
-              item.name.toLowerCase().includes(searchValue.toLowerCase()),
+          recipe.sections.some((section) =>
+            section.ingredients.some((ingredient) =>
+              ingredient.name.toLowerCase().includes(searchValue.toLowerCase()),
             ),
           ) ||
           recipe.tags.some((tag) =>
-            tag.toLowerCase().includes(searchValue.toLowerCase()),
+            tag.tag.name.toLowerCase().includes(searchValue.toLowerCase()),
           ),
       );
     } else if (selectedCategory) {
-      // Category filtering
-      if (selectedCategory === "Trending") {
-        // No filtering for trending
-      } else if (selectedCategory === "Popular") {
-        // No filtering for popular
-      } else {
-        if (ingredientCategories[selectedCategory]) {
-          filtered = filtered.filter(
-            (recipe) =>
-              recipe.ingredients.some((section) =>
-                section.items.some((item) =>
-                  ingredientCategories[selectedCategory].some(
-                    (categoryIngredient) =>
-                      item.name
-                        .toLowerCase()
-                        .includes(categoryIngredient.toLowerCase()),
-                  ),
-                ),
-              ) ||
-              // Check tags
-              recipe.tags.some((tag) =>
+      if (selectedCategory === "Trending" || selectedCategory === "Popular") {
+        // No filtering for trending or popular
+        return;
+      }
+
+      if (ingredientCategories[selectedCategory]) {
+        filtered = filtered.filter(
+          (recipe) =>
+            recipe.sections.some((section) =>
+              section.ingredients.some((ingredient) =>
                 ingredientCategories[selectedCategory].some(
                   (categoryIngredient) =>
-                    tag
+                    ingredient.name
                       .toLowerCase()
                       .includes(categoryIngredient.toLowerCase()),
                 ),
               ),
-          );
-        }
+            ) ||
+            recipe.tags.some((tag) =>
+              ingredientCategories[selectedCategory].some(
+                (categoryIngredient) =>
+                  tag.tag.name
+                    .toLowerCase()
+                    .includes(categoryIngredient.toLowerCase()),
+              ),
+            ),
+        );
       }
     }
 
@@ -123,63 +120,67 @@ const Dashboard = () => {
   return (
     <div className="flex">
       <NavBar />
-      <div className="w-full">
-        <div className="m-auto mb-0 mt-16 flex w-auto max-w-2xl flex-col items-center px-4 pb-0 pt-4">
-          <div className="w-3/4">
-            <SearchBar onSearchChange={handleSearchChange} />
-          </div>
-          <div className="h-50 m-auto mb-8 mt-10 flex w-full max-w-xl rounded-3xl bg-black bg-hero-ramen p-4 text-white">
-            <Link to="/explore">
-              <div className="w-full p-2 sm:w-1/2">
-                <p className="text-2xl font-semibold">Trending Pages</p>
-                <p className="w-full text-xxs font-thin xs:w-2/4 sm:w-full">
-                  Check out some of the most popular recipes that are trending.
-                </p>
-                <div className="mt-2 flex w-1/2 items-center justify-center rounded-3xl bg-white p-1 transition duration-100 sm:mt-6">
-                  <p className="text-sm font-semibold text-black">Explore</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-          <div className="grid w-full grid-cols-4 gap-1 overflow-x-scroll sm:flex sm:w-[500px] sm:grid-cols-5">
-            {categoriesIcon.map(({ name, icon }) => (
-              <button
-                key={name}
-                onClick={() => handleCategoryClick(name)}
-                className={`CategoryCard ${
-                  selectedCategory === name ? "border-white" : ""
-                }`}
-              >
-                <CategoryCard icon={icon} name={name} />
-              </button>
-            ))}
-          </div>
-          {isSearching && filteredRecipes.length === 0 && (
-            <div className="w-full p-4">
-              <p className="mt-4 text-gray-500">No recipes found</p>
-            </div>
-          )}
-          {showDefault && (
-            <>
-              <PopularRecipes recipes={recipes} />
-              <TrendingRecipes recipes={recipes} />
-            </>
-          )}
-
-          {isSearching && (
-            <div className="flex w-full flex-col">
-              <h1 className="mb-2 mt-6 text-start text-xl font-bold">
-                Search Results
-              </h1>
-              <div className="mt-2 flex flex-col justify-start gap-2 sm:flex-row">
-                {filteredRecipes.map((recipe, id) => (
-                  <ProfilePost key={recipe._id || id} post={recipe} />
-                ))}
-              </div>
-            </div>
-          )}
+      <main className="m-auto mb-0 mt-16 flex w-full max-w-2xl flex-col items-center px-4 pb-0 pt-4">
+        <div className="w-3/4">
+          <SearchBar onSearchChange={handleSearchChange} />
         </div>
-      </div>
+
+        <section className="h-50 m-auto mb-8 mt-10 flex w-full max-w-xl rounded-3xl bg-black bg-hero-ramen p-4 text-white ">
+          <Link to="/explore">
+            <div className="w-full p-2 sm:w-1/2">
+              <h1 className="text-2xl font-semibold">Trending Pages</h1>
+              <p className="w-full text-xxs font-thin xs:w-2/4 sm:w-full">
+                Check out some of the most popular recipes that are trending.
+              </p>
+              <button className="mt-2 flex w-1/2 items-center justify-center rounded-3xl bg-white p-1 transition duration-100 sm:mt-6">
+                <span className="text-sm font-semibold text-black">
+                  Explore
+                </span>
+              </button>
+            </div>
+          </Link>
+        </section>
+
+        <nav className="grid w-full grid-cols-4 gap-1 overflow-x-scroll sm:flex sm:w-[500px] sm:grid-cols-5">
+          {categoriesIcon.map(({ name, icon }) => (
+            <button
+              key={name}
+              onClick={() => handleCategoryClick(name)}
+              className={`CategoryCard ${
+                selectedCategory === name ? "border-white" : ""
+              }`}
+              tabIndex="0"
+            >
+              <CategoryCard icon={icon} name={name} />
+            </button>
+          ))}
+        </nav>
+
+        {isSearching && filteredRecipes.length === 0 && (
+          <div className="w-full p-4">
+            <p className="mt-4 text-gray-500">No recipes found</p>
+          </div>
+        )}
+        {showDefault && (
+          <>
+            <PopularRecipes recipes={recipes} />
+            <TrendingRecipes recipes={recipes} />
+          </>
+        )}
+
+        {isSearching && (
+          <section className="flex w-full flex-col">
+            <h2 className="mb-2 mt-6 text-start text-xl font-bold">
+              Search Results
+            </h2>
+            <div className="mt-2 flex flex-col justify-start gap-2 sm:flex-row">
+              {filteredRecipes.map((recipe, id) => (
+                <ProfilePost key={recipe._id || id} post={recipe} />
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
     </div>
   );
 };

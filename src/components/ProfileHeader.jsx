@@ -1,3 +1,4 @@
+import React from "react";
 import {
   DotsThree,
   CaretLeft,
@@ -6,100 +7,162 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { useNavigate } from "react-router";
 
+// Separate component for mobile navigation
+const MobileNavigation = ({ username, onBack }) => (
+  <nav className="relative flex h-14 w-full items-center border-b px-2 lg:hidden">
+    <button
+      onClick={onBack}
+      className="absolute left-2 flex h-11 w-11 items-center justify-center"
+    >
+      <CaretLeft size={28} />
+      <span className="sr-only">Go back</span>
+    </button>
+    <h1 className="w-full text-center font-bold">{username}</h1>
+  </nav>
+);
+
+const ProfileActions = ({ username, profilePicture }) => (
+  <section className="flex w-full items-center gap-6 md:gap-1">
+    {/* Profile Image - Consistent Size Across Breakpoints */}
+    <img
+      src={profilePicture}
+      className="h-20 w-20 min-w-[80px] rounded-full object-cover md:hidden"
+      alt={`${username}'s profile`}
+    />
+
+    <div className="flex w-full flex-col gap-4 md:gap-6">
+      <div className="flex items-center justify-between">
+        {/* Username Badge - Responsive */}
+        <span className="flex h-7 items-center justify-center rounded-lg bg-black px-4 py-1 text-xxs font-medium tracking-wide text-white md:h-8">
+          {username}
+        </span>
+
+        {/* More Options - Responsive */}
+        <button className="flex-shrink-0">
+          <DotsThree size={24} />
+          <span className="sr-only">More Options</span>
+        </button>
+      </div>
+
+      <div className="flex justify-between gap-2">
+        {/* Following Dropdown - Responsive Width */}
+        <button className="flex	h-8 shrink basis-4/5 items-center justify-center rounded-lg bg-primary-gray-50 px-2 py-1 text-xxs font-bold sm:grow sm:px-3 md:h-7 md:px-4">
+          Following
+          <CaretDown size={16} className="ml-2 hidden xs:block" />
+        </button>
+
+        {/* Message Button - Responsive Width */}
+        <button className="flex h-8 basis-2 items-center justify-center gap-2 rounded-lg bg-primary-gray-50 px-2 py-1 text-xxs sm:px-3 md:h-7 md:px-4">
+          <Envelope size={16} className="sm:mr-0" />
+          <span className="hidden xs:block">Message</span>
+          <span className="sr-only">Send Message</span>
+        </button>
+      </div>
+    </div>
+  </section>
+);
+
+// Separate component for desktop user stats
+const DesktopUserStats = ({ recipes, followerCount, followingCount }) => (
+  <section className="mt-6 hidden gap-10 md:flex">
+    <div className="text-xs flex">
+      <span className="font-bold" id="posts-num">
+        {recipes?.length || 0}
+      </span>
+      <span className="ml-1">posts</span>
+    </div>
+    <div className="text-xs flex">
+      <span className="font-bold" id="followers-num">
+        {followerCount || 0}
+      </span>
+      <span className="ml-1">followers</span>
+    </div>
+    <div className="text-xs flex">
+      <span className="font-bold" id="followings-num">
+        {followingCount || 0}
+      </span>
+      <span className="ml-1">following</span>
+    </div>
+  </section>
+);
+
+// Separate component for mobile user stats
+const MobileUserStats = ({ recipes, followerCount, followingCount }) => (
+  <section className="mt-4 grid h-16 w-full grid-cols-3 justify-center border-t md:hidden">
+    <div className="flex flex-col items-center justify-center">
+      <span className="font-bold" id="mobile-posts-num">
+        {recipes?.length || 0}
+      </span>
+      <span className="text-neutral-400">posts</span>
+    </div>
+    <div className="flex flex-col items-center justify-center">
+      <span className="font-bold" id="mobile-followers-num">
+        {followerCount || 0}
+      </span>
+      <span className="text-neutral-400">followers</span>
+    </div>
+    <div className="flex flex-col items-center justify-center">
+      <span className="font-bold" id="mobile-followings-num">
+        {followingCount || 0}
+      </span>
+      <span className="text-neutral-400">following</span>
+    </div>
+  </section>
+);
+
+// Main ProfileHeader component
 const ProfileHeader = ({ user }) => {
+  const navigate = useNavigate();
+
   if (!user) {
     return null;
   }
-
-  const totalPosts =
-    (Array.isArray(user.recipes) ? user.recipes.length : 0) +
-    (Array.isArray(user.reviews) ? user.reviews.length : 0);
-  const followers = Array.isArray(user.followers) ? user.followers.length : 0;
-  const following = Array.isArray(user.following) ? user.following.length : 0;
-  let navigate = useNavigate();
 
   const handleBack = () => {
     navigate(-1);
   };
 
+  const {
+    username,
+    profilePicture,
+    bio,
+    recipes,
+    followerCount,
+    followingCount,
+  } = user.data;
+
   return (
-    <div className="profile-header m-auto w-full border-b pb-2">
-      {/* TOP NAV BAR when on mobile, hidden on desktop */}
-      <div className="flex h-14 w-full border-b px-2 py-4 md:hidden">
-        <div className="min-w-11 min-h-11 basis-1/5" onClick={handleBack}>
-          <CaretLeft size={28} />
-        </div>
+    <header className="profile-header m-auto w-full border-b pb-2">
+      {/* Mobile Navigation */}
+      <MobileNavigation username={username} onBack={handleBack} />
 
-        <div className="flex basis-3/5 justify-center font-bold">
-          {user.username}
-        </div>
-      </div>
+      {/* Profile Content */}
+      <div className="left-0 ml-4 mt-10 flex w-full md:mx-auto md:mb-6 md:mt-10 md:pl-36">
+        {/* Desktop Profile Image */}
+        <img
+          src={profilePicture}
+          className="hidden h-36 w-36 min-w-[100px] rounded-full object-cover md:block"
+          alt={`${username}'s profile`}
+        />
 
-      {/* PROFILE INFO */}
-      <div className="left-0 ml-4 mt-10 flex w-[360px] md:m-auto md:mb-6 md:mt-10 md:w-3/4">
-        {/* User profile img when on desktop, hidden on mobile */}
-        <div className="hidden md:block">
-          <img
-            src={user.picturePath}
-            className="h-36 w-36 min-w-[100px]"
-            alt={`${user.username}'s profile`}
-          />
-        </div>
         <div className="md:ml-20">
-          <div className="flex gap-1">
-            <img
-              src={user.picturePath}
-              className="h-20 w-20 md:hidden"
-              alt={`${user.username}'s profile`}
-            />
-            <div className="ml-4 flex flex-wrap gap-4 md:ml-0 md:w-[500px] md:gap-6">
-              <div className="flex h-7 basis-3 items-center justify-center rounded-lg bg-black px-4 py-1 text-xxs font-medium tracking-wide text-white md:h-8">
-                {user.username}
-              </div>
-              <div className="following-number order-3 flex h-8 basis-3/4 items-center justify-center rounded-lg bg-primary-gray-50 px-4 py-1 text-xxs font-bold md:h-7 md:basis-1">
-                Following
-                <CaretDown size={16} className="ml-2" />
-              </div>
-              <div className="order-4 flex h-8 basis-1 items-center justify-center rounded-lg bg-primary-gray-50 px-4 py-1 text-xxs md:h-7">
-                <Envelope size={16} />
-              </div>
-              <div className="order-2 mx-4 basis-10 md:order-4 md:mx-1">
-                <DotsThree size={24} />
-              </div>
-            </div>
-          </div>
+          {/* Profile Actions */}
+          <ProfileActions username={username} profilePicture={profilePicture} />
 
-          {/* user stats for desktop */}
-          <div className="mt-6 hidden gap-10 md:flex">
-            <div className="text-xs flex">
-              <div id="posts-num" className="font-bold">
-                {totalPosts}
-              </div>
-              <div className="ml-1">posts</div>
-            </div>
-            <div className="text-xs flex">
-              <div id="followers-num" className="font-bold">
-                {followers}
-              </div>
-              <div className="ml-1">followers</div>
-            </div>
-            <div className="text-xs flex">
-              <div id="followings-num" className="font-bold">
-                {following}
-              </div>
-              <div className="ml-1">following</div>
-            </div>
-          </div>
+          {/* Desktop User Stats */}
+          <DesktopUserStats
+            recipes={recipes}
+            followerCount={followerCount}
+            followingCount={followingCount}
+          />
 
-          {/* user description */}
-          <div className="mt-8 text-xxs">
-            <div className="font-semibold">{user.firstName}</div>
-            {user.caption}
-          </div>
+          {/* Biography */}
+          <p className="mt-8 text-xxs">{bio}</p>
 
-          {/* user taste id */}
-          <div className="mt-4 text-xxs">
-            {Array.isArray(user.flavorProfile) &&
+          {/* Flavor Profile (Optional) */}
+          {/* Uncomment and implement if needed */}
+
+          {/* {Array.isArray(user.flavorProfile) &&
               user.flavorProfile.length > 0 && (
                 <div>
                   <div className="font-medium text-primary-gray-500">
@@ -116,33 +179,19 @@ const ProfileHeader = ({ user }) => {
                     ))}
                   </div>
                 </div>
-              )}
-          </div>
+              )} */}
+
+          {/* <FlavorProfileSection flavorProfile={user.flavorProfile} /> */}
         </div>
       </div>
 
-      {/* user stats for mobile*/}
-      <div className="mt-4 grid h-16 w-full grid-cols-3 justify-center border-t md:hidden">
-        <div className="flex flex-col items-center justify-center">
-          <div id="posts-num" className="font-bold">
-            {totalPosts}
-          </div>
-          <div className="text-neutral-400">posts</div>
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <div id="followers-num" className="font-bold">
-            {followers}
-          </div>
-          <div className="text-neutral-400">followers</div>
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <div id="followings-num" className="font-bold">
-            {following}
-          </div>
-          <div className="text-neutral-400">following</div>
-        </div>
-      </div>
-    </div>
+      {/* Mobile User Stats */}
+      <MobileUserStats
+        recipes={recipes}
+        followerCount={followerCount}
+        followingCount={followingCount}
+      />
+    </header>
   );
 };
 
