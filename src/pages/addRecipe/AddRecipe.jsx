@@ -33,6 +33,7 @@ const AddRecipe = () => {
         { name: "", ingredients: [{ amount: "", unit: "", ingredient: "" }] },
       ],
       steps: [{ instruction: "" }],
+      user: "",
     },
   });
 
@@ -67,14 +68,29 @@ const AddRecipe = () => {
   const [recipeImage, setRecipeImage] = useState(null);
 
   const handleImageChange = (imageData) => {
+    console.log(imageData);
     setRecipeImage(imageData);
+  };
+
+  const postRecipe = async (recipeData) => {
+    try {
+      const response = await axios.post(`${apiUrl}/api/recipes`, {
+        recipeData,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("error adding recipe", error);
+    }
   };
 
   const onSubmit = (data) => {
     const formattedData = {
       ...data,
-      preparationTime: (data.prepHours || 0) * 60 + (data.prepMinutes || 0),
-      cookingTime: (data.cookHours || 0) * 60 + (data.cookMinutes || 0),
+      servings: Number(data.servings),
+      preparationTime: Number(
+        (data.prepHours || 0) * 60 + (data.prepMinutes || 0),
+      ),
+      cookingTime: Number((data.cookHours || 0) * 60 + (data.cookMinutes || 0)),
       sections: data.sections.map((section) => ({
         ...section,
         ingredients: section.ingredients.filter((ing) => ing.ingredient),
@@ -84,7 +100,8 @@ const AddRecipe = () => {
         instruction: step.instruction,
       })),
       tags: data.tags.filter((tag) => tag),
-      imageUrl: recipeImage,
+      imageUrl: recipeImage.previewUrl,
+      user: user.id,
     };
 
     delete formattedData.prepHours;
@@ -92,8 +109,7 @@ const AddRecipe = () => {
     delete formattedData.cookHours;
     delete formattedData.cookMinutes;
 
-    console.log(JSON.stringify(formattedData, null, 2));
-    // TODO: Send to backend
+    postRecipe(formattedData);
   };
 
   return (
