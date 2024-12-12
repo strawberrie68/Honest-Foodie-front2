@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
+import { fetchFavorites } from "../../redux/favoriteSlice";
 import NavBar from "../../components/NavBar/NavBar";
 import SearchBar from "../../components/SearchBar";
 import CategoryCard from "../../components/CategoryCard";
@@ -37,6 +39,8 @@ const Dashboard = () => {
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -48,6 +52,12 @@ const Dashboard = () => {
       console.error("Error fetching recipes:", error);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchFavorites(user.id));
+    }
+  }, [user, dispatch]);
 
   useEffect(() => {
     getRecipes();
