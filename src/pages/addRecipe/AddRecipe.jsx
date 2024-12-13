@@ -68,7 +68,6 @@ const AddRecipe = () => {
   const [recipeImage, setRecipeImage] = useState(null);
 
   const handleImageChange = (imageData) => {
-    console.log(imageData);
     setRecipeImage(imageData);
   };
 

@@ -2,8 +2,6 @@ import { sentenceCase } from "../../utils/formatHelper";
 import PostBadge from "../PostBadge/PostBadge";
 import { Link } from "react-router-dom";
 const RecipePostCard = ({ recipe }) => {
-  console.log(recipe);
-
   return (
     <article className="mb-6 w-full sm:w-[165px]">
       {/* image part */}

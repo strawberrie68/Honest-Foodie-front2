@@ -70,8 +70,6 @@ const Profile = () => {
     }
   };
 
-  console.log("search result", searchResults);
-
   const handleCategoryClick = (categoryName) => {
     setSearchValue("");
     setSelectedCategory(categoryName);

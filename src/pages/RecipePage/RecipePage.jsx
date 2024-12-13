@@ -13,7 +13,6 @@ const RecipePage = () => {
   const starSize = 18;
 
   const { recipeId } = useParams();
-  console.log(recipeId);
   const [recipe, setRecipe] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -46,9 +45,6 @@ const RecipePage = () => {
       </div>
     );
   }
-
-  console.log(recipe);
-  // Render error state
   if (error) {
     return (
       <div className="flex">

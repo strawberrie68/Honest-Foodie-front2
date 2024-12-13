@@ -31,7 +31,6 @@ const MyRecipe = () => {
   const fetchMyRecipes = async (userId) => {
     try {
       const response = await axios.get(`${apiUrl}/api/users/${userId}/public`);
-      console.log("response", response.data.data.recipes);
       dispatch(setPosts(response.data.data.recipes));
     } catch (error) {
       console.error("error fetching my recipes", error);
@@ -45,9 +44,6 @@ const MyRecipe = () => {
   }, [user]);
 
   const recipes = useSelector((state) => state.auth.posts);
-  console.log("recipes", recipes);
-
-  console.log(user.id);
 
   return (
     <div className="flex">
@@ -56,25 +52,7 @@ const MyRecipe = () => {
         <div className="flex w-full flex-col justify-start">
           <div className="flex flex-col items-center justify-between xs:flex-row">
             <h1 className="mt-6 text-start text-xl font-bold">My recipes</h1>
-            <div className="mt-4 flex h-10 w-[250px] items-center justify-between rounded-3xl bg-primary-gray-100 px-4">
-              <div className="flex gap-4">
-                <MagnifyingGlass size={ICON_SIZE} />
-                <div className="text-xxs text-primary-gray-200">Search</div>
-              </div>
-              <div className="flex gap-2">
-                <div className="border-px h-4 w-0 border-l border-primary-gray-200"></div>
-                <SlidersHorizontal size={ICON_SIZE} color={ICON_BG_COLOR} />
-              </div>
-            </div>
-          </div>
-          <div className="fade-right mt-8 flex justify-start gap-1 overflow-x-scroll">
-            {categoriesIcon.map((category) => (
-              <CategoryCard
-                key={category.id}
-                icon={category.icon}
-                name={category.name}
-              />
-            ))}
+            {/* <div className="mt-4 flex h-10 w-[250px] items-center justify-between rounded-3xl bg-primary-gray-100 px-4"></div> */}
           </div>
         </div>
 
