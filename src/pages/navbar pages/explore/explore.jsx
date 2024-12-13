@@ -105,6 +105,24 @@ const Explore = () => {
       setIsLoading(false);
     }
   };
+  const getFeaturedRecipes = async (query) => {
+    try {
+      setIsLoading(true);
+      let endpoint = `${apiUrl}/api/recipes/search`;
+      let params = {
+        query: query,
+        sortBy: "rating",
+        sortOrder: "desc",
+        limit: 10,
+      };
+      const { data } = await axios.get(endpoint, { params });
+      setSearchResults(data);
+    } catch (error) {
+      console.error("error getting the featured Recipe", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const getTrendingRecipes = async () => {
     try {
@@ -145,8 +163,11 @@ const Explore = () => {
     }
   }, [selectedCategory, page]);
 
+  const handleFeatureRecipe = (keyword) => {
+    getFeaturedRecipes(keyword);
+  };
+
   const handleCategoryClick = (categoryName) => {
-    console.log("Category clicked:", categoryName);
     setSearchValue("");
     setSelectedCategory(
       categoryName === selectedCategory ? null : categoryName,
@@ -201,14 +222,16 @@ const Explore = () => {
           <h2 id="featured-heading" className="mb-2 ml-2 text-sm font-bold">
             Featured
           </h2>
-          <div className="flex gap-4 overflow-x-auto">
+          <nav className="flex gap-4 overflow-x-auto">
             {featuredCategories.map((category, index) => (
               <FeaturedRecipeCard
                 key={`featured-${index}`}
                 category={category}
+                keyIndex={0}
+                onHandleFeatureRecipe={handleFeatureRecipe}
               />
             ))}
-          </div>
+          </nav>
         </section>
 
         <section aria-labelledby="browse-heading">
@@ -220,7 +243,7 @@ const Explore = () => {
             ) : searchValue || selectedCategory ? (
               <div className="mb-6 mt-8">
                 <h2 className="mb-4">Search Results</h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex w-full flex-col gap-3 sm:flex sm:flex-row sm:flex-wrap">
                   {searchResults.recipes?.map((recipe) => (
                     <ProfilePost key={recipe.id} post={recipe} />
                   ))}
@@ -242,7 +265,7 @@ const Explore = () => {
                 <h2 id="trending-heading" className="text-lg my-2 font-medium">
                   Trending
                 </h2>
-                <div className="grid grid-cols-1 gap-4 xs:grid-cols-2 sm:flex sm:grid-cols-4">
+                <div className="flex w-full flex-col gap-3 sm:flex sm:flex-row sm:flex-wrap">
                   {recipes?.map((recipe, index) => (
                     <ProfilePost key={`trending-${index}`} post={recipe} />
                   ))}
