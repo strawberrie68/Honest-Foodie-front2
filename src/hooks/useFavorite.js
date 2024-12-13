@@ -8,14 +8,15 @@ const useFavorite = (recipeId) => {
     (state) => state.favorites,
   );
 
-  const isFavorite = favorites.includes(Number(recipeId));
+  const isFavorite = favorites.some((fav) => fav.id === recipeId);
 
-  const toggleFavorite = () => {
+  const toggleFavorite = (recipe) => {
     if (!user || isLoading) return;
+
     dispatch(
       toggleFavoriteThunk({
         userId: user.id,
-        recipeId,
+        recipe,
       }),
     );
   };

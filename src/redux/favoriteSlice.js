@@ -1,4 +1,3 @@
-// favoriteSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -11,7 +10,7 @@ export const fetchFavorites = createAsyncThunk(
         `${apiUrl}/api/users/${userId}/favorites`,
       );
 
-      return response.data.data?.map((fav) => Number(fav.id)) || [];
+      return response.data.data || [];
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -20,11 +19,13 @@ export const fetchFavorites = createAsyncThunk(
 
 export const toggleFavoriteThunk = createAsyncThunk(
   "favorites/toggleFavorite",
-  async ({ userId, recipeId }, { rejectWithValue }) => {
+  async ({ userId, recipe }, { rejectWithValue }) => {
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
-      await axios.post(`${apiUrl}/api/users/${userId}/favorites`, { recipeId });
-      return { recipeId: Number(recipeId) };
+      await axios.post(`${apiUrl}/api/users/${userId}/favorites`, {
+        recipeId: recipe.id,
+      });
+      return recipe; // Return the full recipe object
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -34,7 +35,6 @@ export const toggleFavoriteThunk = createAsyncThunk(
 const favoriteSlice = createSlice({
   name: "favorites",
   initialState: {
-    // Use an array instead of Set
     recipes: [],
     isLoading: false,
     error: null,
@@ -47,7 +47,6 @@ const favoriteSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchFavorites.fulfilled, (state, action) => {
-      // Simply set the array of favorite recipe IDs
       state.recipes = action.payload;
       state.isLoading = false;
     });
@@ -61,17 +60,20 @@ const favoriteSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(toggleFavoriteThunk.fulfilled, (state, action) => {
-      const recipeId = action.payload.recipeId;
+      const recipe = action.payload;
       state.isLoading = false;
 
-      // Use array methods instead of Set methods
-      const index = state.recipes.indexOf(recipeId);
-      if (index > -1) {
-        // If found, remove it
-        state.recipes.splice(index, 1);
+      // Check if the recipe is already in favorites
+      const existingIndex = state.recipes.findIndex(
+        (fav) => fav.id === recipe.id,
+      );
+
+      if (existingIndex > -1) {
+        // Remove it if it exists
+        state.recipes.splice(existingIndex, 1);
       } else {
-        // If not found, add it
-        state.recipes.push(recipeId);
+        // Add it if it doesn't exist
+        state.recipes.push(recipe);
       }
     });
     builder.addCase(toggleFavoriteThunk.rejected, (state, action) => {

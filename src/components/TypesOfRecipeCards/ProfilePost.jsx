@@ -69,7 +69,7 @@ const ProfilePost = ({ post }) => {
               >
                 {recipe.title && sentenceCase(recipe.title)}
               </h2>
-              <FavoriteButton recipeId={recipe.id} />
+              <FavoriteButton recipe={recipe} />
             </header>
 
             {/* Description */}
