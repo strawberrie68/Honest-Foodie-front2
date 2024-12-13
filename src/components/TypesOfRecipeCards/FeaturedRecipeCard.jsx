@@ -1,20 +1,24 @@
-const FeaturedRecipeCard = ({ category }) => {
+import PostBadge from "../PostBadge/PostBadge";
+const FeaturedRecipeCard = ({ category, onHandleFeatureRecipe }) => {
+  const handleFeatureRecipe = (keyword) => {
+    onHandleFeatureRecipe(keyword);
+  };
   return (
-    <div className="h-auto w-[180px] object-contain">
+    <div
+      className="h-auto w-[180px] object-contain"
+      onClick={() => handleFeatureRecipe(category.keyword)}
+    >
       <div className="relative">
-        <div className="flex">
-          <div className="absolute m-4 rounded-3xl px-4 py-1 text-white backdrop-blur-md">
-            <p className="text-xxs">Trending</p>
-          </div>
-        </div>
+        <PostBadge>Trending</PostBadge>
         <img
           src={category.picturePath}
           className="h-[150px] w-full rounded-3xl object-cover"
+          alt={category.title}
         />
       </div>
-      <div className="mx-1 mt-2">
-        <p className="featured-recipe-title text-sm">{category.title}</p>
-      </div>
+      <span className="featured-recipe-title mx-1 mt-2 text-sm">
+        {category.title}
+      </span>
     </div>
   );
 };
