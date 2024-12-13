@@ -7,7 +7,7 @@ import { fetchFavorites } from "../../redux/favoriteSlice";
 import NavBar from "../../components/NavBar/NavBar";
 import SearchBar from "../../components/SearchBar";
 import CategoryCard from "../../components/CategoryCard";
-import { categoriesIcon } from "../../shared/categoriesIcon";
+import { categoriesIconOnly } from "../../shared/categoriesIconOnly";
 import ProfilePost from "../../components/TypesOfRecipeCards/ProfilePost";
 import { ingredientCategories } from "../../shared/ingredientCategories";
 
@@ -41,8 +41,30 @@ const Dashboard = () => {
   const [isSearching, setIsSearching] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const [popularRecipes, setPopularRecipe] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const apiUrl = import.meta.env.VITE_API_URL;
+
+  const getPopularRecipes = async () => {
+    try {
+      setIsLoading(true);
+
+      let endpoint = `${apiUrl}/api/recipes/search`;
+      let params = {
+        sortBy: "rating",
+        sortOrder: "desc",
+        limit: 3,
+      };
+
+      const { data } = await axios.get(endpoint, { params });
+      setPopularRecipe(data.recipes);
+    } catch (error) {
+      console.error("Error searching popular recipe:", error.response || error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const getRecipes = async () => {
     try {
@@ -60,7 +82,18 @@ const Dashboard = () => {
   }, [user, dispatch]);
 
   useEffect(() => {
-    getRecipes();
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        await Promise.all([getRecipes(), getPopularRecipes()]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleSearchChange = (value) => {
@@ -92,11 +125,6 @@ const Dashboard = () => {
           ),
       );
     } else if (selectedCategory) {
-      if (selectedCategory === "Trending" || selectedCategory === "Popular") {
-        // No filtering for trending or popular
-        return;
-      }
-
       if (ingredientCategories[selectedCategory]) {
         filtered = filtered.filter(
           (recipe) =>
@@ -152,7 +180,7 @@ const Dashboard = () => {
         </section>
 
         <nav className="grid w-full grid-cols-4 gap-1 overflow-x-scroll sm:flex sm:w-[500px] sm:grid-cols-5">
-          {categoriesIcon.map(({ name, icon }) => (
+          {categoriesIconOnly.map(({ name, icon }) => (
             <button
               key={name}
               onClick={() => handleCategoryClick(name)}
@@ -165,30 +193,29 @@ const Dashboard = () => {
             </button>
           ))}
         </nav>
-
-        {isSearching && filteredRecipes.length === 0 && (
-          <div className="w-full p-4">
-            <p className="mt-4 text-gray-500">No recipes found</p>
-          </div>
-        )}
-        {showDefault && (
-          <>
-            <PopularRecipes recipes={recipes} />
-            <TrendingRecipes recipes={recipes} />
-          </>
-        )}
-
         {isSearching && (
           <section className="flex w-full flex-col">
             <h2 className="mb-2 mt-6 text-start text-xl font-bold">
               Search Results
             </h2>
-            <div className="mt-2 flex flex-col justify-start gap-2 sm:flex-row">
+            <div className="mt-2 flex w-full flex-col gap-10 sm:flex sm:flex-row sm:flex-wrap">
               {filteredRecipes.map((recipe, id) => (
                 <ProfilePost key={recipe._id || id} post={recipe} />
               ))}
             </div>
           </section>
+        )}
+        {isSearching && filteredRecipes.length === 0 && (
+          <div className="mb-6 w-full">
+            <p className="text-gray-500">No recipes found</p>
+          </div>
+        )}
+
+        {showDefault && (
+          <>
+            <PopularRecipes recipes={popularRecipes} />
+            <TrendingRecipes recipes={recipes} />
+          </>
         )}
       </main>
     </div>
