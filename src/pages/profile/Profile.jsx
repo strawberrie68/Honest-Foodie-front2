@@ -16,7 +16,8 @@ import UserAllRecipes from "./ProfileSections/UserAllRecipes";
 import SearchBar from "../../components/SearchBar";
 
 const Profile = () => {
-  const apiUrl = import.meta.env.VITE_API_URL || "";
+  const apiUrl = process.env.VITE_API_URL || "";
+
   const params = useParams();
   const { userId } = params;
   const [profileUser, setProfileUser] = useState(null);
