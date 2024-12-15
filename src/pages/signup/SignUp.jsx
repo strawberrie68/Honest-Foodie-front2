@@ -22,6 +22,7 @@ const schema = yup.object().shape({
 });
 
 const SignUp = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const {
     register,
     handleSubmit,
@@ -58,7 +59,7 @@ const SignUp = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:3003/api/users/register",
+        `${apiUrl}/api/users/register`,
         formattedData,
       );
 
