@@ -6,9 +6,11 @@ import Fraction from "fraction.js";
 import { Link, useNavigate } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { calculateAverageRating } from "../../utils/formatHelper";
-import { Star, LightbulbFilament, CaretLeft } from "@phosphor-icons/react";
+import { LightbulbFilament, CaretLeft } from "@phosphor-icons/react";
 
 const RecipePage = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const navigate = useNavigate();
   const starSize = 18;
 
@@ -22,9 +24,7 @@ const RecipePage = () => {
       if (!recipeId) return;
 
       try {
-        const response = await axios.get(
-          `http://localhost:3003/api/recipes/${recipeId}`,
-        );
+        const response = await axios.get(`${apiUrl}/api/recipes/${recipeId}`);
         setRecipe(response.data);
         setIsLoading(false);
       } catch (error) {
