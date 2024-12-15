@@ -6,8 +6,8 @@ import {
   Envelope,
 } from "@phosphor-icons/react/dist/ssr";
 import { useNavigate } from "react-router";
+import FollowButton from "./FollowButton/FollowButton";
 
-// Separate component for mobile navigation
 const MobileNavigation = ({ username, onBack }) => (
   <nav className="relative flex h-14 w-full items-center border-b px-2 lg:hidden">
     <button
@@ -21,48 +21,53 @@ const MobileNavigation = ({ username, onBack }) => (
   </nav>
 );
 
-const ProfileActions = ({ username, profilePicture }) => (
-  <section className="flex w-full items-center gap-6 md:gap-1">
-    {/* Profile Image - Consistent Size Across Breakpoints */}
-    <img
-      src={profilePicture}
-      className="h-20 w-20 min-w-[80px] rounded-full object-cover md:hidden"
-      alt={`${username}'s profile`}
-    />
+const ProfileActions = ({
+  username,
+  profilePicture,
+  profileUser,
+  onFollowChange,
+}) => {
+  return (
+    <section className="flex w-full items-center gap-6 md:gap-1">
+      <img
+        src={profilePicture}
+        className="h-20 w-20 min-w-[80px] rounded-full object-cover md:hidden"
+        alt={`${username}'s profile`}
+      />
 
-    <div className="flex w-full flex-col gap-4 md:gap-6">
-      <div className="flex items-center justify-between">
-        {/* Username Badge - Responsive */}
-        <span className="flex h-7 items-center justify-center rounded-lg bg-black px-4 py-1 text-xxs font-medium tracking-wide text-white md:h-8">
-          {username}
-        </span>
+      <div className="flex w-full flex-col gap-4 md:gap-6">
+        <div className="flex items-center justify-between">
+          <span className="flex h-7 items-center justify-center rounded-lg bg-black px-4 py-1 text-xxs font-medium tracking-wide text-white md:h-8">
+            {username}
+          </span>
 
-        {/* More Options - Responsive */}
-        <button className="flex-shrink-0">
-          <DotsThree size={24} />
-          <span className="sr-only">More Options</span>
-        </button>
+          <button className="flex-shrink-0">
+            <DotsThree size={24} />
+            <span className="sr-only">More Options</span>
+          </button>
+        </div>
+
+        <div className="flex justify-between gap-2">
+          <FollowButton
+            userToFollow={{
+              id: profileUser.id,
+              username: profileUser.username,
+              profilePicture: profileUser.profilePicture,
+            }}
+            onFollowChange={onFollowChange}
+          />
+
+          <button className="flex h-8 basis-2 items-center justify-center gap-2 rounded-lg bg-primary-gray-50 px-2 py-1 text-xxs sm:px-3 md:h-7 md:px-4">
+            <Envelope size={16} className="sm:mr-0" />
+            <span className="hidden xs:block">Message</span>
+            <span className="sr-only">Send Message</span>
+          </button>
+        </div>
       </div>
+    </section>
+  );
+};
 
-      <div className="flex justify-between gap-2">
-        {/* Following Dropdown - Responsive Width */}
-        <button className="flex	h-8 shrink basis-4/5 items-center justify-center rounded-lg bg-primary-gray-50 px-2 py-1 text-xxs font-bold sm:grow sm:px-3 md:h-7 md:px-4">
-          Following
-          <CaretDown size={16} className="ml-2 hidden xs:block" />
-        </button>
-
-        {/* Message Button - Responsive Width */}
-        <button className="flex h-8 basis-2 items-center justify-center gap-2 rounded-lg bg-primary-gray-50 px-2 py-1 text-xxs sm:px-3 md:h-7 md:px-4">
-          <Envelope size={16} className="sm:mr-0" />
-          <span className="hidden xs:block">Message</span>
-          <span className="sr-only">Send Message</span>
-        </button>
-      </div>
-    </div>
-  </section>
-);
-
-// Separate component for desktop user stats
 const DesktopUserStats = ({ recipes, followerCount, followingCount }) => (
   <section className="mt-6 hidden gap-10 md:flex">
     <div className="text-xs flex">
@@ -86,7 +91,6 @@ const DesktopUserStats = ({ recipes, followerCount, followingCount }) => (
   </section>
 );
 
-// Separate component for mobile user stats
 const MobileUserStats = ({ recipes, followerCount, followingCount }) => (
   <section className="mt-4 grid h-16 w-full grid-cols-3 justify-center border-t md:hidden">
     <div className="flex flex-col items-center justify-center">
@@ -110,17 +114,12 @@ const MobileUserStats = ({ recipes, followerCount, followingCount }) => (
   </section>
 );
 
-// Main ProfileHeader component
-const ProfileHeader = ({ user }) => {
+const ProfileHeader = ({ user, onFollowChange }) => {
   const navigate = useNavigate();
 
   if (!user) {
     return null;
   }
-
-  const handleBack = () => {
-    navigate(-1);
-  };
 
   const {
     username,
@@ -129,16 +128,18 @@ const ProfileHeader = ({ user }) => {
     recipes,
     followerCount,
     followingCount,
+    id,
   } = user.data;
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   return (
     <header className="profile-header m-auto w-full border-b pb-2">
-      {/* Mobile Navigation */}
       <MobileNavigation username={username} onBack={handleBack} />
 
-      {/* Profile Content */}
       <div className="left-0 ml-4 mt-10 flex w-full md:mx-auto md:mb-6 md:mt-10 md:pl-36">
-        {/* Desktop Profile Image */}
         <img
           src={profilePicture}
           className="hidden h-36 w-36 min-w-[100px] rounded-full object-cover md:block"
@@ -146,46 +147,27 @@ const ProfileHeader = ({ user }) => {
         />
 
         <div className="md:ml-20">
-          {/* Profile Actions */}
-          <ProfileActions username={username} profilePicture={profilePicture} />
+          <ProfileActions
+            username={username}
+            profilePicture={profilePicture}
+            profileUser={{
+              id,
+              username,
+              profilePicture,
+            }}
+            onFollowChange={onFollowChange}
+          />
 
-          {/* Desktop User Stats */}
           <DesktopUserStats
             recipes={recipes}
             followerCount={followerCount}
             followingCount={followingCount}
           />
 
-          {/* Biography */}
           <p className="mt-8 text-xxs">{bio}</p>
-
-          {/* Flavor Profile (Optional) */}
-          {/* Uncomment and implement if needed */}
-
-          {/* {Array.isArray(user.flavorProfile) &&
-              user.flavorProfile.length > 0 && (
-                <div>
-                  <div className="font-medium text-primary-gray-500">
-                    taste id
-                  </div>
-                  <div id="flavor-profile-tags" className="mt-1 flex gap-2">
-                    {user.flavorProfile.map((flavor, i) => (
-                      <div
-                        key={i}
-                        className="flex items-center justify-center rounded-xl border border-primary-gray-500 px-2 text-xxxs"
-                      >
-                        {flavor}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )} */}
-
-          {/* <FlavorProfileSection flavorProfile={user.flavorProfile} /> */}
         </div>
       </div>
 
-      {/* Mobile User Stats */}
       <MobileUserStats
         recipes={recipes}
         followerCount={followerCount}
