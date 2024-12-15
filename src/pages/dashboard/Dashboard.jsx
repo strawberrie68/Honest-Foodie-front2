@@ -44,8 +44,7 @@ const Dashboard = () => {
   const [popularRecipes, setPopularRecipe] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const apiUrl = import.meta.env.VITE_API_URL;
-
+  const apiUrl = import.meta.env.VITE_API_URL || "";
   const getPopularRecipes = async () => {
     try {
       setIsLoading(true);

@@ -9,8 +9,7 @@ import { calculateAverageRating } from "../../utils/formatHelper";
 import { LightbulbFilament, CaretLeft } from "@phosphor-icons/react";
 
 const RecipePage = () => {
-  const apiUrl = import.meta.env.VITE_API_URL;
-
+  const apiUrl = import.meta.env.VITE_API_URL || "";
   const navigate = useNavigate();
   const starSize = 18;
 
