@@ -79,13 +79,6 @@
     "testMatch": [
       "**/__tests__/**/*.[jt]s?(x)",
       "**/?(*.)+(spec|test).[jt]s?(x)"
-    ],
-    "globals": {
-      "import.meta": {
-        "env": {
-          "VITE_API_URL": "http://test-api.example.com"
-        }
-      }
-    }
+    ]
   }
 }
