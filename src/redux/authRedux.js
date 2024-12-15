@@ -16,11 +16,40 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
     },
-    setFriends: (state, action) => {
+    setFollowing: (state, action) => {
       if (state.user) {
-        state.user.friends = action.payload.friends;
-      } else {
-        console.error("user friends non-existent :(");
+        state.user = {
+          ...state.user,
+          following: action.payload,
+        };
+      }
+    },
+    followUser: (state, action) => {
+      if (state.user) {
+        if (!state.user.following) {
+          state.user.following = [];
+        }
+
+        const isAlreadyFollowing = state.user.following.some(
+          (followedUser) => followedUser.id === action.payload.user.id,
+        );
+
+        if (!isAlreadyFollowing) {
+          state.user = {
+            ...state.user,
+            following: [...state.user.following, action.payload.user],
+          };
+        }
+      }
+    },
+    unfollowUser: (state, action) => {
+      if (state.user && state.user.following) {
+        state.user = {
+          ...state.user,
+          following: state.user.following.filter(
+            (followedUser) => followedUser.id !== action.payload.userId,
+          ),
+        };
       }
     },
     setPosts: (state, action) => {
@@ -36,7 +65,14 @@ const authSlice = createSlice({
   },
 });
 
-export const { setLogin, setLogout, setFriends, setPosts, setPost } =
-  authSlice.actions;
+export const {
+  setLogin,
+  setLogout,
+  setFollowing,
+  followUser,
+  unfollowUser,
+  setPosts,
+  setPost,
+} = authSlice.actions;
 
 export default authSlice.reducer;
