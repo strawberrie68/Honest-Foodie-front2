@@ -12,7 +12,7 @@ import Feed from "./pages/feed/Feed";
 import RecipePage from "./pages/RecipePage/RecipePage";
 import AddRecipe from "./pages/addRecipe/AddRecipe";
 import Login from "./pages/login/Login";
-import SignUp from "./pages/signup/Signup";
+import SignUp from "./pages/signup/SignUp";
 
 import "./App.css";
 function App() {
