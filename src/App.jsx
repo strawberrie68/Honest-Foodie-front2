@@ -8,10 +8,10 @@ import Saved from "./pages/navbar pages/saved/saved";
 
 import Dashboard from "./pages/dashboard/Dashboard";
 import Profile from "./pages/profile/Profile";
-import Feed from "./pages/feed/feed";
+import Feed from "./pages/feed/Feed";
 import RecipePage from "./pages/RecipePage/RecipePage";
 import AddRecipe from "./pages/addRecipe/AddRecipe";
-import Login from "./pages/login/login";
+import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/Signup";
 
 import "./App.css";
