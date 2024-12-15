@@ -22,7 +22,8 @@ const INACTIVE_COLOR = "#F0F0F0";
 const ACTIVE_COLOR = "#000000";
 
 const MyRecipe = () => {
-  const apiUrl = import.meta.env.VITE_API_URL || "";
+  const apiUrl = process.env.VITE_API_URL || "";
+
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);

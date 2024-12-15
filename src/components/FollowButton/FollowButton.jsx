@@ -5,7 +5,8 @@ import { followUser, unfollowUser, setFollowing } from "../../redux/authRedux";
 import { CaretDown } from "@phosphor-icons/react/dist/ssr";
 
 const FollowButton = ({ userToFollow, onFollowChange }) => {
-  const apiUrl = import.meta.env.VITE_API_URL || "";
+  const apiUrl = process.env.VITE_API_URL || "";
+
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.user);
 

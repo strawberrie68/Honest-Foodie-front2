@@ -12,7 +12,8 @@ import FormSteps from "../../components/FormSteps/FormSteps";
 import FormTag from "../../components/FormTag/FormTag";
 
 const AddRecipe = () => {
-  const apiUrl = import.meta.env.VITE_API_URL || "";
+  const apiUrl = process.env.VITE_API_URL || "";
+
   const user = useSelector((state) => state.auth.user);
 
   const {

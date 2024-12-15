@@ -12,7 +12,8 @@ import FeaturedRecipeCard from "../../../components/TypesOfRecipeCards/FeaturedR
 import { categoriesIcon } from "../../../shared/categoriesIcon";
 import { featuredCategories } from "../../../shared/featuredCategories";
 
-const apiUrl = import.meta.env.VITE_API_URL || "";
+const apiUrl = process.env.VITE_API_URL || "";
+
 const Explore = () => {
   const [recipes, setRecipes] = useState(null);
   const [searchValue, setSearchValue] = useState("");
