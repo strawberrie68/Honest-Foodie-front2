@@ -19,7 +19,7 @@ const Profile = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const params = useParams();
   const { userId } = params;
-  const [user, setUser] = useState(null);
+  const [profileUser, setProfileUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProfileSection, setSelectedProfileSection] = useState(
     ProfileSection.ALL,
@@ -33,16 +33,20 @@ const Profile = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
 
-  const getUser = async (userId) => {
+  const getProfileUser = async (userId) => {
     try {
       setIsLoading(true);
       const response = await axios.get(`${apiUrl}/api/users/${userId}/public`);
-      setUser(response.data);
+      setProfileUser(response.data);
     } catch (error) {
-      console.error("Could not get user", error);
+      console.error("Could not get profile user", error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleFollowChange = async (isFollowing) => {
+    await getProfileUser(userId);
   };
 
   const searchUser = async () => {
@@ -64,7 +68,7 @@ const Profile = () => {
       );
       setSearchResults(data);
     } catch (error) {
-      console.error("error searching users recipes", error);
+      console.error("error searching profile users recipes", error);
     } finally {
       setIsLoading(false);
     }
@@ -86,7 +90,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (userId) {
-      getUser(userId);
+      getProfileUser(userId);
     }
   }, [userId]);
 
@@ -112,24 +116,27 @@ const Profile = () => {
   const profileSectionComponents = {
     [ProfileSection.ALL]: (
       <ProfileAllPosts
-        recipes={user?.data.recipes || []}
-        reviews={user?.data.Review || []}
+        recipes={profileUser?.data.recipes || []}
+        reviews={profileUser?.data.Review || []}
       />
     ),
     [ProfileSection.RECIPES]: (
-      <UserAllRecipes recipes={user?.data.recipes || []} />
+      <UserAllRecipes recipes={profileUser?.data.recipes || []} />
     ),
     [ProfileSection.REVIEWS]: (
-      <UserReviews user={user} reviews={user?.data.Review || []} />
+      <UserReviews
+        user={profileUser}
+        reviews={profileUser?.data.Review || []}
+      />
     ),
-    [ProfileSection.TASTE_ID]: <UserTastebuds user={user} />,
+    [ProfileSection.TASTE_ID]: <UserTastebuds user={profileUser} />,
   };
 
   return (
     <div className="flex">
       <NavBar />
       <div className="w-full">
-        <ProfileHeader user={user} />
+        <ProfileHeader user={profileUser} onFollowChange={handleFollowChange} />
         <div className="m-auto mt-2 flex w-full flex-col p-4 lg:w-4/5">
           <UserCategoryNav
             activeLabel={selectedProfileSection}
