@@ -9,7 +9,7 @@ const ReviewPostCard = ({ review }) => {
         <PostBadge>Review</PostBadge>
 
         <figure>
-          <Link to={`/recipe/${review.id}`}>
+          <Link to={`/recipe/${review.recipe.id}`}>
             <img
               src={review.imageUrl}
               className="h-[220px] w-full rounded-3xl object-cover"
