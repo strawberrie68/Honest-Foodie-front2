@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { calculateAverageRating } from "../../utils/formatHelper";
 import { LightbulbFilament, CaretLeft } from "@phosphor-icons/react";
+import RecipeReviewForm from "../../components/RecipeReviewForm/RecipeReviewForm";
+import RecipeReviewCard from "../../components/RecipeReviewCard/RecipeReviewCard";
 
 const RecipePage = () => {
   const apiUrl = process.env.VITE_API_URL || "";
@@ -19,21 +21,20 @@ const RecipePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const getRecipe = async () => {
+    if (!recipeId) return;
+
+    try {
+      const response = await axios.get(`${apiUrl}/api/recipes/${recipeId}`);
+      setRecipe(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching recipe:", error.message);
+      setError("Failed to load recipe");
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const getRecipe = async () => {
-      if (!recipeId) return;
-
-      try {
-        const response = await axios.get(`${apiUrl}/api/recipes/${recipeId}`);
-        setRecipe(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching recipe:", error.message);
-        setError("Failed to load recipe");
-        setIsLoading(false);
-      }
-    };
-
     getRecipe();
   }, [recipeId]);
 
@@ -62,6 +63,20 @@ const RecipePage = () => {
       </div>
     );
   }
+
+  const handleSubmitReview = async (recipeReview) => {
+    console.log(recipeReview);
+    try {
+      const response = await axios.post(
+        `${apiUrl}/api/recipes/${recipeId}/reviews`,
+        recipeReview,
+      );
+      await getRecipe();
+      return response.data;
+    } catch (error) {
+      console.error("can not submit review", error);
+    }
+  };
 
   const averageRating = calculateAverageRating(recipe.reviews);
 
@@ -206,33 +221,22 @@ const RecipePage = () => {
             <LightbulbFilament size={28} color="#d4d4d4" />
             <h3 className="text-lg my-2 font-medium text-neutral-400">Tips</h3>
           </div>
-
           <div className="my-2 h-[200px] rounded-xl border p-4">
             <p className="text-neutral-400">No tips yet</p>
           </div>
         </section>
+        <hr className="my-8 opacity-60"></hr>
 
         {/* Recipe Reviews */}
-        <section className="mb-20 px-3">
-          <h3 className="mb-4 mt-10 text-2xl font-semibold">Reviews</h3>
-          <div className="flex gap-4">
+        <section className="mb-20 mt-24 px-3">
+          <RecipeReviewForm onHandleSubmitReview={handleSubmitReview} />
+          <h3 className="mt-24 text-xl font-bold text-gray-500">
+            Other reviews
+          </h3>
+          <div className="mt-8 flex flex-wrap gap-4">
             {recipe &&
               recipe.reviews.map((review) => (
-                <article className="w-2/4 rounded-lg border">
-                  <div className="mb-4 h-48 w-full">
-                    <img
-                      src={review.imageUrl}
-                      className="h-full w-full rounded object-cover"
-                      alt="Review image"
-                    />
-                  </div>
-                  <div className="flex gap-4 p-2">
-                    <span className="text-gray-500">{review.reviewText}</span>
-                    <span className="basis-12 font-bold">
-                      {review.rating} ⭐️
-                    </span>
-                  </div>
-                </article>
+                <RecipeReviewCard review={review} />
               ))}
           </div>
         </section>
