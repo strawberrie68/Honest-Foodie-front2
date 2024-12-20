@@ -1,20 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Initialize state from localStorage if available
+const initialState = {
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  token: localStorage.getItem("token") || null,
+  posts: [],
+};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    user: null,
-    token: null,
-    posts: [],
-  },
+  initialState,
   reducers: {
     setLogin: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+      // Persist auth state to localStorage
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      localStorage.setItem("token", action.payload.token);
     },
     setLogout: (state) => {
       state.user = null;
       state.token = null;
+      // Clear auth state from localStorage
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
     },
     setFollowing: (state, action) => {
       if (state.user) {
@@ -22,6 +31,8 @@ const authSlice = createSlice({
           ...state.user,
           following: action.payload,
         };
+        // Update user in localStorage when following changes
+        localStorage.setItem("user", JSON.stringify(state.user));
       }
     },
     followUser: (state, action) => {
@@ -39,6 +50,8 @@ const authSlice = createSlice({
             ...state.user,
             following: [...state.user.following, action.payload.user],
           };
+          // Update user in localStorage when following changes
+          localStorage.setItem("user", JSON.stringify(state.user));
         }
       }
     },
@@ -50,6 +63,8 @@ const authSlice = createSlice({
             (followedUser) => followedUser.id !== action.payload.userId,
           ),
         };
+        // Update user in localStorage when following changes
+        localStorage.setItem("user", JSON.stringify(state.user));
       }
     },
     setPosts: (state, action) => {
