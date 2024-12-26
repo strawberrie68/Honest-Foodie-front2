@@ -184,15 +184,18 @@ const RecipePage = () => {
           <h2 className="text-lg font-semibold">Ingredients</h2>
           <div className="mt-4">
             {recipe &&
-              recipe.sections.map((ingredientSection) => (
-                <div>
+              recipe.sections.map((ingredientSection, i) => (
+                <div key={`${ingredientSection.name}-${i}`}>
                   <p className="mt-3 font-semibold text-neutral-500">
                     {ingredientSection.name}
                   </p>
                   <ul>
                     {ingredientSection &&
-                      ingredientSection?.ingredients?.map((ingredient) => (
-                        <li className="leading-8">
+                      ingredientSection?.ingredients?.map((ingredient, i) => (
+                        <li
+                          className="leading-8"
+                          key={`${ingredient.name}-${i}`}
+                        >
                           {new Fraction(ingredient.quantity).toFraction(true)}{" "}
                           {ingredient.unit} {ingredient.name}
                         </li>
@@ -241,7 +244,7 @@ const RecipePage = () => {
           <div className="mt-8 flex flex-wrap gap-4">
             {recipe &&
               recipe.reviews.map((review) => (
-                <RecipeReviewCard review={review} />
+                <RecipeReviewCard review={review} key={review.id} />
               ))}
           </div>
         </section>
