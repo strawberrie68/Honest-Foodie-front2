@@ -17,7 +17,6 @@ const PostBadge = ({ children, isReview = false, className = "" }) => {
         ${className}
       `}
       aria-label={isReview ? "Review content" : "Recipe content"}
-      role="tag"
     >
       <span className="text-xxs font-medium">{children}</span>
     </div>
