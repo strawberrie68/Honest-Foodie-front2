@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     fontSize: {
       "2.5xs": "10px",
@@ -29,10 +29,9 @@ export default {
         "primary-gray-500": "#9E9E9E",
         "primary-blue-200": "#9aaac2",
         "primary-blue-500": "#365585",
-
       },
       backgroundImage: {
-        "hero-ramen": "url('/image 1.png')",
+        "hero-ramen": "url('/image 1.webp')",
         ramen: "url('/ramen.png')",
       },
       keyframes: {
@@ -69,6 +68,5 @@ export default {
         addUtilities(newUtilities, ["responsive", "hover"]);
       },
     ],
-  }
- 
+  },
 };
