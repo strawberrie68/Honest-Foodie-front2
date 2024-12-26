@@ -8,6 +8,7 @@ const RecipeReviewCard = ({ review }) => {
           src={imageUrl}
           className="h-full w-full rounded object-cover"
           alt="Review food"
+          loading="lazy"
         />
       </div>
       <div className="flex gap-4 p-2">

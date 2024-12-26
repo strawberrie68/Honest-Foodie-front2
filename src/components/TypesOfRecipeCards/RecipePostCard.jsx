@@ -14,6 +14,7 @@ const RecipePostCard = ({ recipe }) => {
               src={recipe.imageUrl}
               className="h-[220px] w-full rounded-3xl object-cover"
               alt={recipe.title}
+              loading="lazy"
             />
           </Link>
         </figure>

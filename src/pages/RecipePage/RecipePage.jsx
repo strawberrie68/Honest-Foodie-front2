@@ -138,6 +138,7 @@ const RecipePage = () => {
                     className="flex h-5 w-5 rounded-full border object-cover"
                     src={recipe.user.profilePicture}
                     alt={`${recipe.user.username} Profile`}
+                    loading="lazy"
                   />
                   <span className="text-sm font-medium group-hover:w-auto group-hover:border-b group-hover:border-black">
                     {recipe.user.username}

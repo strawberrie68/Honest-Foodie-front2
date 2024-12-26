@@ -25,6 +25,7 @@ const RecipeCard = ({ pinned, recipe }) => {
               src={recipe.picturePath}
               className="h-full w-full rounded-3xl object-cover"
               alt={recipe.title}
+              loading="lazy"
             />
             <div className="absolute bottom-2 ml-4 flex flex-col text-white">
               <div className="flex items-baseline">
@@ -32,6 +33,7 @@ const RecipeCard = ({ pinned, recipe }) => {
                   src={recipe.userId.profilePicture}
                   className="h-8 w-8 rounded-full border border-white"
                   alt={`${recipe.userId.username} Profile `}
+                  loading="lazy"
                 />
               </div>
               <div className="ml-2 mt-1 flex items-baseline">
