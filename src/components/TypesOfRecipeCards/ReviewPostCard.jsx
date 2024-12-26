@@ -13,6 +13,7 @@ const ReviewPostCard = ({ review }) => {
             <img
               src={review.imageUrl}
               className="h-[220px] w-full rounded-3xl object-cover"
+              alt={review.recipe.title}
             />
           </Link>
         </figure>

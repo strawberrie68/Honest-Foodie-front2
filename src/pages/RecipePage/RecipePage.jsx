@@ -84,10 +84,12 @@ const RecipePage = () => {
     <div className="flex flex-col">
       <NavBar />
       <nav className="flex h-14 w-full border-b px-2 py-4 sm:hidden">
-        <Link onClick={() => navigate(-1)} keyTab="0">
-          <div className="basis-1/5">
-            <CaretLeft size={28} />
-          </div>
+        <Link
+          onClick={() => navigate(-1)}
+          className="basis-1/5"
+          aria-label="Go back"
+        >
+          <CaretLeft size={28} />
         </Link>
       </nav>
 
@@ -101,6 +103,7 @@ const RecipePage = () => {
             <img
               className="max-h-[440px] w-full rounded-xl object-cover md:basis-3/5"
               src={recipe.imageUrl}
+              alt={recipe.title}
             />
 
             <section className="flex flex-col justify-between sm:px-6 md:basis-3/5">
@@ -134,6 +137,7 @@ const RecipePage = () => {
                   <img
                     className="flex h-5 w-5 rounded-full border object-cover"
                     src={recipe.user.profilePicture}
+                    alt={`${recipe.user.username} Profile`}
                   />
                   <span className="text-sm font-medium group-hover:w-auto group-hover:border-b group-hover:border-black">
                     {recipe.user.username}

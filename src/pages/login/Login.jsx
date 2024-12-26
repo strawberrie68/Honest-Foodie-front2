@@ -164,6 +164,7 @@ const Login = () => {
               <div className="space-y-4">
                 <button
                   type="submit"
+                  id="login-button"
                   disabled={isLoading}
                   className="group relative flex w-full justify-center rounded-md border border-transparent bg-black px-4 py-3 text-sm font-medium text-white transition duration-300 ease-in-out hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
                 >

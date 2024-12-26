@@ -24,16 +24,15 @@ const RecipeCard = ({ pinned, recipe }) => {
             <img
               src={recipe.picturePath}
               className="h-full w-full rounded-3xl object-cover"
+              alt={recipe.title}
             />
             <div className="absolute bottom-2 ml-4 flex flex-col text-white">
               <div className="flex items-baseline">
                 <img
                   src={recipe.userId.profilePicture}
                   className="h-8 w-8 rounded-full border border-white"
+                  alt={`${recipe.userId.username} Profile `}
                 />
-                {/* <p className=" ml-2 text-xxxs">
-                  by {`${recipe.userId.firstName} ${recipe.userId.lastName}`}
-                </p> */}
               </div>
               <div className="ml-2 mt-1 flex items-baseline">
                 <div className="text-xxxs ">{recipe.rating} ⭐️</div>

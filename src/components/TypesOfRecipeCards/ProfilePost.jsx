@@ -26,6 +26,7 @@ const ProfilePost = ({ post }) => {
                 <img
                   src={recipe.imageUrl}
                   className="h-[220px] w-full rounded-3xl object-cover"
+                  alt={recipe.title}
                 />
               </Link>
             </figure>
@@ -36,6 +37,7 @@ const ProfilePost = ({ post }) => {
                   <img
                     src={recipe.user.profilePicture}
                     className="h-8 w-8 rounded-full border border-white object-cover"
+                    alt={`${recipe.user.username} Profile `}
                   />
                   <figcaption className="ml-2 text-xxxs">
                     by {recipe.user.username}
