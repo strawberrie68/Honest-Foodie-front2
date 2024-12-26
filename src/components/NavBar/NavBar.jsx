@@ -9,7 +9,12 @@ const NavBar = () => {
       {/* Desktop Navigation (Left Side) */}
       <div className="bl-black-200 fixed left-0 top-0 hidden h-screen w-24 flex-col items-center border-r bg-white pt-10 md:flex">
         <Link to="/">
-          <img src={logo} alt="honest foodie logo" className="h-20 w-20 p-5" />
+          <img
+            src={logo}
+            alt="honest foodie logo"
+            className="h-20 w-20 p-5"
+            loading="lazy"
+          />
         </Link>
 
         <div className="nav-link mt-16 p-2">
