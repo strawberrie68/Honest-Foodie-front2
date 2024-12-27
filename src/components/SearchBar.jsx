@@ -16,7 +16,11 @@ const SearchBar = ({ onSearchChange }) => {
       aria-label="Search food and more"
       className="focus-within:outline-primary mx-auto flex h-[40px] w-full max-w-3xl items-center justify-between rounded-3xl bg-neutral-100 py-4 pl-6 pr-3 focus-within:outline focus-within:outline-offset-2 sm:min-w-[400px]"
     >
-      <MagnifyingGlass size={size} aria-hidden="true" />
+      <MagnifyingGlass
+        size={size}
+        aria-hidden="true"
+        data-testid="magnifying-glass-icon"
+      />
       <label htmlFor="search-input" className="sr-only">
         Search food, ingredients, users, cuisines, etc
       </label>
