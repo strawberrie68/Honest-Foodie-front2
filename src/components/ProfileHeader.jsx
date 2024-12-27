@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  DotsThree,
-  CaretLeft,
-  CaretDown,
-  Envelope,
-} from "@phosphor-icons/react/dist/ssr";
+import { DotsThree, CaretLeft, Envelope } from "@phosphor-icons/react/dist/ssr";
 import { useNavigate } from "react-router";
 import FollowButton from "./FollowButton/FollowButton";
 
@@ -97,19 +92,19 @@ const MobileUserStats = ({ recipes, followerCount, followingCount }) => (
       <span className="font-bold" id="mobile-posts-num">
         {recipes?.length || 0}
       </span>
-      <span className="text-neutral-400">posts</span>
+      <span className="text-neutral-500">posts</span>
     </div>
     <div className="flex flex-col items-center justify-center">
       <span className="font-bold" id="mobile-followers-num">
         {followerCount || 0}
       </span>
-      <span className="text-neutral-400">followers</span>
+      <span className="text-neutral-500">followers</span>
     </div>
     <div className="flex flex-col items-center justify-center">
       <span className="font-bold" id="mobile-followings-num">
         {followingCount || 0}
       </span>
-      <span className="text-neutral-400">following</span>
+      <span className="text-neutral-500">following</span>
     </div>
   </section>
 );

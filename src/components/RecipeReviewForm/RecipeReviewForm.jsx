@@ -86,6 +86,9 @@ const RecipeReviewForm = ({ onHandleSubmitReview }) => {
                     cursor-pointer text-2xl transition-colors duration-200
                   `}
                   onClick={() => handleRatingChange(index)}
+                  role="radio"
+                  aria-checked={index === formData.rating}
+                  aria-label={`Rate ${index} star${index > 1 ? "s" : ""}`}
                 >
                   <Star fill={index <= formData.rating ? "#FBBF24" : "none"} />
                 </button>

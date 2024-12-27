@@ -1,12 +1,7 @@
-import {
-  House,
-  Binoculars,
-  Book,
-  Archive,
-} from "@phosphor-icons/react";
+import { House, Binoculars, Book, Archive } from "@phosphor-icons/react";
 
 const activeColor = "#000000";
-const inactiveColor = "#9E9E9E";
+const inactiveColor = "#737373";
 const iconSize = 24;
 
 export const navigationIcons = [

@@ -147,7 +147,7 @@ const RecipePage = () => {
               </Link>
 
               <div>
-                <h2 className="mb-4 mt-5 font-medium text-gray-300">
+                <h2 className="mb-4 mt-5 font-medium text-gray-500">
                   Recipe Info
                 </h2>
                 <section className="border-xl flex flex-col rounded-xl border p-4 text-sm">
@@ -167,7 +167,7 @@ const RecipePage = () => {
                   </div>
                   <div className="mt-4">
                     <h3 className="font-bold">Tags</h3>
-                    <div className="flex gap-2 text-neutral-400 ">
+                    <div className="flex gap-2 text-neutral-500 ">
                       {recipe.tags.map((tag) => (
                         <span key={tag.tag.name}>#{tag.tag.name}</span>
                       ))}
@@ -180,13 +180,13 @@ const RecipePage = () => {
         </section>
 
         {/* Ingredients */}
-        <section className="mx-3 mt-14 rounded-lg bg-primary-gray-100 p-4">
+        <section className="mx-3 mt-14 rounded-lg bg-primary-gray-50 p-4">
           <h2 className="text-lg font-semibold">Ingredients</h2>
           <div className="mt-4">
             {recipe &&
               recipe.sections.map((ingredientSection, i) => (
                 <div key={`${ingredientSection.name}-${i}`}>
-                  <p className="mt-3 font-semibold text-neutral-500">
+                  <p className="mt-3 font-semibold text-neutral-600">
                     {ingredientSection.name}
                   </p>
                   <ul>
@@ -227,10 +227,10 @@ const RecipePage = () => {
         <section className="mx-4">
           <div className="flex items-center gap-4">
             <LightbulbFilament size={28} color="#d4d4d4" />
-            <h3 className="text-lg my-2 font-medium text-neutral-400">Tips</h3>
+            <h3 className="text-lg my-2 font-medium text-neutral-500">Tips</h3>
           </div>
           <div className="my-2 h-[200px] rounded-xl border p-4">
-            <p className="text-neutral-400">No tips yet</p>
+            <p className="text-neutral-500">No tips yet</p>
           </div>
         </section>
         <hr className="my-8 opacity-60"></hr>
@@ -238,7 +238,7 @@ const RecipePage = () => {
         {/* Recipe Reviews */}
         <section className="mb-20 mt-24 px-3">
           <RecipeReviewForm onHandleSubmitReview={handleSubmitReview} />
-          <h3 className="mt-24 text-xl font-bold text-gray-500">
+          <h3 className="mt-24 text-xl font-bold text-gray-700">
             Other reviews
           </h3>
           <div className="mt-8 flex flex-wrap gap-4">
