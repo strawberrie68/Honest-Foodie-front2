@@ -9,6 +9,7 @@ import { calculateAverageRating } from "../../utils/formatHelper";
 import { LightbulbFilament, CaretLeft } from "@phosphor-icons/react";
 import RecipeReviewForm from "../../components/RecipeReviewForm/RecipeReviewForm";
 import RecipeReviewCard from "../../components/RecipeReviewCard/RecipeReviewCard";
+import ResponsiveImage from "../../utils/ResponsiveImage";
 
 const RecipePage = () => {
   const apiUrl = process.env.VITE_API_URL || "";
@@ -100,10 +101,13 @@ const RecipePage = () => {
             {recipe.title || "Untitled Recipe"}
           </h1>
           <div className="mt-4 flex flex-col sm:flex-row">
-            <img
-              className="max-h-[440px] w-full rounded-xl object-cover md:basis-3/5"
-              src={recipe.imageUrl}
+            <ResponsiveImage
+              imageUrl={recipe.imageUrl}
               alt={recipe.title}
+              className={
+                "max-h-[440px] w-full rounded-xl object-cover md:basis-3/5"
+              }
+              isLCP={true}
             />
 
             <section className="flex flex-col justify-between sm:px-6 md:basis-3/5">
